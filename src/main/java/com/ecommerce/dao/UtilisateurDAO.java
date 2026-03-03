@@ -2,8 +2,11 @@ package com.ecommerce.dao;
 
 import com.ecommerce.model.Utilisateur;
 import com.ecommerce.util.HibernateUtil;
+<<<<<<< HEAD
 
 import org.hibernate.HibernateException;
+=======
+>>>>>>> 65d5a125312f20cf110fbfd30052dfa6f104cad7
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -21,6 +24,7 @@ public class UtilisateurDAO {
         }
     }
 
+<<<<<<< HEAD
 
     // ── Vérifier si email existe ──
     public boolean emailExiste(String email) {
@@ -62,6 +66,15 @@ public class UtilisateurDAO {
             if (session != null && session.isOpen()) {
                 session.close();
             }
+=======
+    public void save(Utilisateur utilisateur) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.persist(utilisateur);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+>>>>>>> 65d5a125312f20cf110fbfd30052dfa6f104cad7
         }
     }
 
