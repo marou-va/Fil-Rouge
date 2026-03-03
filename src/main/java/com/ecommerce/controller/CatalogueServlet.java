@@ -11,10 +11,10 @@ import java.util.List;
 
 public class CatalogueServlet extends HttpServlet {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private ProduitDAO produitDAO;
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private ProduitDAO produitDAO;
 
     public void init() {
         produitDAO = new ProduitDAO();
@@ -22,7 +22,7 @@ public class CatalogueServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	
+
         List<Produit> listeProduits = produitDAO.getProduitsActifs();
         request.setAttribute("listeProduits", listeProduits);
         request.getRequestDispatcher("/WEB-INF/vues/catalogue.jsp").forward(request, response);
