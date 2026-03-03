@@ -12,5 +12,6 @@
         
         <mapping class="com.ecommerce.model.Produit"/>
         <mapping class="com.ecommerce.model.Categorie"/>
+        <mapping class="com.ecommerce.model.Utilisateur"/>
     </session-factory>
 </hibernate-configuration>

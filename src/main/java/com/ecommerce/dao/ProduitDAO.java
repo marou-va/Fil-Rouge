@@ -8,11 +8,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProduitDAO {
-    public List<Produit> getProduitsActifs() {
+    public List<Produit> getProduits(String search, Long categoryId, String sort) {
         List<Produit> produits = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "FROM Produit p WHERE p.actif = true";
-            Query<Produit> query = session.createQuery(hql, Produit.class);
+            StringBuilder hql = new StringBuilder("FROM Produit p WHERE p.actif = true");
+
+            if (search != null && !search.trim().isEmpty()) {
+                hql.append(" AND (lower(p.nom) LIKE :search OR lower(p.description) LIKE :search)");
+            }
+            if (categoryId != null) {
+                hql.append(" AND p.categorie.id = :catId");
+            }
+
+            if ("price_asc".equals(sort)) {
+                hql.append(" ORDER BY p.prix ASC");
+            } else if ("price_desc".equals(sort)) {
+                hql.append(" ORDER BY p.prix DESC");
+            } else {
+                hql.append(" ORDER BY p.id DESC");
+            }
+
+            Query<Produit> query = session.createQuery(hql.toString(), Produit.class);
+
+            if (search != null && !search.trim().isEmpty()) {
+                query.setParameter("search", "%" + search.toLowerCase() + "%");
+            }
+            if (categoryId != null) {
+                query.setParameter("catId", categoryId);
+            }
+
             produits = query.list();
         } catch (Exception e) {
             e.printStackTrace();

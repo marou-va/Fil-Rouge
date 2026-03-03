@@ -93,18 +93,7 @@
         </head>
 
         <body>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
-                <div class="container">
-                    <a class="navbar-brand fw-bold text-brand" href="catalogue">
-                        <i class="fas fa-shopping-bag me-2"></i>MaBoutique
-                    </a>
-                    <div class="collapse navbar-collapse">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item"><a class="nav-link" href="catalogue">Retour au Catalogue</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <jsp:include page="includes/navbar.jsp" />
 
             <div class="container my-5">
                 <nav aria-label="breadcrumb" class="mb-4">
@@ -154,17 +143,19 @@
                                 <c:out value="${produit.description}" />
                             </p>
 
-                            <div class="row g-3 align-items-center mb-4">
+                            <form action="panier" method="POST" class="row g-3 align-items-center mb-4">
+                                <input type="hidden" name="action" value="add">
+                                <input type="hidden" name="produitId" value="${produit.id}">
                                 <c:if test="${produit.stock > 0}">
                                     <div class="col-auto">
                                         <label for="quantity" class="form-label mb-0 fw-bold">Quantité :</label>
                                     </div>
                                     <div class="col-auto">
-                                        <input type="number" id="quantity" class="form-control" value="1" min="1"
-                                            max="${produit.stock}" style="width: 80px;">
+                                        <input type="number" id="quantity" name="quantite" class="form-control"
+                                            value="1" min="1" max="${produit.stock}" style="width: 80px;">
                                     </div>
                                     <div class="col">
-                                        <button class="btn btn-brand w-100 py-2 fs-5">
+                                        <button type="submit" class="btn btn-brand w-100 py-2 fs-5">
                                             <i class="fas fa-cart-plus me-2"></i> Ajouter au panier
                                         </button>
                                     </div>
@@ -176,7 +167,7 @@
                                         </button>
                                     </div>
                                 </c:if>
-                            </div>
+                            </form>
 
                             <div class="d-flex gap-3 mt-4">
                                 <div class="text-center p-3 border rounded shadow-sm flex-fill bg-light">
@@ -222,11 +213,7 @@
                 </c:if>
             </div>
 
-            <footer class="bg-dark text-white py-4 mt-5">
-                <div class="container text-center">
-                    <p class="mb-0">&copy; 2026 MaBoutique - Projet Fil Rouge AQL. Tous droits réservés.</p>
-                </div>
-            </footer>
+            <jsp:include page="includes/footer.jsp" />
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </body>

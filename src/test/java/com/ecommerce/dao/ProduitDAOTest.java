@@ -18,23 +18,24 @@ public class ProduitDAOTest {
     }
 
     @Test
-    public void testGetProduitsActifs_NotNull() {
+    public void testGetProduits_NotNull() {
         // Exécution
-        List<Produit> resultats = produitDAO.getProduitsActifs();
-        
+        List<Produit> resultats = produitDAO.getProduits(null, null, null);
+
         // Vérification : La liste ne doit pas être nulle, même si la BDD est vide
         Assertions.assertNotNull(resultats, "La méthode ne doit jamais retourner null.");
     }
 
     @Test
-    public void testGetProduitsActifs_OnlyActif() {
+    public void testGetProduits_OnlyActif() {
         // Exécution
-        List<Produit> resultats = produitDAO.getProduitsActifs();
-        
-        // Vérification : Aucun produit de la liste ne doit avoir l'attribut actif à false
+        List<Produit> resultats = produitDAO.getProduits(null, null, null);
+
+        // Vérification : Aucun produit de la liste ne doit avoir l'attribut actif à
+        // false
         for (Produit p : resultats) {
-            Assertions.assertTrue(p.isActif(), 
-                "Le produit " + p.getNom() + " est inactif mais a été retourné par le DAO !");
+            Assertions.assertTrue(p.isActif(),
+                    "Le produit " + p.getNom() + " est inactif mais a été retourné par le DAO !");
         }
     }
 }

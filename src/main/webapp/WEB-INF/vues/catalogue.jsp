@@ -66,6 +66,7 @@
                 .truncate-text {
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
+                    line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -76,37 +77,7 @@
 
         <body>
 
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
-                <div class="container">
-                    <a class="navbar-brand fw-bold text-brand" href="catalogue">
-                        <i class="fas fa-shopping-bag me-2"></i>MaBoutique
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <form class="d-flex mx-auto w-50 my-2 my-lg-0">
-                            <input class="form-control me-2" type="search"
-                                placeholder="Chercher un produit, une marque...">
-                            <button class="btn btn-brand" type="submit"><i class="fas fa-search"></i></button>
-                        </form>
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fas fa-user me-1"></i> Se connecter</a>
-                            </li>
-                            <li class="nav-item ms-3">
-                                <a class="nav-link btn btn-outline-light position-relative border-0" href="#">
-                                    <i class="fas fa-shopping-cart text-brand fs-5"></i>
-                                    <span
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-brand">
-                                        0
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <jsp:include page="includes/navbar.jsp" />
 
             <div class="bg-brand text-white py-4 mb-5 text-center shadow-sm">
                 <div class="container">
@@ -116,93 +87,111 @@
             </div>
 
             <div class="container mb-5">
-                <div class="row mb-4">
-                    <div class="col">
-                        <h3 class="fw-bold border-bottom pb-2">Nos Produits Populaires</h3>
-                    </div>
-                </div>
-
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-
-                    <c:choose>
-                        <c:when test="${empty listeProduits}">
-                            <div class="col-12 text-center py-5">
-                                <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
-                                <h4 class="text-muted">Aucun produit n'est disponible pour le moment.</h4>
-                            </div>
-                        </c:when>
-
-                        <c:otherwise>
-                            <c:forEach var="produit" items="${listeProduits}">
-                                <div class="col">
-                                    <div class="card h-100 product-card shadow-sm">
-
-                                        <c:set var="imgSrc"
-                                            value="${not empty produit.imageUrl ? produit.imageUrl : 'https://placehold.co/400x400/eeeeee/999999?text=Image+Non+Disponible'}" />
-                                        <a href="product-detail?id=${produit.id}">
-                                            <img src="${imgSrc}" class="card-img-top product-img" alt="${produit.nom}">
+                <div class="row">
+                    <!-- Sidebar Filtres -->
+                    <div class="col-lg-3 mb-4">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3"><i class="fas fa-filter text-brand me-2"></i>Catégories</h5>
+                                <div class="list-group list-group-flush">
+                                    <a href="catalogue"
+                                        class="list-group-item list-group-item-action border-0 ${empty param.cid ? 'active bg-brand' : ''}">
+                                        Toutes les catégories
+                                    </a>
+                                    <c:forEach var="cat" items="${categories}">
+                                        <a href="catalogue?cid=${cat.id}${not empty param.search ? '&search='.concat(param.search) : ''}"
+                                            class="list-group-item list-group-item-action border-0 ${param.cid == cat.id ? 'active bg-brand' : ''}">
+                                            ${cat.nom}
                                         </a>
-
-                                        <div class="card-body d-flex flex-column">
-                                            <h5 class="card-title fw-bold text-dark mb-1">
-                                                <a href="product-detail?id=${produit.id}"
-                                                    class="text-decoration-none text-dark">
-                                                    <c:out value="${produit.nom}" />
-                                                </a>
-                                            </h5>
-
-                                            <p class="card-text text-muted small truncate-text mb-3">
-                                                <c:out value="${produit.description}" />
-                                            </p>
-
-                                            <div class="mt-auto">
-                                                <h4 class="text-brand fw-bold mb-2">
-                                                    <c:out value="${produit.prix}" /> MAD
-                                                </h4>
-
-                                                <c:choose>
-                                                    <c:when test="${produit.stock > 0}">
-                                                        <div
-                                                            class="d-flex justify-content-between align-items-center mb-3">
-                                                            <span
-                                                                class="badge bg-success bg-opacity-10 text-success border border-success">
-                                                                <i class="fas fa-check-circle me-1"></i> En stock
-                                                            </span>
-                                                        </div>
-                                                        <button class="btn btn-brand w-100 shadow-sm">
-                                                            <i class="fas fa-cart-plus me-1"></i> Ajouter au panier
-                                                        </button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <div
-                                                            class="d-flex justify-content-between align-items-center mb-3">
-                                                            <span
-                                                                class="badge bg-danger bg-opacity-10 text-danger border border-danger">
-                                                                <i class="fas fa-times-circle me-1"></i> Rupture
-                                                            </span>
-                                                        </div>
-                                                        <button class="btn btn-secondary w-100" disabled>
-                                                            Indisponible
-                                                        </button>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                                    </c:forEach>
                                 </div>
-                            </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
 
+                                <hr class="my-4">
+
+                                <h5 class="fw-bold mb-3"><i class="fas fa-sort-amount-down text-brand me-2"></i>Trier
+                                    par</h5>
+                                <select class="form-select border-0 bg-light"
+                                    onchange="window.location.href='catalogue?cid=${param.cid}&search=${param.search}&sort=' + this.value">
+                                    <option value="newest" ${param.sort=='newest' ? 'selected' : '' }>Plus récents
+                                    </option>
+                                    <option value="price_asc" ${param.sort=='price_asc' ? 'selected' : '' }>Prix :
+                                        Croissant</option>
+                                    <option value="price_desc" ${param.sort=='price_desc' ? 'selected' : '' }>Prix :
+                                        Décroissant</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Liste Produits -->
+                    <div class="col-lg-9">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="fw-bold mb-0">
+                                <c:choose>
+                                    <c:when test="${not empty param.search}">Résultats pour "${param.search}"</c:when>
+                                    <c:otherwise>Nos Produits</c:otherwise>
+                                </c:choose>
+                            </h3>
+                            <span class="text-muted">${listeProduits.size()} produits trouvés</span>
+                        </div>
+
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                            <c:choose>
+                                <c:when test="${empty listeProduits}">
+                                    <div class="col-12 text-center py-5">
+                                        <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                                        <h4 class="text-muted">Aucun produit ne correspond à votre recherche.</h4>
+                                        <a href="catalogue" class="btn btn-brand mt-3">Voir tout le catalogue</a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="produit" items="${listeProduits}">
+                                        <div class="col">
+                                            <div class="card h-100 product-card shadow-sm border-0">
+                                                <c:set var="imgSrc"
+                                                    value="${not empty produit.imageUrl ? produit.imageUrl : 'https://placehold.co/400x400/eeeeee/999999?text=Image'}" />
+                                                <a href="produit-detail?id=${produit.id}">
+                                                    <img src="${imgSrc}" class="card-img-top product-img"
+                                                        alt="${produit.nom}">
+                                                </a>
+                                                <div class="card-body d-flex flex-column">
+                                                    <div class="mb-2">
+                                                        <span
+                                                            class="badge bg-light text-muted fw-normal">${produit.categorie.nom}</span>
+                                                    </div>
+                                                    <h6 class="card-title fw-bold mb-1">
+                                                        <a href="produit-detail?id=${produit.id}"
+                                                            class="text-decoration-none text-dark">
+                                                            <c:out value="${produit.nom}" />
+                                                        </a>
+                                                    </h6>
+                                                    <p class="card-text text-muted small truncate-text mb-3">
+                                                        <c:out value="${produit.description}" />
+                                                    </p>
+                                                    <div class="mt-auto">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <span class="fs-5 fw-bold text-brand">${produit.prix}
+                                                                MAD</span>
+                                                            <c:if test="${produit.stock > 0}">
+                                                                <button class="btn btn-brand btn-sm rounded-circle p-2"
+                                                                    title="Ajouter au panier">
+                                                                    <i class="fas fa-cart-plus"></i>
+                                                                </button>
+                                                            </c:if>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <footer class="bg-dark text-white py-4 mt-auto">
-                <div class="container text-center">
-                    <p class="mb-0">&copy; 2026 MaBoutique - Projet Fil Rouge AQL. Tous droits réservés.</p>
-                </div>
-            </footer>
+            <jsp:include page="includes/footer.jsp" />
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </body>
