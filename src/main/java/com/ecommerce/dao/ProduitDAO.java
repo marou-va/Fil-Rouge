@@ -16,7 +16,7 @@ public class ProduitDAO {
             if (search != null && !search.trim().isEmpty()) {
                 hql.append(" AND (lower(p.nom) LIKE :search OR lower(p.description) LIKE :search)");
             }
-            if (categoryId != null) {
+            if (categoryId != null && categoryId > 0) {
                 hql.append(" AND p.categorie.id = :catId");
             }
 
@@ -24,6 +24,8 @@ public class ProduitDAO {
                 hql.append(" ORDER BY p.prix ASC");
             } else if ("price_desc".equals(sort)) {
                 hql.append(" ORDER BY p.prix DESC");
+            } else if ("newest".equals(sort)) {
+                hql.append(" ORDER BY p.id DESC");
             } else {
                 hql.append(" ORDER BY p.id DESC");
             }
@@ -33,7 +35,7 @@ public class ProduitDAO {
             if (search != null && !search.trim().isEmpty()) {
                 query.setParameter("search", "%" + search.toLowerCase() + "%");
             }
-            if (categoryId != null) {
+            if (categoryId != null && categoryId > 0) {
                 query.setParameter("catId", categoryId);
             }
 
@@ -43,6 +45,24 @@ public class ProduitDAO {
         }
         return produits;
     }
+
+    public long countProduitsParCategorie(Long categoryId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT count(p) FROM Produit p WHERE p.actif = true";
+            if (categoryId != null && categoryId > 0) {
+                hql += " AND p.categorie.id = :catId";
+            }
+            Query<Long> query = session.createQuery(hql, Long.class);
+            if (categoryId != null && categoryId > 0) {
+                query.setParameter("catId", categoryId);
+            }
+            return query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 
     public Produit getProduitById(Long id) {
         Produit produit = null;

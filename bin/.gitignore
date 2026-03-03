@@ -1,0 +1,13 @@
+# Fichiers compilés Maven
+target/
+
+# Paramètres spécifiques à Eclipse
+.settings/
+.project
+.classpath
+
+# Fichiers compilés Java
+*.class
+
+# Variables d'environnement ou secrets (si vous en avez plus tard)
+*.env
