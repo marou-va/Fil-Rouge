@@ -21,7 +21,7 @@
 
     <servlet-mapping>
         <servlet-name>ProduitDetailServlet</servlet-name>
-        <url-pattern>/product-detail</url-pattern>
+        <url-pattern>/produit-detail</url-pattern>
     </servlet-mapping>
 
     <session-config>

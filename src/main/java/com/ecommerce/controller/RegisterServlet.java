@@ -1,6 +1,6 @@
 package com.ecommerce.controller;
-
 import com.ecommerce.dao.UtilisateurDAO;
+import com.ecommerce.model.Role;
 import com.ecommerce.model.Utilisateur;
 import com.ecommerce.util.PasswordUtil;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,7 @@ public class RegisterServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/vues/register.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/vues/inscription.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
