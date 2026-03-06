@@ -25,7 +25,7 @@ public class PanierServlet extends HttpServlet {
 
         // On cherche toujours la dernière version en base
         Panier panier = panierDAO.getPanierByUserId(user.getId());
-        session.setAttribute("panier", panier); // MAJ pour la vue
+        request.setAttribute("panier", panier); // MAJ pour la vue
 
         request.getRequestDispatcher("/WEB-INF/vues/panier.jsp").forward(request, response);
     }

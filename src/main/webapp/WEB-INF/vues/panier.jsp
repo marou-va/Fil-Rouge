@@ -32,7 +32,7 @@
         </c:if>
 
         <c:choose>
-            <c:when test="${empty sessionScope.panier or empty sessionScope.panier.items}">
+            <c:when test="${empty panier or empty panier.items}">
                 <div class="text-center py-5 bg-white shadow-sm rounded">
                     <i class="fas fa-shopping-basket fa-4x text-muted mb-3"></i>
                     <h4 class="text-muted">Votre panier est vide.</h4>
@@ -57,7 +57,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="item" items="${sessionScope.panier.items}">
+                                            <c:forEach var="item" items="${panier.items}">
                                                 <tr>
                                                     <td class="ps-4 py-3">
                                                         <div class="d-flex align-items-center">
@@ -145,8 +145,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mb-3 text-muted">
-                                    <span>Articles (${sessionScope.panier.items.size()})</span>
-                                    <span>${sessionScope.panier.total} MAD</span>
+                                    <span>Articles (${panier.items.size()})</span>
+                                    <span>${panier.total} MAD</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-3 text-muted">
                                     <span>Frais de livraison</span>
@@ -155,7 +155,7 @@
                                 <hr class="my-4">
                                 <div class="d-flex justify-content-between mb-4">
                                     <span class="fs-5 fw-bold text-dark">Total à payer</span>
-                                    <span class="fs-4 fw-bold text-brand">${sessionScope.panier.total} MAD</span>
+                                    <span class="fs-4 fw-bold text-brand">${panier.total} MAD</span>
                                 </div>
                                 
                                 <a href="commander" class="btn btn-brand w-100 py-3 rounded-3 shadow-sm text-uppercase fw-bold">

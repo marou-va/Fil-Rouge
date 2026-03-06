@@ -29,8 +29,8 @@
                             <a class="nav-link btn btn-outline-light position-relative border-0" href="panier">
                                 <i class="fas fa-shopping-cart text-brand fs-5"></i>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-brand">
-                                    ${not empty sessionScope.panier ? sessionScope.panier.items.size() : 0}
-                                </span>
+								    ${not empty sessionScope.cartSize ? sessionScope.cartSize : 0}
+								</span>
                             </a>
                         </li>
                         

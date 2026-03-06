@@ -1,6 +1,8 @@
 package com.ecommerce.controller;
 
+import com.ecommerce.dao.PanierDAO;
 import com.ecommerce.dao.UtilisateurDAO;
+import com.ecommerce.model.Panier;
 import com.ecommerce.model.Utilisateur;
 import com.ecommerce.util.PasswordUtil;
 import jakarta.servlet.ServletException;
@@ -13,7 +15,12 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private UtilisateurDAO utilisateurDAO;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private UtilisateurDAO utilisateurDAO;
+	PanierDAO panierDAO = new PanierDAO();
 
     public void init() {
         utilisateurDAO = new UtilisateurDAO();
@@ -30,12 +37,18 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         Utilisateur user = utilisateurDAO.findByEmail(email);
+        Panier panier = panierDAO.getPanierByUserId(user.getId());
+        
+        
 
         if (user != null && PasswordUtil.checkPassword(password, user.getMotDePasse())) {
             HttpSession session = request.getSession();
             session.invalidate(); // Invalider l'ancienne session
             session = request.getSession(true); // Créer une nouvelle session
             session.setAttribute("utilisateur", user);
+            //si on panier il calcule les articles sinon 0
+            int size = (panier != null && panier.getItems() != null) ? panier.getItems().size() : 0;
+            session.setAttribute("cartSize", size);
             response.sendRedirect("catalogue");
         } else {
             request.setAttribute("error", "Email ou mot de passe incorrect");

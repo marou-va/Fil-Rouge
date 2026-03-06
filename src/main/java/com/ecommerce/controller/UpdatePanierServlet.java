@@ -35,8 +35,10 @@ public class UpdatePanierServlet extends HttpServlet {
                         break;
                     }
                 }
-                Panier savedPanier = panierDAO.saveOrUpdate(panier);
-                session.setAttribute("panier", savedPanier);
+                panierDAO.saveOrUpdate(panier);  
+                int taillePanier = panierDAO.getCartSize(user.getId());
+                session.setAttribute("cartSize", taillePanier);
+                session.removeAttribute("panier");
             }
         } catch (Exception e) {
             session.setAttribute("panierErreur", e.getMessage());

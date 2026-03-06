@@ -15,7 +15,7 @@ public class LignePanier {
     @JoinColumn(name = "panier_id")
     private Panier panier;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER) 
     @JoinColumn(name = "produit_id")
     private Produit produit;
 

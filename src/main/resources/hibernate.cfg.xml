@@ -13,5 +13,7 @@
         <mapping class="com.ecommerce.model.Produit"/>
         <mapping class="com.ecommerce.model.Categorie"/>
         <mapping class="com.ecommerce.model.Utilisateur"/>
+        <mapping class="com.ecommerce.model.Panier"/>
+        <mapping class="com.ecommerce.model.LignePanier"/>
     </session-factory>
 </hibernate-configuration>
