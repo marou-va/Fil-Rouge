@@ -8,10 +8,10 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 
 public class PanierServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private PanierDAO panierDAO = new PanierDAO();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

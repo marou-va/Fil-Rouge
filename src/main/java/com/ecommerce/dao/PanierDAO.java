@@ -62,4 +62,23 @@ public class PanierDAO {
             return 0;
         }
     }
+    
+    public void viderPanier(Panier panier) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+
+            // Vider la liste des items (orphanRemoval = true supprime les lignes en BDD)
+            Panier panierManage = session.get(Panier.class, panier.getId());
+            if (panierManage != null) {
+                panierManage.getItems().clear();
+                session.merge(panierManage);
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
+    }
 }

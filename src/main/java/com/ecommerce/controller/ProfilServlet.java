@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/profil")
 public class ProfilServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
     private UtilisateurDAO utilisateurDAO;
 
     public void init() {
