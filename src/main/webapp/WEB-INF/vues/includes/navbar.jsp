@@ -10,21 +10,31 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <!-- Barre de Recherche -->
+
                     <form action="catalogue" method="GET" class="d-flex mx-auto w-50 my-2 my-lg-0">
                         <div class="input-group">
                             <input class="form-control border-end-0 shadow-none" type="search" name="search"
-                                value="${param.search}" placeholder="Chercher un produit, une marque..."
-                                aria-label="Search">
+                                value="${param.search}" placeholder="Chercher un produit..." aria-label="Search">
                             <button class="btn btn-brand border-start-0" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </form>
 
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto align-items-center">
                         <c:choose>
                             <c:when test="${not empty sessionScope.utilisateur}">
+
+                                <li class="nav-item me-3">
+                                    <a class="nav-link btn btn-outline-light position-relative border-0" href="panier">
+                                        <i class="fas fa-shopping-cart text-brand fs-5"></i>
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-brand">
+                                            ${not empty sessionScope.cartSize ? sessionScope.cartSize : 0}
+                                        </span>
+                                    </a>
+                                </li>
+
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                         data-bs-toggle="dropdown">
@@ -33,7 +43,7 @@
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" href="profil"><i class="fas fa-cog me-2"></i>Mon
                                                 Profil</a></li>
-                                        <li><a class="dropdown-item" href="commandes"><i
+                                        <li><a class="dropdown-item" href="historique"><i
                                                     class="fas fa-list me-2"></i>Mes Commandes</a></li>
                                         <li>
                                             <hr class="dropdown-divider">

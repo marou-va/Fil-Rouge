@@ -52,6 +52,28 @@
                             <c:if test="${not empty error}">
                                 <div class="alert alert-danger small">${error}</div>
                             </c:if>
+                            <%-- Afficher un compte à rebours si bloqué --%>
+							<c:if test="${bloque}">
+							    <div class="alert alert-warning small text-center" id="countdown-box">
+							        ⏳ <span id="countdown">30</span> seconde(s) avant de réessayer...
+							    </div>
+							    <script>
+							        let secondes = 30;
+							        const el = document.getElementById('countdown');
+							        const btn = document.getElementById('btnLogin');
+							        btn.disabled = true;
+							        const timer = setInterval(() => {
+							            secondes--;
+							            el.textContent = secondes;
+							            if (secondes <= 0) {
+							                clearInterval(timer);
+							                document.getElementById('countdown-box').innerHTML =
+							                    '<span class="text-success">✅ Vous pouvez réessayer.</span>';
+							                btn.disabled = false;
+							            }
+							        }, 1000);
+							    </script>
+							</c:if>
 
                             <form action="login" method="POST">
                                 <div class="mb-3">
@@ -64,7 +86,7 @@
                                     <input type="password" name="password" class="form-control" required
                                         placeholder="••••••••">
                                 </div>
-                                <button type="submit" class="btn btn-brand w-100 py-2 mb-3">Se connecter</button>
+                                <button type="submit" id="btnLogin" class="btn btn-brand w-100 py-2 mb-3">Se connecter</button>
                                 <div class="text-center small">
                                     Pas encore de compte ? <a href="register"
                                         class="text-brand text-decoration-none fw-bold">S'inscrire</a>
