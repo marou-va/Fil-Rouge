@@ -19,7 +19,24 @@
 </head>
 <body>
     <jsp:include page="includes/navbar.jsp" />
-
+	<%-- ALERTE STOCK INSUFFISANT (vient du ValiderCommandeServlet) --%>
+	<c:if test="${not empty sessionScope.panierErreur}">
+	    <div class="alert alert-danger alert-dismissible fade show shadow-sm mx-0 mb-4" role="alert">
+	        <div class="d-flex align-items-start gap-3">
+	            <i class="fas fa-exclamation-circle fa-lg mt-1 flex-shrink-0"></i>
+	            <div>
+	                <div class="fw-bold mb-1">Impossible de valider votre commande</div>
+	                <div>${sessionScope.panierErreur}</div>
+	                <div class="mt-2 small text-danger-emphasis">
+	                    Veuillez ajuster les quantités avant de continuer.
+	                </div>
+	            </div>
+	        </div>
+	        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	    </div>
+	    <%-- ✅ Supprimer l'attribut pour ne pas le réafficher au prochain chargement --%>
+	    <% session.removeAttribute("panierErreur"); %>
+	</c:if>
     <div class="container py-5">
         <h2 class="mb-4 fw-bold"><i class="fas fa-shopping-cart text-brand me-2"></i>Votre Panier</h2>
         
@@ -32,7 +49,7 @@
         </c:if>
 
         <c:choose>
-            <c:when test="${empty sessionScope.panier or empty sessionScope.panier.items}">
+            <c:when test="${empty panier or empty panier.items}">
                 <div class="text-center py-5 bg-white shadow-sm rounded">
                     <i class="fas fa-shopping-basket fa-4x text-muted mb-3"></i>
                     <h4 class="text-muted">Votre panier est vide.</h4>
@@ -57,7 +74,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="item" items="${sessionScope.panier.items}">
+                                            <c:forEach var="item" items="${panier.items}">
                                                 <tr>
                                                     <td class="ps-4 py-3">
                                                         <div class="d-flex align-items-center">
@@ -145,8 +162,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mb-3 text-muted">
-                                    <span>Articles (${sessionScope.panier.items.size()})</span>
-                                    <span>${sessionScope.panier.total} MAD</span>
+                                    <span>Articles (${panier.items.size()})</span>
+                                    <span>${panier.total} MAD</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-3 text-muted">
                                     <span>Frais de livraison</span>
@@ -155,10 +172,10 @@
                                 <hr class="my-4">
                                 <div class="d-flex justify-content-between mb-4">
                                     <span class="fs-5 fw-bold text-dark">Total à payer</span>
-                                    <span class="fs-4 fw-bold text-brand">${sessionScope.panier.total} MAD</span>
+                                    <span class="fs-4 fw-bold text-brand">${panier.total} MAD</span>
                                 </div>
                                 
-                                <a href="commander" class="btn btn-brand w-100 py-3 rounded-3 shadow-sm text-uppercase fw-bold">
+                                <a href="validercommande" class="btn btn-brand w-100 py-3 rounded-3 shadow-sm text-uppercase fw-bold">
                                     Valider ma commande <i class="fas fa-lock ms-2"></i>
                                 </a>
                                 

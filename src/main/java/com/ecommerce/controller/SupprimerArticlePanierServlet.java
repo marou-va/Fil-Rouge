@@ -23,8 +23,10 @@ public class SupprimerArticlePanierServlet extends HttpServlet {
             
             if (panier != null) {
                 panier.supprimerArticle(idProduit);
-                Panier savedPanier = panierDAO.saveOrUpdate(panier);
-                session.setAttribute("panier", savedPanier);
+                panierDAO.saveOrUpdate(panier);  
+                int taillePanier = panierDAO.getCartSize(user.getId());
+                session.setAttribute("cartSize", taillePanier);
+                session.removeAttribute("panier");
             }
         }
         

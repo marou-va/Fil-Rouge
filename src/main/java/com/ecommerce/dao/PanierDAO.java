@@ -4,38 +4,81 @@ import com.ecommerce.model.Panier;
 import com.ecommerce.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-
 public class PanierDAO {
 
-    // Récupérer le panier depuis MySQL via l'ID utilisateur
-    public Panier getPanierByUserId(Long userId) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "FROM Panier p WHERE p.utilisateur.id = :userId";
-            Query<Panier> query = session.createQuery(hql, Panier.class);
-            query.setParameter("userId", userId);
-            Panier panier = query.uniqueResult();
-            
-            if (panier != null) panier.getItems().size(); // Force le chargement de la liste
-            return panier;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+	public Panier getPanierByUserId(Long userId) {
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        String hql = "SELECT DISTINCT p FROM Panier p " +
+	                     "LEFT JOIN FETCH p.items i " +
+	                     "LEFT JOIN FETCH i.produit " +
+	                     "WHERE p.utilisateur.id = :userId";
+	        return session.createQuery(hql, Panier.class)
+	                      .setParameter("userId", userId)
+	                      .uniqueResult();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 
-    // Sauvegarder ou Mettre à jour (INSERT ou UPDATE)
-    public Panier saveOrUpdate(Panier panier) {
+    public void saveOrUpdate(Panier panier) {
         Transaction tx = null;
-        Panier mergedPanier = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            mergedPanier = session.merge(panier); // Synchronise avec la BDD
+            session.merge(panier);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         }
-        return mergedPanier; // Retourne la version propre de la BDD
+    }
+
+    public Panier getPanierById(Long panierId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT DISTINCT p FROM Panier p " +
+                         "LEFT JOIN FETCH p.items i " +
+                         "LEFT JOIN FETCH i.produit prod " +
+                         "LEFT JOIN FETCH prod.categorie " +
+                         "WHERE p.id = :panierId";
+            return session.createQuery(hql, Panier.class)
+                          .setParameter("panierId", panierId)
+                          .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+   //compter les articles sans charger d'objets complexes
+    public int getCartSize(Long userId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // Compte directement le nombre de lignes dans la base de données
+            String hql = "SELECT COUNT(l) FROM LignePanier l WHERE l.panier.utilisateur.id = :userId";
+            Long count = session.createQuery(hql, Long.class)
+                                .setParameter("userId", userId)
+                                .uniqueResult();
+            return count != null ? count.intValue() : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    
+    public void viderPanier(Panier panier) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+
+            // Vider la liste des items (orphanRemoval = true supprime les lignes en BDD)
+            Panier panierManage = session.get(Panier.class, panier.getId());
+            if (panierManage != null) {
+                panierManage.getItems().clear();
+                session.merge(panierManage);
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
     }
 }

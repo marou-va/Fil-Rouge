@@ -7,14 +7,16 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 
 public class AjoutPanierServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private ProduitDAO produitDAO = new ProduitDAO();
     private PanierDAO panierDAO = new PanierDAO();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
         HttpSession session = request.getSession();
         Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
 
@@ -28,19 +30,23 @@ public class AjoutPanierServlet extends HttpServlet {
             Produit produit = produitDAO.getProduitById(idProduit);
 
             if (produit != null) {
-                // 1. Récupération BDD
+                // 1. Récupération et ajout (Logique métier)
                 Panier panier = panierDAO.getPanierByUserId(user.getId());
                 if (panier == null) {
                     panier = new Panier();
                     panier.setUtilisateur(user);
                 }
-
-                // 2. Modification
                 panier.ajouterArticle(produit);
-
-                // 3. Sauvegarde BDD
-                Panier savedPanier = panierDAO.saveOrUpdate(panier);
-                session.setAttribute("panier", savedPanier);
+                panierDAO.saveOrUpdate(panier); // Sauvegarde en BDD
+                
+                // =========================================================
+                // 2. LE REMÈDE ANTI-CRASH : On ne stocke qu'un simple chiffre !
+                int taillePanier = panierDAO.getCartSize(user.getId());
+                session.setAttribute("cartSize", taillePanier);
+                
+                // On détruit l'objet complexe de la session au cas où il y serait encore
+                session.removeAttribute("panier"); 
+                // =========================================================
             }
         } catch (Exception e) {
             session.setAttribute("panierErreur", e.getMessage());

@@ -137,7 +137,8 @@
                             <nav class="nav flex-column acc-nav">
                                 <a class="nav-link active" href="profil"><i class="fas fa-user-circle"></i> Mes
                                     Informations</a>
-                                <a class="nav-link" href="#"><i class="fas fa-shopping-bag"></i> Mes Commandes</a>
+                                <a class="nav-link" href="historique"><i class="fas fa-shopping-bag"></i> Mes
+                                    Commandes</a>
                                 <a class="nav-link" href="#"><i class="fas fa-heart"></i> Ma Liste de Souhaits</a>
                                 <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> Mes Adresses</a>
                                 <hr class="my-2">

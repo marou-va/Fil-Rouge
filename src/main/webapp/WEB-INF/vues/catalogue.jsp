@@ -175,11 +175,14 @@
                                                             <span class="fs-5 fw-bold text-brand">${produit.prix}
                                                                 MAD</span>
                                                             <c:if test="${produit.stock > 0}">
-                                                                <button class="btn btn-brand btn-sm rounded-circle p-2"
-                                                                    title="Ajouter au panier">
-                                                                    <i class="fas fa-cart-plus"></i>
-                                                                </button>
-                                                            </c:if>
+															    <form action="ajouter-panier" method="POST" class="m-0">
+															        <input type="hidden" name="idProduit" value="${produit.id}">
+															        
+															        <button type="submit" class="btn btn-brand btn-sm rounded-circle p-2" title="Ajouter au panier">
+															            <i class="fas fa-cart-plus"></i>
+															        </button>
+															    </form>
+															</c:if>
                                                         </div>
                                                     </div>
                                                 </div>
