@@ -6,99 +6,97 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Gestion des Utilisateurs - MaBoutique Admin</title>
+            <title>Utilisateurs - MaBoutique Admin</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            <style>
-                :root {
-                    --brand-color: #f68b1e;
-                }
-
-                body {
-                    background-color: #f8f9fa;
-                }
-
-                .table-responsive {
-                    background: white;
-                    border-radius: 15px;
-                    padding: 20px;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-                }
-
-                .avatar-ui {
-                    width: 40px;
-                    height: 40px;
-                    background: #e9ecef;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50%;
-                    color: #6c757d;
-                }
-            </style>
         </head>
 
         <body>
-            <div class="container-fluid">
-                <div class="row">
+            <div class="container-fluid p-0">
+                <div class="d-flex">
                     <c:set var="page" value="utilisateurs" scope="request" />
                     <jsp:include page="sidebar.jsp" />
 
-                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-                        <div
-                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 class="h2">Gestion des Utilisateurs</h1>
+                    <div class="admin-main flex-grow-1">
+                        <div class="admin-topbar">
+                            <div>
+                                <div class="topbar-title">Gestion des Utilisateurs</div>
+                                <div class="topbar-subtitle">Contrôler les rôles et accès des membres</div>
+                            </div>
+                            <div
+                                style="background:#ede9fe;color:#7c3aed;padding:8px 18px;border-radius:10px;font-size:0.85rem;font-weight:700;">
+                                ${utilisateurs.size()} membre(s)
+                            </div>
                         </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Utilisateur</th>
-                                        <th>Email</th>
-                                        <th>Date d'inscription</th>
-                                        <th>Rôle</th>
-                                        <th class="text-end">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach var="u" items="${utilisateurs}">
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-ui me-3">
-                                                        <i class="fas fa-user"></i>
-                                                    </div>
-                                                    <div class="fw-bold">${u.nom}</div>
-                                                </div>
-                                            </td>
-                                            <td>${u.email}</td>
-                                            <td>${u.dateCreation}</td>
-                                            <td>
-                                                <span class="badge ${u.role == 'ADMIN' ? 'bg-danger' : 'bg-primary'}">
-                                                    ${u.role}
-                                                </span>
-                                            </td>
-                                            <td class="text-end">
-                                                <c:if test="${sessionScope.utilisateur.email != u.email}">
-                                                    <a href="utilisateurs?action=toggleRole&email=${u.email}"
-                                                        class="btn btn-sm ${u.role == 'ADMIN' ? 'btn-outline-primary' : 'btn-outline-danger'}"
-                                                        onclick="return confirm('Changer le rôle de cet utilisateur ?')">
-                                                        <i
-                                                            class="fas ${u.role == 'ADMIN' ? 'fa-user-tag' : 'fa-user-shield'} me-1"></i>
-                                                        ${u.role == 'ADMIN' ? 'Rendre Client' : 'Rendre Admin'}
-                                                    </a>
-                                                </c:if>
-                                                <c:if test="${sessionScope.utilisateur.email == u.email}">
-                                                    <span class="text-muted small italic">C'est vous</span>
-                                                </c:if>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                        <div class="admin-content">
+                            <div class="content-card animate-in">
+                                <div class="content-card-body">
+                                    <table class="table admin-table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Utilisateur</th>
+                                                <th>Email</th>
+                                                <th>Téléphone</th>
+                                                <th>Membre depuis</th>
+                                                <th>Rôle</th>
+                                                <th class="text-end">Accès</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="u" items="${utilisateurs}">
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <div
+                                                                style="width:40px;height:40px;background:${u.role == 'ADMIN' ? 'linear-gradient(135deg,#fee2e2,#fecaca)' : 'linear-gradient(135deg,#ede9fe,#ddd6fe)'};border-radius:11px;display:flex;align-items:center;justify-content:center;color:${u.role == 'ADMIN' ? '#dc2626' : '#7c3aed'};font-size:15px;flex-shrink:0;">
+                                                                <i
+                                                                    class="fas ${u.role == 'ADMIN' ? 'fa-user-shield' : 'fa-user'}"></i>
+                                                            </div>
+                                                            <div>
+                                                                <div class="fw-bold" style="color:#0f172a;">${u.nom}
+                                                                    <c:if
+                                                                        test="${sessionScope.utilisateur.email == u.email}">
+                                                                        <span
+                                                                            style="font-size:0.7rem;background:#ede9fe;color:#7c3aed;padding:2px 8px;border-radius:10px;margin-left:4px;font-weight:600;">Vous</span>
+                                                                    </c:if>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td style="color:#64748b;">${u.email}</td>
+                                                    <td style="color:#64748b;">${u.telephone}</td>
+                                                    <td style="color:#94a3b8;font-size:0.83rem;">${u.dateCreation}</td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${u.role == 'ADMIN'}">
+                                                                <span class="badge-status badge-annulee">ADMIN</span>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <span
+                                                                    class="badge-status badge-preparation">CLIENT</span>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <c:if test="${sessionScope.utilisateur.email != u.email}">
+                                                            <a href="utilisateurs?action=toggleRole&email=${u.email}"
+                                                                onclick="return confirm('Changer le rôle de ${u.nom} ?')"
+                                                                class="btn-action ${u.role == 'ADMIN' ? 'btn-action-edit' : 'btn-action-view'}"
+                                                                title="${u.role == 'ADMIN' ? 'Rétrograder en Client' : 'Promouvoir en Admin'}">
+                                                                <i
+                                                                    class="fas ${u.role == 'ADMIN' ? 'fa-user-minus' : 'fa-user-plus'}"></i>
+                                                            </a>
+                                                        </c:if>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    </main>
+                    </div>
                 </div>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

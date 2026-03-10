@@ -6,155 +6,189 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>${not empty produit ? 'Modifier' : 'Ajouter'} Produit - MaBoutique Admin</title>
+            <title>${not empty produit ? 'Modifier' : 'Ajouter'} Produit - Admin</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            <style>
-                :root {
-                    --brand-color: #f68b1e;
-                    --brand-dark: #e57a10;
-                }
-
-                body {
-                    background-color: #f8f9fa;
-                }
-
-                .form-card {
-                    background: white;
-                    border-radius: 20px;
-                    padding: 30px;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-                    max-width: 900px;
-                    margin: 0 auto;
-                }
-
-                .btn-brand {
-                    background-color: var(--brand-color);
-                    color: white;
-                    border: none;
-                    font-weight: bold;
-                }
-
-                .btn-brand:hover {
-                    background-color: var(--brand-dark);
-                    color: white;
-                }
-
-                .preview-img {
-                    max-width: 200px;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                }
-            </style>
         </head>
 
         <body>
-            <div class="container-fluid">
-                <div class="row">
+            <div class="container-fluid p-0">
+                <div class="d-flex">
                     <c:set var="page" value="produits" scope="request" />
                     <jsp:include page="sidebar.jsp" />
 
-                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-                        <nav aria-label="breadcrumb" class="mb-4">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="dashboard" class="text-brand">Dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="produits" class="text-brand">Produits</a></li>
-                                <li class="breadcrumb-item active">${not empty produit ? 'Modifier' : 'Nouveau'}</li>
-                            </ol>
-                        </nav>
+                    <div class="admin-main flex-grow-1">
+                        <div class="admin-topbar">
+                            <div>
+                                <div class="topbar-title">${not empty produit ? 'Modifier le produit' : 'Nouveau
+                                    produit'}</div>
+                                <nav class="breadcrumb-admin mt-1">
+                                    <a href="produits">← Retour aux produits</a>
+                                </nav>
+                            </div>
+                        </div>
 
-                        <div class="form-card">
-                            <h2 class="fw-bold mb-4">${not empty produit ? 'Modifier le produit' : 'Nouveau Produit'}
-                            </h2>
-
-                            <form action="produits" method="POST">
-                                <input type="hidden" name="id" value="${produit.id}">
-
-                                <div class="row g-4">
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold small text-uppercase">Nom du produit</label>
-                                        <input type="text" name="nom" class="form-control" value="${produit.nom}"
-                                            required placeholder="Ex: Smartphone XYZ">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold small text-uppercase">Catégorie</label>
-                                        <select name="categorieId" class="form-select" required>
-                                            <option value="">Sélectionner une catégorie</option>
-                                            <c:forEach var="cat" items="${categories}">
-                                                <option value="${cat.id}" ${produit.categorie.id==cat.id ? 'selected'
-                                                    : '' }>
-                                                    ${cat.nom}
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label class="form-label fw-bold small text-uppercase">Description</label>
-                                        <textarea name="description" class="form-control" rows="4"
-                                            placeholder="Description détaillée du produit">${produit.description}</textarea>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small text-uppercase">Prix (DH)</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light text-muted">DH</span>
-                                            <input type="number" step="0.01" name="prix" class="form-control"
-                                                value="${produit.prix}" required>
+                        <div class="admin-content">
+                            <div class="row g-4">
+                                <!-- Form Card -->
+                                <div class="col-lg-8 animate-in">
+                                    <div class="content-card">
+                                        <div class="content-card-header">
+                                            <span class="content-card-title">Informations du produit</span>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small text-uppercase">Stock initial</label>
-                                        <input type="number" name="stock" class="form-control"
-                                            value="${not empty produit ? produit.stock : 0}" required>
-                                    </div>
-                                    <div class="col-md-4 d-flex align-items-end">
-                                        <div class="form-check form-switch mb-2">
-                                            <input class="form-check-input" type="checkbox" name="actif"
-                                                id="actifSwitch" ${not empty produit ? (produit.actif ? 'checked' : '' )
-                                                : 'checked' }>
-                                            <label class="form-check-label fw-bold" for="actifSwitch">Produit
-                                                actif</label>
+                                        <div class="p-4">
+                                            <form action="produits" method="POST">
+                                                <input type="hidden" name="id" value="${produit.id}">
+                                                <div class="row g-3">
+                                                    <div class="col-md-8">
+                                                        <label class="form-label-admin">Nom du produit *</label>
+                                                        <input type="text" name="nom" class="form-control-admin w-100"
+                                                            value="${produit.nom}" required
+                                                            placeholder="Ex: Smartphone Galaxy S24">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label-admin">Catégorie *</label>
+                                                        <select name="categorieId" class="form-select-admin w-100"
+                                                            required>
+                                                            <option value="">Choisir...</option>
+                                                            <c:forEach var="cat" items="${categories}">
+                                                                <option value="${cat.id}" ${produit.categorie.id==cat.id
+                                                                    ? 'selected' : '' }>${cat.nom}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label class="form-label-admin">Description</label>
+                                                        <textarea name="description" class="form-control-admin w-100"
+                                                            rows="4"
+                                                            placeholder="Description détaillée du produit...">${produit.description}</textarea>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label-admin">Prix (DH) *</label>
+                                                        <div style="position:relative;">
+                                                            <span
+                                                                style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;">DH</span>
+                                                            <input type="number" step="0.01" name="prix"
+                                                                class="form-control-admin w-100"
+                                                                style="padding-left:36px;" value="${produit.prix}"
+                                                                required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label-admin">Stock *</label>
+                                                        <input type="number" name="stock"
+                                                            class="form-control-admin w-100"
+                                                            value="${not empty produit ? produit.stock : 0}" required
+                                                            min="0">
+                                                    </div>
+                                                    <div class="col-md-4 d-flex flex-column justify-content-end">
+                                                        <label class="form-label-admin">Statut</label>
+                                                        <div class="d-flex align-items-center gap-3 py-2">
+                                                            <label class="toggle-switch"
+                                                                style="cursor:pointer;display:flex;align-items:center;gap:10px;">
+                                                                <input type="checkbox" name="actif" id="actifToggle"
+                                                                    ${not empty produit ? (produit.actif ? 'checked'
+                                                                    : '' ) : 'checked' } style="display:none;"
+                                                                    onchange="updateToggle()">
+                                                                <span id="toggleTrack"
+                                                                    style="width:44px;height:24px;background:#e2e8f0;border-radius:12px;position:relative;transition:all 0.3s;display:inline-block;">
+                                                                    <span id="toggleThumb"
+                                                                        style="width:18px;height:18px;background:white;border-radius:9px;position:absolute;top:3px;left:3px;transition:all 0.3s;box-shadow:0 1px 4px rgba(0,0,0,0.2);"></span>
+                                                                </span>
+                                                                <span id="toggleLabel"
+                                                                    class="form-label-admin mb-0">Actif</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label class="form-label-admin">URL de l'image</label>
+                                                        <input type="text" name="imageUrl" id="imageUrl"
+                                                            class="form-control-admin w-100" value="${produit.imageUrl}"
+                                                            placeholder="https://exemple.com/image.jpg">
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex gap-3 justify-content-end mt-4 pt-4"
+                                                    style="border-top:1px solid #f1f5f9;">
+                                                    <a href="produits" class="btn-secondary-admin">Annuler</a>
+                                                    <button type="submit" class="btn-primary-admin">
+                                                        <i class="fas fa-save me-2"></i> Enregistrer le produit
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </div>
-
-                                    <div class="col-md-8">
-                                        <label class="form-label fw-bold small text-uppercase">URL de l'image</label>
-                                        <input type="text" name="imageUrl" id="imageUrl" class="form-control"
-                                            value="${produit.imageUrl}" placeholder="https://exemple.com/image.jpg">
-                                        <div class="form-text small">Utilisez une URL d'image valide.</div>
-                                    </div>
-
-                                    <div class="col-md-4 text-center">
-                                        <div class="p-2 border rounded bg-light mt-4">
-                                            <img id="imagePreview"
-                                                src="${not empty produit.imageUrl ? produit.imageUrl : 'https://via.placeholder.com/200'}"
-                                                alt="Preview" class="preview-img">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 text-end mt-5 pt-3 border-top">
-                                        <a href="produits" class="btn btn-light border me-3 fw-bold">Annuler</a>
-                                        <button type="submit" class="btn btn-brand px-5">
-                                            <i class="fas fa-save me-2"></i> Enregistrer
-                                        </button>
                                     </div>
                                 </div>
-                            </form>
+
+                                <!-- Preview Card -->
+                                <div class="col-lg-4 animate-in delay-2">
+                                    <div class="content-card" style="position:sticky;top:88px;">
+                                        <div class="content-card-header">
+                                            <span class="content-card-title">Aperçu</span>
+                                        </div>
+                                        <div class="p-4 text-center">
+                                            <div
+                                                style="width:100%;height:200px;border-radius:12px;overflow:hidden;background:#f8fafc;display:flex;align-items:center;justify-content:center;margin-bottom:16px;border:2px dashed #e2e8f0;">
+                                                <img id="imagePreview"
+                                                    src="${not empty produit.imageUrl ? produit.imageUrl : ''}"
+                                                    alt="Aperçu"
+                                                    style="max-width:100%;max-height:100%;object-fit:contain;display:${not empty produit.imageUrl ? 'block' : 'none'};">
+                                                <div id="imagePlaceholder"
+                                                    style="display:${not empty produit.imageUrl ? 'none' : 'flex'};flex-direction:column;align-items:center;color:#cbd5e1;">
+                                                    <i class="fas fa-image"
+                                                        style="font-size:40px;margin-bottom:8px;"></i>
+                                                    <span style="font-size:0.8rem;">Entrez une URL d'image</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-muted" style="font-size:0.78rem;">
+                                                L'aperçu se met à jour en temps réel depuis l'URL fournie.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </main>
+                    </div>
                 </div>
             </div>
-
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
             <script>
-                document.getElementById('imageUrl').addEventListener('input', function (e) {
+                // Image preview
+                document.getElementById('imageUrl').addEventListener('input', function () {
                     const preview = document.getElementById('imagePreview');
-                    if (e.target.value) {
-                        preview.src = e.target.value;
+                    const placeholder = document.getElementById('imagePlaceholder');
+                    if (this.value.trim()) {
+                        preview.src = this.value;
+                        preview.style.display = 'block';
+                        placeholder.style.display = 'none';
                     } else {
-                        preview.src = 'https://via.placeholder.com/200';
+                        preview.style.display = 'none';
+                        placeholder.style.display = 'flex';
                     }
+                });
+
+                // Toggle switch
+                function updateToggle() {
+                    const cb = document.getElementById('actifToggle');
+                    const track = document.getElementById('toggleTrack');
+                    const thumb = document.getElementById('toggleThumb');
+                    const label = document.getElementById('toggleLabel');
+                    if (cb.checked) {
+                        track.style.background = '#7c3aed';
+                        thumb.style.left = '23px';
+                        label.textContent = 'Actif';
+                    } else {
+                        track.style.background = '#e2e8f0';
+                        thumb.style.left = '3px';
+                        label.textContent = 'Inactif';
+                    }
+                }
+                // Apply initial state
+                updateToggle();
+                document.querySelector('span[style*="position:relative"]').addEventListener('click', function () {
+                    const cb = document.getElementById('actifToggle');
+                    cb.checked = !cb.checked;
+                    updateToggle();
                 });
             </script>
         </body>

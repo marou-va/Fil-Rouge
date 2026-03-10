@@ -9,95 +9,239 @@
             <title>Connexion - MaBoutique</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+                rel="stylesheet">
             <style>
+                * {
+                    font-family: 'Inter', sans-serif;
+                }
+
                 body {
-                    background-color: #f4f5f7;
+                    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+                    min-height: 100vh;
                     display: flex;
                     flex-direction: column;
-                    min-height: 100vh;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 24px;
+                    position: relative;
+                    overflow: hidden;
                 }
 
-                .login-container {
-                    max-width: 400px;
-                    margin: 100px auto;
+                .blob {
+                    position: absolute;
+                    border-radius: 50%;
+                    filter: blur(80px);
+                    opacity: 0.12;
                 }
 
-                .text-brand {
-                    color: #f68b1e !important;
+                .b1 {
+                    width: 400px;
+                    height: 400px;
+                    background: #7c3aed;
+                    top: -80px;
+                    left: -60px;
                 }
 
-                .btn-brand {
-                    background-color: #f68b1e;
+                .b2 {
+                    width: 280px;
+                    height: 280px;
+                    background: #06b6d4;
+                    bottom: -60px;
+                    right: -40px;
+                }
+
+                .auth-card {
+                    background: white;
+                    border-radius: 24px;
+                    padding: 48px;
+                    width: 100%;
+                    max-width: 440px;
+                    position: relative;
+                    z-index: 10;
+                    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+                    animation: slideUp 0.4s ease;
+                }
+
+                @keyframes slideUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(24px);
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                .auth-logo {
+                    text-align: center;
+                    margin-bottom: 32px;
+                }
+
+                .auth-brand-icon {
+                    width: 52px;
+                    height: 52px;
+                    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+                    border-radius: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     color: white;
+                    font-size: 22px;
+                    margin: 0 auto 12px;
+                    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+                }
+
+                .auth-title {
+                    font-size: 1.6rem;
+                    font-weight: 800;
+                    color: #0f172a;
+                    margin-bottom: 4px;
+                }
+
+                .auth-sub {
+                    font-size: 0.875rem;
+                    color: #94a3b8;
+                }
+
+                .alert-auth {
+                    border-radius: 10px;
                     border: none;
-                    font-weight: bold;
+                    font-size: 0.875rem;
+                    padding: 12px 16px;
+                    margin-bottom: 20px;
                 }
 
-                .btn-brand:hover {
-                    background-color: #e57a10;
-                    color: white;
+                .alert-auth-error {
+                    background: #fff1f2;
+                    color: #9f1239;
+                    border-left: 4px solid #f43f5e;
+                }
+
+                .alert-auth-warning {
+                    background: #fffbeb;
+                    color: #92400e;
+                    border-left: 4px solid #f59e0b;
+                }
+
+                .divider {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    margin: 24px 0;
+                }
+
+                .divider-line {
+                    flex: 1;
+                    height: 1px;
+                    background: #e2e8f0;
+                }
+
+                .divider-text {
+                    font-size: 0.78rem;
+                    color: #94a3b8;
+                    font-weight: 500;
+                }
+
+                .auth-footer {
+                    text-align: center;
+                    margin-top: 24px;
+                    font-size: 0.875rem;
+                    color: #64748b;
+                }
+
+                .auth-footer a {
+                    color: #7c3aed;
+                    font-weight: 700;
+                    text-decoration: none;
+                }
+
+                .auth-footer a:hover {
+                    text-decoration: underline;
+                }
+
+                .countdown-display {
+                    text-align: center;
+                    font-size: 2rem;
+                    font-weight: 800;
+                    color: #7c3aed;
                 }
             </style>
         </head>
 
         <body>
-            <jsp:include page="includes/navbar.jsp" />
+            <div class="blob b1"></div>
+            <div class="blob b2"></div>
 
-            <div class="container flex-grow-1">
-                <div class="login-container">
-                    <div class="card border-0 shadow-lg">
-                        <div class="card-body p-5">
-                            <h2 class="text-center fw-bold mb-4">Connexion</h2>
+            <div class="auth-card">
+                <div class="auth-logo">
+                    <div class="auth-brand-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="auth-title">Bon retour !</div>
+                    <div class="auth-sub">Connectez-vous à votre compte MaBoutique</div>
+                </div>
 
-                            <c:if test="${not empty error}">
-                                <div class="alert alert-danger small">${error}</div>
-                            </c:if>
-                            <%-- Afficher un compte à rebours si bloqué --%>
-							<c:if test="${bloque}">
-							    <div class="alert alert-warning small text-center" id="countdown-box">
-							        ⏳ <span id="countdown">30</span> seconde(s) avant de réessayer...
-							    </div>
-							    <script>
-							        let secondes = 30;
-							        const el = document.getElementById('countdown');
-							        const btn = document.getElementById('btnLogin');
-							        btn.disabled = true;
-							        const timer = setInterval(() => {
-							            secondes--;
-							            el.textContent = secondes;
-							            if (secondes <= 0) {
-							                clearInterval(timer);
-							                document.getElementById('countdown-box').innerHTML =
-							                    '<span class="text-success">✅ Vous pouvez réessayer.</span>';
-							                btn.disabled = false;
-							            }
-							        }, 1000);
-							    </script>
-							</c:if>
+                <c:if test="${not empty error}">
+                    <div class="alert-auth alert-auth-error">
+                        <i class="fas fa-exclamation-circle me-2"></i>${error}
+                    </div>
+                </c:if>
+                <c:if test="${bloque}">
+                    <div class="alert-auth alert-auth-warning" id="countdown-box">
+                        <i class="fas fa-clock me-2"></i>⏳ <span id="countdown">30</span> seconde(s) avant de
+                        réessayer...
+                    </div>
+                    <script>
+                        let s = 30;
+                        const el = document.getElementById('countdown');
+                        const btn = document.getElementById('btnLogin');
+                        btn.disabled = true;
+                        const t = setInterval(() => {
+                            el.textContent = --s;
+                            if (s <= 0) {
+                                clearInterval(t);
+                                document.getElementById('countdown-box').innerHTML = '<i class="fas fa-check-circle me-2"></i>✅ Vous pouvez réessayer.';
+                                document.getElementById('countdown-box').className = 'alert-auth';
+                                document.getElementById('countdown-box').style.background = '#f0fdf4';
+                                document.getElementById('countdown-box').style.color = '#166534';
+                                document.getElementById('countdown-box').style.borderLeft = '4px solid #22c55e';
+                                btn.disabled = false;
+                            }
+                        }, 1000);
+                    </script>
+                </c:if>
 
-                            <form action="login" method="POST">
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" required
-                                        placeholder="votre@email.com">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label">Mot de passe</label>
-                                    <input type="password" name="password" class="form-control" required
-                                        placeholder="••••••••">
-                                </div>
-                                <button type="submit" id="btnLogin" class="btn btn-brand w-100 py-2 mb-3">Se connecter</button>
-                                <div class="text-center small">
-                                    Pas encore de compte ? <a href="register"
-                                        class="text-brand text-decoration-none fw-bold">S'inscrire</a>
-                                </div>
-                            </form>
+                <form action="login" method="POST">
+                    <div class="form-group-client">
+                        <label class="label-client">Adresse email</label>
+                        <div style="position:relative;">
+                            <i class="fas fa-envelope"
+                                style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;"></i>
+                            <input type="email" name="email" class="input-client" style="padding-left:38px;" required
+                                placeholder="vous@exemple.com">
                         </div>
                     </div>
+                    <div class="form-group-client">
+                        <label class="label-client">Mot de passe</label>
+                        <div style="position:relative;">
+                            <i class="fas fa-lock"
+                                style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;"></i>
+                            <input type="password" name="password" class="input-client" style="padding-left:38px;"
+                                required placeholder="••••••••">
+                        </div>
+                    </div>
+                    <button type="submit" id="btnLogin" class="btn-accent w-100 justify-content-center py-3 mt-2"
+                        style="font-size:0.95rem;">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    Pas encore de compte ? <a href="register">S'inscrire gratuitement</a>
                 </div>
             </div>
 
-            <jsp:include page="includes/footer.jsp" />
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </body>
 

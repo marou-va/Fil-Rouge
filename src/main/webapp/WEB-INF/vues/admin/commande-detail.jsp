@@ -6,145 +6,204 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Détail Commande #${commande.id} - MaBoutique Admin</title>
+            <title>Détail Commande #${commande.id} - Admin</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            <style>
-                :root {
-                    --brand-color: #f68b1e;
-                }
-
-                body {
-                    background-color: #f8f9fa;
-                }
-
-                .detail-card {
-                    background: white;
-                    border-radius: 15px;
-                    padding: 25px;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-                    margin-bottom: 20px;
-                }
-
-                .text-brand {
-                    color: var(--brand-color);
-                }
-            </style>
         </head>
 
         <body>
-            <div class="container-fluid">
-                <div class="row">
+            <div class="container-fluid p-0">
+                <div class="d-flex">
                     <c:set var="page" value="commandes" scope="request" />
                     <jsp:include page="sidebar.jsp" />
 
-                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-                        <nav aria-label="breadcrumb" class="mb-4">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="dashboard" class="text-brand">Dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="commandes" class="text-brand">Commandes</a></li>
-                                <li class="breadcrumb-item active">Détail #${commande.id}</li>
-                            </ol>
-                        </nav>
-
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="detail-card">
-                                    <h4 class="fw-bold mb-4">Articles commandés</h4>
-                                    <div class="table-responsive">
-                                        <table class="table align-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th>Produit</th>
-                                                    <th>Prix Unit.</th>
-                                                    <th>Quantité</th>
-                                                    <th class="text-end">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:set var="totalItems" value="0.0" />
-                                                <c:forEach var="item" items="${commande.items}">
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <img src="${item.produit.imageUrl}"
-                                                                    alt="${item.produit.nom}"
-                                                                    style="width: 40px; height: 40px; object-fit: cover;"
-                                                                    class="rounded me-3">
-                                                                <div>${item.produit.nom}</div>
-                                                            </div>
-                                                        </td>
-                                                        <td>${item.prixUnitaire} DH</td>
-                                                        <td>x ${item.quantite}</td>
-                                                        <td class="text-end fw-bold">${item.prixUnitaire *
-                                                            item.quantite} DH</td>
-                                                    </tr>
-                                                    <c:set var="totalItems"
-                                                        value="${totalItems + (item.prixUnitaire * item.quantite)}" />
-                                                </c:forEach>
-                                            </tbody>
-                                            <tfoot class="table-light">
-                                                <tr>
-                                                    <td colspan="3" class="text-end fw-bold">Total Général :</td>
-                                                    <td class="text-end fw-bold text-success h5">${totalItems} DH</td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
+                    <div class="admin-main flex-grow-1">
+                        <div class="admin-topbar">
+                            <div>
+                                <div class="topbar-title">Commande <span style="color:#7c3aed;">#${commande.id}</span>
                                 </div>
+                                <nav class="breadcrumb-admin mt-1">
+                                    <a href="commandes">← Retour aux commandes</a>
+                                </nav>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="detail-card">
-                                    <h4 class="fw-bold mb-4">Informations Client</h4>
-                                    <div class="mb-3">
-                                        <label class="text-muted small text-uppercase d-block">Nom complet</label>
-                                        <span class="fw-bold">${commande.utilisateur.nom}</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="text-muted small text-uppercase d-block">Email</label>
-                                        <span>${commande.utilisateur.email}</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="text-muted small text-uppercase d-block">Téléphone</label>
-                                        <span>${commande.utilisateur.telephone}</span>
-                                    </div>
-                                    <div class="mb-0">
-                                        <label class="text-muted small text-uppercase d-block">Adresse de
-                                            livraison</label>
-                                        <p class="mb-0">${commande.utilisateur.adresse}</p>
+                            <div>
+                                <c:choose>
+                                    <c:when test="${commande.statut == 'EN_ATTENTE'}"><span
+                                            class="badge-status badge-attente"
+                                            style="font-size:0.85rem;padding:8px 18px;">EN ATTENTE</span></c:when>
+                                    <c:when test="${commande.statut == 'EN_PREPARATION'}"><span
+                                            class="badge-status badge-preparation"
+                                            style="font-size:0.85rem;padding:8px 18px;">EN PRÉPARATION</span></c:when>
+                                    <c:when test="${commande.statut == 'EXPEDIEE'}"><span
+                                            class="badge-status badge-expediee"
+                                            style="font-size:0.85rem;padding:8px 18px;">EXPÉDIÉE</span></c:when>
+                                    <c:when test="${commande.statut == 'LIVREE'}"><span
+                                            class="badge-status badge-livree"
+                                            style="font-size:0.85rem;padding:8px 18px;">LIVRÉE ✓</span></c:when>
+                                    <c:otherwise><span class="badge-status badge-annulee"
+                                            style="font-size:0.85rem;padding:8px 18px;">ANNULÉE</span></c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+
+                        <div class="admin-content">
+                            <div class="row g-4">
+                                <!-- Items -->
+                                <div class="col-lg-8">
+                                    <div class="content-card animate-in">
+                                        <div class="content-card-header">
+                                            <span class="content-card-title"><i class="fas fa-box-open me-2"
+                                                    style="color:#7c3aed;"></i>Articles commandés</span>
+                                            <span style="font-size:0.8rem;color:#94a3b8;">${commande.items.size()}
+                                                article(s)</span>
+                                        </div>
+                                        <div class="content-card-body">
+                                            <table class="table admin-table mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Produit</th>
+                                                        <th>Prix unitaire</th>
+                                                        <th>Qté</th>
+                                                        <th class="text-end">Sous-total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:set var="totalItems" value="0.0" />
+                                                    <c:forEach var="item" items="${commande.items}">
+                                                        <tr>
+                                                            <td>
+                                                                <div class="d-flex align-items-center gap-3">
+                                                                    <img src="${item.produit.imageUrl}"
+                                                                        alt="${item.produit.nom}"
+                                                                        style="width:44px;height:44px;object-fit:cover;border-radius:10px;"
+                                                                        onerror="this.src='https://placehold.co/44x44/f3f4f6/94a3b8?text=IMG'">
+                                                                    <div class="fw-bold">${item.produit.nom}</div>
+                                                                </div>
+                                                            </td>
+                                                            <td>${item.prixUnitaire} DH</td>
+                                                            <td><span
+                                                                    style="background:#f1f5f9;padding:3px 10px;border-radius:6px;font-weight:600;">×${item.quantite}</span>
+                                                            </td>
+                                                            <td class="text-end fw-bold" style="color:#7c3aed;">
+                                                                ${item.prixUnitaire * item.quantite} DH</td>
+                                                        </tr>
+                                                        <c:set var="totalItems"
+                                                            value="${totalItems + (item.prixUnitaire * item.quantite)}" />
+                                                    </c:forEach>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr style="background:#fafbff;">
+                                                        <td colspan="3" class="text-end fw-bold py-3"
+                                                            style="color:#334155;">TOTAL GÉNÉRAL</td>
+                                                        <td class="text-end py-3">
+                                                            <span
+                                                                style="font-size:1.25rem;font-weight:800;color:#7c3aed;">${totalItems}
+                                                                DH</span>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="detail-card">
-                                    <h4 class="fw-bold mb-4">Statut</h4>
-                                    <div
-                                        class="alert ${commande.statut == 'LIVREE' ? 'alert-success' : 'alert-warning'}">
-                                        <i class="fas fa-info-circle me-2"></i> Statut actuel :
-                                        <strong>${commande.statut}</strong>
-                                    </div>
-                                    <hr>
-                                    <form action="commandes" method="POST">
-                                        <input type="hidden" name="id" value="${commande.id}">
-                                        <label class="form-label small text-uppercase fw-bold">Changer le statut</label>
-                                        <div class="input-group">
-                                            <select name="statut" class="form-select">
-                                                <option value="EN_ATTENTE" ${commande.statut=='EN_ATTENTE' ? 'selected'
-                                                    : '' }>EN ATTENTE</option>
-                                                <option value="EN_PREPARATION" ${commande.statut=='EN_PREPARATION'
-                                                    ? 'selected' : '' }>EN PRÉPARATION</option>
-                                                <option value="EXPEDIEE" ${commande.statut=='EXPEDIEE' ? 'selected' : ''
-                                                    }>EXPÉDIÉE</option>
-                                                <option value="LIVREE" ${commande.statut=='LIVREE' ? 'selected' : '' }>
-                                                    LIVRÉE</option>
-                                                <option value="ANNULEE" ${commande.statut=='ANNULEE' ? 'selected' : ''
-                                                    }>ANNULÉE</option>
-                                            </select>
-                                            <button class="btn btn-brand" type="submit">Mettre à jour</button>
+
+                                <!-- Side Info -->
+                                <div class="col-lg-4">
+                                    <!-- Client Info -->
+                                    <div class="content-card animate-in delay-1 mb-4">
+                                        <div class="content-card-header">
+                                            <span class="content-card-title"><i class="fas fa-user me-2"
+                                                    style="color:#0891b2;"></i>Informations Client</span>
                                         </div>
-                                    </form>
+                                        <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-4">
+                                                <div
+                                                    style="width:48px;height:48px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#0284c7;font-size:20px;flex-shrink:0;">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold" style="color:#0f172a;">
+                                                        ${commande.utilisateur.nom}</div>
+                                                    <div style="font-size:0.8rem;color:#94a3b8;">Client</div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column gap-3">
+                                                <div>
+                                                    <div class="form-label-admin mb-0">Email</div>
+                                                    <div style="font-size:0.875rem;">${commande.utilisateur.email}</div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-label-admin mb-0">Téléphone</div>
+                                                    <div style="font-size:0.875rem;">${commande.utilisateur.telephone}
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-label-admin mb-0">Adresse de livraison</div>
+                                                    <div style="font-size:0.875rem;color:#334155;line-height:1.5;">
+                                                        ${commande.utilisateur.adresse}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Status Update -->
+                                    <div class="content-card animate-in delay-2">
+                                        <div class="content-card-header">
+                                            <span class="content-card-title"><i class="fas fa-sync me-2"
+                                                    style="color:#7c3aed;"></i>Mettre à jour</span>
+                                        </div>
+                                        <div class="p-4">
+                                            <form action="commandes" method="POST">
+                                                <input type="hidden" name="id" value="${commande.id}">
+                                                <label class="form-label-admin mb-3 d-block">Nouveau statut</label>
+
+                                                <div class="d-flex flex-column gap-2 mb-4">
+                                                    <c:set var="statuts"
+                                                        value="EN_ATTENTE,EN_PREPARATION,EXPEDIEE,LIVREE,ANNULEE" />
+                                                    <label class="d-flex align-items-center gap-2 p-2 rounded"
+                                                        style="cursor:pointer;background:${commande.statut == 'EN_ATTENTE' ? '#fef3c7' : 'transparent'};border:1px solid ${commande.statut == 'EN_ATTENTE' ? '#f59e0b' : '#f1f5f9'}">
+                                                        <input type="radio" name="statut" value="EN_ATTENTE"
+                                                            ${commande.statut=='EN_ATTENTE' ? 'checked' : '' }>
+                                                        <span class="badge-status badge-attente">EN ATTENTE</span>
+                                                    </label>
+                                                    <label class="d-flex align-items-center gap-2 p-2 rounded"
+                                                        style="cursor:pointer;background:${commande.statut == 'EN_PREPARATION' ? '#dbeafe' : 'transparent'};border:1px solid ${commande.statut == 'EN_PREPARATION' ? '#3b82f6' : '#f1f5f9'}">
+                                                        <input type="radio" name="statut" value="EN_PREPARATION"
+                                                            ${commande.statut=='EN_PREPARATION' ? 'checked' : '' }>
+                                                        <span class="badge-status badge-preparation">EN
+                                                            PRÉPARATION</span>
+                                                    </label>
+                                                    <label class="d-flex align-items-center gap-2 p-2 rounded"
+                                                        style="cursor:pointer;background:${commande.statut == 'EXPEDIEE' ? '#d1fae5' : 'transparent'};border:1px solid ${commande.statut == 'EXPEDIEE' ? '#22c55e' : '#f1f5f9'}">
+                                                        <input type="radio" name="statut" value="EXPEDIEE"
+                                                            ${commande.statut=='EXPEDIEE' ? 'checked' : '' }>
+                                                        <span class="badge-status badge-expediee">EXPÉDIÉE</span>
+                                                    </label>
+                                                    <label class="d-flex align-items-center gap-2 p-2 rounded"
+                                                        style="cursor:pointer;background:${commande.statut == 'LIVREE' ? '#dcfce7' : 'transparent'};border:1px solid ${commande.statut == 'LIVREE' ? '#16a34a' : '#f1f5f9'}">
+                                                        <input type="radio" name="statut" value="LIVREE"
+                                                            ${commande.statut=='LIVREE' ? 'checked' : '' }>
+                                                        <span class="badge-status badge-livree">LIVRÉE</span>
+                                                    </label>
+                                                    <label class="d-flex align-items-center gap-2 p-2 rounded"
+                                                        style="cursor:pointer;background:${commande.statut == 'ANNULEE' ? '#fee2e2' : 'transparent'};border:1px solid ${commande.statut == 'ANNULEE' ? '#ef4444' : '#f1f5f9'}">
+                                                        <input type="radio" name="statut" value="ANNULEE"
+                                                            ${commande.statut=='ANNULEE' ? 'checked' : '' }>
+                                                        <span class="badge-status badge-annulee">ANNULÉE</span>
+                                                    </label>
+                                                </div>
+
+                                                <button type="submit"
+                                                    class="btn-primary-admin w-100 d-flex justify-content-center">
+                                                    <i class="fas fa-save me-2"></i> Sauvegarder le statut
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </main>
+                    </div>
                 </div>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

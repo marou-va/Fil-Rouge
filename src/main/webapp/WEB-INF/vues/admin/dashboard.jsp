@@ -9,245 +9,222 @@
             <title>Dashboard Admin - MaBoutique</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            <style>
-                :root {
-                    --brand-color: #f68b1e;
-                    --brand-dark: #e57a10;
-                }
-
-                body {
-                    background-color: #f8f9fa;
-                }
-
-                .stats-card {
-                    border: none;
-                    border-radius: 15px;
-                    transition: transform 0.3s;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-                }
-
-                .stats-card:hover {
-                    transform: translateY(-5px);
-                }
-
-                .bg-gradient-primary {
-                    background: linear-gradient(45deg, #4e73df, #224abe);
-                    color: white;
-                }
-
-                .bg-gradient-success {
-                    background: linear-gradient(45deg, #1cc88a, #13855c);
-                    color: white;
-                }
-
-                .bg-gradient-warning {
-                    background: linear-gradient(45deg, #f6c23e, #dda20a);
-                    color: white;
-                }
-
-                .bg-gradient-info {
-                    background: linear-gradient(45deg, #36b9cc, #258391);
-                    color: white;
-                }
-
-                .table-responsive {
-                    background: white;
-                    border-radius: 15px;
-                    padding: 20px;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-                }
-            </style>
         </head>
 
         <body>
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- Sidebar -->
+            <div class="container-fluid p-0">
+                <div class="d-flex">
+
                     <c:set var="page" value="dashboard" scope="request" />
                     <jsp:include page="sidebar.jsp" />
 
-                    <!-- Main content -->
-                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-                        <div
-                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 class="h2">Tableau de Bord</h1>
-                            <div class="btn-toolbar mb-2 mb-md-0">
-                                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                    <i class="fas fa-calendar-alt me-1"></i> Aujourd'hui
-                                </button>
+                    <div class="admin-main flex-grow-1">
+                        <!-- Topbar -->
+                        <div class="admin-topbar">
+                            <div>
+                                <div class="topbar-title">Dashboard</div>
+                                <div class="topbar-subtitle">Vue d'ensemble de votre boutique</div>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="topbar-date text-muted small">
+                                    <i class="fas fa-calendar-alt me-1"></i> Mis à jour maintenant
+                                </div>
+                                <a href="produits?action=add" class="btn-primary-admin d-flex align-items-center gap-2">
+                                    <i class="fas fa-plus"></i> Nouveau produit
+                                </a>
                             </div>
                         </div>
 
-                        <!-- Stats Cards -->
-                        <div class="row g-4 mb-5">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-gradient-primary stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <div class="text-white-50 small text-uppercase fw-bold">Commandes
-                                                    Totales</div>
-                                                <div class="h3 fw-bold mb-0">${totalCommandes}</div>
-                                            </div>
-                                            <i class="fas fa-shopping-cart fa-2x text-white-50"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-gradient-success stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <div class="text-white-50 small text-uppercase fw-bold">Ventes Réussies
-                                                </div>
-                                                <div class="h3 fw-bold mb-0">${totalVentes}</div>
-                                            </div>
-                                            <i class="fas fa-check-circle fa-2x text-white-50"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-gradient-warning stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <div class="text-white-50 small text-uppercase fw-bold">Produits en
-                                                    Stock</div>
-                                                <div class="h3 fw-bold mb-0">${totalProduits}</div>
-                                            </div>
-                                            <i class="fas fa-box fa-2x text-white-50"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-gradient-info stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <div class="text-white-50 small text-uppercase fw-bold">Utilisateurs
-                                                </div>
-                                                <div class="h3 fw-bold mb-0">--</div>
-                                            </div>
-                                            <i class="fas fa-users fa-2x text-white-50"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="admin-content">
 
-                        <!-- Low Stock Alerts -->
-                        <c:if test="${not empty lowStockProducts}">
-                            <div class="row mb-5">
-                                <div class="col-12">
-                                    <div class="card border-warning shadow-sm">
-                                        <div class="card-header bg-warning text-dark fw-bold">
-                                            <i class="fas fa-exclamation-triangle me-2"></i> Alertes Stock Faible
+                            <!-- Stats Cards -->
+                            <div class="row g-4 mb-4">
+                                <div class="col-xl-3 col-md-6 animate-in delay-1">
+                                    <div class="stat-card card-violet h-100">
+                                        <div class="card-body">
+                                            <div class="stat-card-icon" style="background:rgba(255,255,255,0.2);">
+                                                <i class="fas fa-shopping-bag"></i>
+                                            </div>
+                                            <div class="stat-card-value">${totalCommandes}</div>
+                                            <div class="stat-card-label">Total Commandes</div>
+                                            <div class="stat-card-bg"><i class="fas fa-shopping-bag"></i></div>
                                         </div>
-                                        <div class="card-body p-0">
-                                            <div class="table-responsive border-0 shadow-none">
-                                                <table class="table table-sm table-hover mb-0 align-middle">
-                                                    <thead>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 animate-in delay-2">
+                                    <div class="stat-card card-teal h-100">
+                                        <div class="card-body">
+                                            <div class="stat-card-icon" style="background:rgba(255,255,255,0.2);">
+                                                <i class="fas fa-check-double"></i>
+                                            </div>
+                                            <div class="stat-card-value">${totalVentes}</div>
+                                            <div class="stat-card-label">Ventes Réussies</div>
+                                            <div class="stat-card-bg"><i class="fas fa-check-double"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 animate-in delay-3">
+                                    <div class="stat-card card-amber h-100">
+                                        <div class="card-body">
+                                            <div class="stat-card-icon" style="background:rgba(255,255,255,0.2);">
+                                                <i class="fas fa-box-open"></i>
+                                            </div>
+                                            <div class="stat-card-value">${totalProduits}</div>
+                                            <div class="stat-card-label">Produits Actifs</div>
+                                            <div class="stat-card-bg"><i class="fas fa-box-open"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 animate-in delay-4">
+                                    <div class="stat-card card-rose h-100">
+                                        <div class="card-body">
+                                            <div class="stat-card-icon" style="background:rgba(255,255,255,0.2);">
+                                                <i class="fas fa-users"></i>
+                                            </div>
+                                            <div class="stat-card-value">${totalUsers}</div>
+                                            <div class="stat-card-label">Utilisateurs</div>
+                                            <div class="stat-card-bg"><i class="fas fa-users"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Low Stock Alert -->
+                            <c:if test="${not empty lowStockProducts}">
+                                <div class="animate-in mb-4">
+                                    <div class="content-card">
+                                        <div class="content-card-header"
+                                            style="background:linear-gradient(90deg,#fffbeb,#fef3c7); border-left: 4px solid #f59e0b;">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div
+                                                    style="width:32px;height:32px;background:#f59e0b;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:14px;">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                </div>
+                                                <span class="content-card-title" style="color:#92400e;">Stocks faibles —
+                                                    Action requise</span>
+                                            </div>
+                                            <span class="badge"
+                                                style="background:#f59e0b;color:white;border-radius:20px;font-size:0.72rem;padding:5px 12px;">${lowStockProducts.size()}
+                                                produit(s)</span>
+                                        </div>
+                                        <div class="content-card-body">
+                                            <table class="table admin-table mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Produit</th>
+                                                        <th>Stock actuel</th>
+                                                        <th class="text-end">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="p" items="${lowStockProducts}">
                                                         <tr>
-                                                            <th class="ps-3">Produit</th>
-                                                            <th>Stock Actuel</th>
-                                                            <th class="text-end pe-3">Action</th>
+                                                            <td class="fw-600">${p.nom}</td>
+                                                            <td><span class="badge-status badge-annulee">${p.stock}
+                                                                    restant(s)</span></td>
+                                                            <td class="text-end">
+                                                                <a href="produits?action=edit&id=${p.id}"
+                                                                    class="btn-action btn-action-edit">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </a>
+                                                            </td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach var="p" items="${lowStockProducts}">
-                                                            <tr>
-                                                                <td class="ps-3">${p.nom}</td>
-                                                                <td><span
-                                                                        class="badge bg-danger text-white">${p.stock}</span>
-                                                                </td>
-                                                                <td class="text-end pe-3">
-                                                                    <a href="produits?action=edit&id=${p.id}"
-                                                                        class="btn btn-sm btn-link text-brand">Gérer</a>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </c:if>
+                            </c:if>
 
-                        <!-- Recent Orders -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <h4 class="mb-0">Dernières Commandes</h4>
-                                    <a href="commandes" class="btn btn-sm btn-brand text-white fw-bold">Tout voir</a>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table table-hover align-middle mb-0">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Client</th>
-                                                <th>Date</th>
-                                                <th>Statut</th>
-                                                <th>Total</th>
-                                                <th class="text-end">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="c" items="${recentCommandes}">
+                            <!-- Recent Orders -->
+                            <div class="animate-in">
+                                <div class="content-card">
+                                    <div class="content-card-header">
+                                        <span class="content-card-title">Dernières Commandes</span>
+                                        <a href="commandes" class="btn-secondary-admin py-2 px-3"
+                                            style="font-size:0.8rem;">Voir tout <i
+                                                class="fas fa-arrow-right ms-1"></i></a>
+                                    </div>
+                                    <div class="content-card-body">
+                                        <table class="table admin-table mb-0">
+                                            <thead>
                                                 <tr>
-                                                    <td class="fw-bold">#${c.id}</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar-sm bg-light text-brand rounded-circle me-3 d-flex align-items-center justify-content-center"
-                                                                style="width: 32px; height: 32px;">
-                                                                <i class="fas fa-user small"></i>
+                                                    <th># ID</th>
+                                                    <th>Client</th>
+                                                    <th>Date</th>
+                                                    <th>Statut</th>
+                                                    <th>Total</th>
+                                                    <th class="text-end">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="c" items="${recentCommandes}">
+                                                    <tr>
+                                                        <td><span class="fw-bold" style="color:#7c3aed;">#${c.id}</span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                <div
+                                                                    style="width:32px;height:32px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:12px;">
+                                                                    <i class="fas fa-user"></i>
+                                                                </div>
+                                                                <span class="fw-500">${c.utilisateur.nom}</span>
                                                             </div>
-                                                            <div>${c.utilisateur.nom}</div>
-                                                        </div>
-                                                    </td>
-                                                    <td>${c.dateCommande}</td>
-                                                    <td>
-                                                        <span
-                                                            class="badge ${c.statut == 'LIVREE' ? 'bg-success' : (c.statut == 'EN_PREPARATION' ? 'bg-primary' : (c.statut == 'ANNULEE' ? 'bg-danger' : 'bg-warning'))}">
-                                                            ${c.statut}
-                                                        </span>
-                                                    </td>
-                                                    <td class="fw-bold">
-                                                        <c:set var="total" value="0.0" />
-                                                        <c:forEach var="item" items="${c.items}">
-                                                            <c:set var="total"
-                                                                value="${total + (item.prixUnitaire * item.quantite)}" />
-                                                        </c:forEach>
-                                                        ${total} DH
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <a href="commande-detail?id=${c.id}"
-                                                            class="btn btn-sm btn-light border">
-                                                            <i class="fas fa-eye text-muted"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                            <c:if test="${empty recentCommandes}">
-                                                <tr>
-                                                    <td colspan="6" class="text-center py-4 text-muted">Aucune commande
-                                                        récente.</td>
-                                                </tr>
-                                            </c:if>
-                                        </tbody>
-                                    </table>
+                                                        </td>
+                                                        <td class="text-muted">${c.dateCommande}</td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${c.statut == 'EN_ATTENTE'}"><span
+                                                                        class="badge-status badge-attente">EN
+                                                                        ATTENTE</span></c:when>
+                                                                <c:when test="${c.statut == 'EN_PREPARATION'}"><span
+                                                                        class="badge-status badge-preparation">EN
+                                                                        PRÉPARATION</span></c:when>
+                                                                <c:when test="${c.statut == 'EXPEDIEE'}"><span
+                                                                        class="badge-status badge-expediee">EXPÉDIÉE</span>
+                                                                </c:when>
+                                                                <c:when test="${c.statut == 'LIVREE'}"><span
+                                                                        class="badge-status badge-livree">LIVRÉE</span>
+                                                                </c:when>
+                                                                <c:otherwise><span
+                                                                        class="badge-status badge-annulee">ANNULÉE</span>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td>
+                                                            <c:set var="total" value="0.0" />
+                                                            <c:forEach var="item" items="${c.items}">
+                                                                <c:set var="total"
+                                                                    value="${total + (item.prixUnitaire * item.quantite)}" />
+                                                            </c:forEach>
+                                                            <span class="fw-bold" style="color:#0891b2;">${total}
+                                                                DH</span>
+                                                        </td>
+                                                        <td class="text-end">
+                                                            <a href="commandes?action=view&id=${c.id}"
+                                                                class="btn-action btn-action-view">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                <c:if test="${empty recentCommandes}">
+                                                    <tr>
+                                                        <td colspan="6" class="text-center py-5 text-muted">Aucune
+                                                            commande pour le moment.</td>
+                                                    </tr>
+                                                </c:if>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </main>
+
+                        </div><!-- /admin-content -->
+                    </div><!-- /admin-main -->
                 </div>
             </div>
-
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </body>
 

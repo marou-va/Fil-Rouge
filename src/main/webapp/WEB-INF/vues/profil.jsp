@@ -9,196 +9,143 @@
             <title>Mon Compte - MaBoutique</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap"
-                rel="stylesheet">
-            <style>
-                :root {
-                    --brand-color: #f68b1e;
-                    --brand-dark: #e57a10;
-                    --bg-light: #f8f9fa;
-                }
-
-                body {
-                    background-color: var(--bg-light);
-                    font-family: 'Outfit', sans-serif;
-                    display: flex;
-                    flex-direction: column;
-                    min-height: 100vh;
-                }
-
-                .text-brand {
-                    color: var(--brand-color) !important;
-                }
-
-                .bg-brand {
-                    background-color: var(--brand-color) !important;
-                }
-
-                .btn-brand {
-                    background-color: var(--brand-color);
-                    color: white;
-                    border: none;
-                    font-weight: 600;
-                    transition: all 0.3s;
-                }
-
-                .btn-brand:hover {
-                    background-color: var(--brand-dark);
-                    color: white;
-                    box-shadow: 0 4px 12px rgba(246, 139, 30, 0.3);
-                }
-
-                /* Profile Header */
-                .profile-hdr {
-                    background: linear-gradient(135deg, #232526 0%, #414345 100%);
-                    color: white;
-                    padding: 60px 0;
-                    margin-bottom: -50px;
-                }
-
-                .avatar-circle {
-                    width: 100px;
-                    height: 100px;
-                    background-color: var(--brand-color);
-                    color: white;
-                    font-size: 2.5rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50%;
-                    border: 4px solid rgba(255, 255, 255, 0.2);
-                    font-weight: 700;
-                }
-
-                /* Sidebar Nav */
-                .acc-nav .nav-link {
-                    color: #444;
-                    padding: 12px 20px;
-                    border-radius: 10px;
-                    margin-bottom: 5px;
-                    font-weight: 500;
-                    transition: all 0.2s;
-                }
-
-                .acc-nav .nav-link:hover {
-                    background-color: rgba(246, 139, 30, 0.1);
-                    color: var(--brand-color);
-                }
-
-                .acc-nav .nav-link.active {
-                    background-color: var(--brand-color);
-                    color: white;
-                    box-shadow: 0 4px 10px rgba(246, 139, 30, 0.2);
-                }
-
-                .acc-nav .nav-link i {
-                    width: 25px;
-                }
-
-                /* Content Card */
-                .content-card {
-                    border: none;
-                    border-radius: 15px;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-                    background: rgba(255, 255, 255, 0.9);
-                    backdrop-filter: blur(10px);
-                }
-
-                .form-control:focus {
-                    border-color: var(--brand-color);
-                    box-shadow: 0 0 0 0.25rem rgba(246, 139, 30, 0.1);
-                }
-            </style>
         </head>
 
         <body>
             <jsp:include page="includes/navbar.jsp" />
 
-            <div class="profile-hdr">
-                <div class="container">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar-circle me-4">
+            <!-- Profile Header -->
+            <div
+                style="background:linear-gradient(160deg,#0f0c29,#302b63);padding:44px 0 72px;position:relative;overflow:hidden;">
+                <div
+                    style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(6,182,212,0.2),transparent 60%);">
+                </div>
+                <div class="container" style="position:relative;">
+                    <div class="d-flex align-items-center gap-4">
+                        <div
+                            style="width:72px;height:72px;background:linear-gradient(135deg,#7c3aed,#06b6d4);border-radius:18px;display:flex;align-items:center;justify-content:center;color:white;font-size:28px;font-weight:800;box-shadow:0 8px 24px rgba(124,58,237,0.4);flex-shrink:0;">
                             ${sessionScope.utilisateur.nom.substring(0,1).toUpperCase()}
                         </div>
                         <div>
-                            <h2 class="fw-bold mb-1">${sessionScope.utilisateur.nom}</h2>
-                            <p class="mb-0 text-white-50"><i
-                                    class="fas fa-envelope me-2"></i>${sessionScope.utilisateur.email}</p>
+                            <div style="font-size:1.6rem;font-weight:800;color:white;">${sessionScope.utilisateur.nom}
+                            </div>
+                            <div style="color:rgba(255,255,255,0.45);font-size:0.875rem;margin-top:4px;"><i
+                                    class="fas fa-envelope me-1"></i>${sessionScope.utilisateur.email}</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="container mb-5">
-                <div class="row">
-                    <!-- Navigation Latérale -->
+            <div class="container pb-5" style="margin-top:-44px;position:relative;z-index:1;">
+                <div class="row g-4">
+
+                    <!-- Account Nav -->
                     <div class="col-lg-3">
-                        <div class="content-card p-3 mb-4">
-                            <nav class="nav flex-column acc-nav">
-                                <a class="nav-link active" href="profil"><i class="fas fa-user-circle"></i> Mes
-                                    Informations</a>
-                                <a class="nav-link" href="historique"><i class="fas fa-shopping-bag"></i> Mes
-                                    Commandes</a>
-                                <a class="nav-link" href="#"><i class="fas fa-heart"></i> Ma Liste de Souhaits</a>
-                                <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> Mes Adresses</a>
-                                <hr class="my-2">
-                                <a class="nav-link text-danger" href="logout"><i class="fas fa-sign-out-alt"></i>
-                                    Déconnexion</a>
-                            </nav>
+                        <div
+                            style="background:white;border-radius:18px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+                            <div style="padding:20px 20px 12px;">
+                                <div
+                                    style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#94a3b8;margin-bottom:8px;">
+                                    Mon Compte</div>
+                            </div>
+                            <div style="padding:0 12px 16px;display:flex;flex-direction:column;gap:4px;">
+                                <a href="profil"
+                                    style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#7c3aed;font-size:0.875rem;font-weight:700;background:#ede9fe;">
+                                    <i class="fas fa-user-circle" style="width:16px;color:#7c3aed;"></i> Mes
+                                    Informations
+                                </a>
+                                <a href="historique"
+                                    style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#334155;font-size:0.875rem;font-weight:500;transition:all 0.15s;"
+                                    onmouseover="this.style.background='#f8fafc'"
+                                    onmouseout="this.style.background='transparent'">
+                                    <i class="fas fa-shopping-bag" style="width:16px;color:#94a3b8;"></i> Mes Commandes
+                                </a>
+                                <div style="height:1px;background:#f1f5f9;margin:6px 0;"></div>
+                                <a href="logout"
+                                    style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#ef4444;font-size:0.875rem;font-weight:600;transition:all 0.15s;"
+                                    onmouseover="this.style.background='#fff1f2'"
+                                    onmouseout="this.style.background='transparent'">
+                                    <i class="fas fa-sign-out-alt" style="width:16px;"></i> Déconnexion
+                                </a>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Contenu Principal -->
+                    <!-- Main Content -->
                     <div class="col-lg-9">
+                        <!-- Success alert -->
                         <c:if test="${not empty success}">
-                            <div class="alert alert-success alert-dismissible border-0 shadow-sm mb-4 fade show"
-                                role="alert">
-                                <i class="fas fa-check-circle me-2"></i> ${success}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
+                            <div
+                                style="background:#f0fdf4;border-left:4px solid #22c55e;border-radius:12px;padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:#166534;font-size:0.875rem;font-weight:500;">
+                                <i class="fas fa-check-circle"></i> ${success}
                             </div>
                         </c:if>
 
-                        <div class="content-card">
-                            <div class="card-header bg-transparent border-0 pt-4 px-4">
-                                <h5 class="fw-bold mb-0">Informations Personnelles</h5>
-                                <p class="text-muted small">Gérez vos coordonnées et préferences de compte.</p>
+                        <!-- Personal Info Card -->
+                        <div
+                            style="background:white;border-radius:18px;border:1px solid #e2e8f0;box-shadow:0 4px 20px rgba(0,0,0,0.06);margin-bottom:20px;">
+                            <div style="padding:24px 28px;border-bottom:1px solid #f1f5f9;">
+                                <span style="font-size:1rem;font-weight:800;color:#0f172a;">Informations
+                                    personnelles</span>
+                                <p style="color:#94a3b8;font-size:0.82rem;margin:4px 0 0;">Gérez vos coordonnées et
+                                    préférences de compte.</p>
                             </div>
-                            <div class="card-body p-4 pt-2">
+                            <div style="padding:28px;">
                                 <form action="profil" method="POST">
                                     <div class="row g-3">
                                         <div class="col-md-6">
-                                            <label class="form-label fw-600">Nom complet</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text bg-light border-end-0"><i
-                                                        class="fas fa-user text-muted"></i></span>
-                                                <input type="text" name="nom"
-                                                    class="form-control border-start-0 bg-light"
+                                            <label class="label-client">Nom complet</label>
+                                            <div style="position:relative;">
+                                                <i class="fas fa-user"
+                                                    style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;"></i>
+                                                <input type="text" name="nom" class="input-client"
+                                                    style="padding-left:38px;width:100%;"
                                                     value="${sessionScope.utilisateur.nom}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label fw-600">Adresse Email</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text bg-light border-end-0"><i
-                                                        class="fas fa-at text-muted"></i></span>
-                                                <input type="email" name="email"
-                                                    class="form-control border-start-0 bg-light"
+                                            <label class="label-client">Adresse email</label>
+                                            <div style="position:relative;">
+                                                <i class="fas fa-envelope"
+                                                    style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;"></i>
+                                                <input type="email" name="email" class="input-client"
+                                                    style="padding-left:38px;width:100%;"
                                                     value="${sessionScope.utilisateur.email}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label fw-600 text-muted">Statut du Compte</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text bg-light border-end-0"><i
-                                                        class="fas fa-shield-alt text-muted text-success"></i></span>
-                                                <input type="text" class="form-control border-start-0 bg-light"
+                                            <label class="label-client">Téléphone</label>
+                                            <div style="position:relative;">
+                                                <i class="fas fa-phone"
+                                                    style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;"></i>
+                                                <input type="tel" name="telephone" class="input-client"
+                                                    style="padding-left:38px;width:100%;"
+                                                    value="${sessionScope.utilisateur.telephone}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="label-client">Rôle</label>
+                                            <div style="position:relative;">
+                                                <i class="fas fa-shield-alt"
+                                                    style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;"></i>
+                                                <input type="text" class="input-client"
+                                                    style="padding-left:38px;width:100%;background:#f8fafc;cursor:not-allowed;"
                                                     value="${sessionScope.utilisateur.role}" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-12 mt-4 text-end">
-                                            <button type="submit" class="btn btn-brand px-5 py-2">
-                                                Sauvegarder les changements
+                                        <div class="col-12">
+                                            <label class="label-client">Adresse de livraison</label>
+                                            <div style="position:relative;">
+                                                <i class="fas fa-map-marker-alt"
+                                                    style="position:absolute;left:14px;top:14px;color:#94a3b8;font-size:13px;"></i>
+                                                <textarea name="adresse" class="input-client"
+                                                    style="padding-left:38px;width:100%;resize:vertical;"
+                                                    rows="2">${sessionScope.utilisateur.adresse}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-end">
+                                            <button type="submit" class="btn-accent px-5 py-2">
+                                                <i class="fas fa-save me-2"></i>Enregistrer les modifications
                                             </button>
                                         </div>
                                     </div>
@@ -206,18 +153,26 @@
                             </div>
                         </div>
 
-                        <!-- Section Sécurité -->
-                        <div class="content-card mt-4">
-                            <div class="card-body p-4 d-flex align-items-center">
-                                <div class="flex-shrink-0 bg-light p-3 rounded-circle me-3">
-                                    <i class="fas fa-key fa-2x text-brand"></i>
+                        <!-- Security Card -->
+                        <div
+                            style="background:white;border-radius:18px;border:1px solid #e2e8f0;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+                            <div
+                                style="padding:24px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+                                <div style="display:flex;align-items:center;gap:16px;">
+                                    <div
+                                        style="width:48px;height:48px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:18px;flex-shrink:0;">
+                                        <i class="fas fa-key"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight:700;color:#0f172a;font-size:0.95rem;">Sécurité du compte
+                                        </div>
+                                        <div style="color:#94a3b8;font-size:0.8rem;margin-top:2px;">Modifiez votre mot
+                                            de passe régulièrement</div>
+                                    </div>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <h6 class="fw-bold mb-1">Sécurité du Compte</h6>
-                                    <p class="text-muted small mb-0">Modifiez votre mot de passe pour assurer la
-                                        sécurité de vos données.</p>
-                                </div>
-                                <button class="btn btn-outline-dark fw-bold px-4">Changer</button>
+                                <button class="btn-outline-accent"
+                                    style="border-radius:10px;padding:9px 22px;font-size:0.85rem;" disabled
+                                    title="Bientôt disponible">Changer le mot de passe</button>
                             </div>
                         </div>
                     </div>

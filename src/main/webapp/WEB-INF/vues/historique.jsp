@@ -7,315 +7,186 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Mon Historique - MaBoutique</title>
-
-                <!-- Google Fonts -->
-                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
-                    rel="stylesheet">
-
-                <!-- Font Awesome -->
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-                <!-- DataTables CSS -->
-                <link rel="stylesheet" type="text/css"
-                    href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-                <link rel="stylesheet" type="text/css"
-                    href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
-
-                <!-- Bootstrap 5 -->
+                <title>Mes Commandes - MaBoutique</title>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-                <style>
-                    :root {
-                        --brand-color: #f68b1e;
-                        --brand-dark: #e57a10;
-                        --bg-light: #f8f9fa;
-                    }
-
-                    body {
-                        font-family: 'Outfit', sans-serif;
-                        background-color: var(--bg-light);
-                        color: #34495e;
-                        display: flex;
-                        flex-direction: column;
-                        min-height: 100vh;
-                    }
-
-                    .text-brand {
-                        color: var(--brand-color) !important;
-                    }
-
-                    .bg-brand {
-                        background-color: var(--brand-color) !important;
-                    }
-
-                    .btn-brand {
-                        background-color: var(--brand-color);
-                        color: white;
-                        border: none;
-                        font-weight: 600;
-                        transition: all 0.3s;
-                    }
-
-                    .btn-brand:hover {
-                        background-color: var(--brand-dark);
-                        color: white;
-                        box-shadow: 0 4px 12px rgba(246, 139, 30, 0.3);
-                    }
-
-                    /* Profile Header */
-                    .profile-hdr {
-                        background: linear-gradient(135deg, #232526 0%, #414345 100%);
-                        color: white;
-                        padding: 60px 0;
-                        margin-bottom: -50px;
-                    }
-
-                    .avatar-circle {
-                        width: 100px;
-                        height: 100px;
-                        background-color: var(--brand-color);
-                        color: white;
-                        font-size: 2.5rem;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        border-radius: 50%;
-                        border: 4px solid rgba(255, 255, 255, 0.2);
-                        font-weight: 700;
-                    }
-
-                    /* Sidebar Nav */
-                    .acc-nav .nav-link {
-                        color: #444;
-                        padding: 12px 20px;
-                        border-radius: 10px;
-                        margin-bottom: 5px;
-                        font-weight: 500;
-                        transition: all 0.2s;
-                    }
-
-                    .acc-nav .nav-link:hover {
-                        background-color: rgba(246, 139, 30, 0.1);
-                        color: var(--brand-color);
-                    }
-
-                    .acc-nav .nav-link.active {
-                        background-color: var(--brand-color);
-                        color: white;
-                        box-shadow: 0 4px 10px rgba(246, 139, 30, 0.2);
-                    }
-
-                    .acc-nav .nav-link i {
-                        width: 25px;
-                    }
-
-                    /* Content Card */
-                    .content-card {
-                        border: none;
-                        border-radius: 15px;
-                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-                        background: rgba(255, 255, 255, 0.9);
-                        backdrop-filter: blur(10px);
-                    }
-
-                    .table thead th {
-                        background-color: #f8f9fa;
-                        color: #333;
-                        border-bottom: 2px solid #eee;
-                        padding: 15px;
-                        font-weight: 600;
-                    }
-
-                    .badge-status {
-                        padding: 6px 12px;
-                        border-radius: 8px;
-                        font-weight: 500;
-                        font-size: 0.8rem;
-                    }
-
-                    .badge-EN_COURS {
-                        background-color: #fff3cd;
-                        color: #856404;
-                    }
-
-                    .badge-VALIDEE {
-                        background-color: #d4edda;
-                        color: #155724;
-                    }
-
-                    .badge-ANNULEE {
-                        background-color: #f8d7da;
-                        color: #721c24;
-                    }
-
-                    .order-total {
-                        font-weight: 700;
-                        color: var(--brand-color);
-                    }
-
-                    /* DataTables Custom Styling */
-                    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-                        background: var(--brand-color) !important;
-                        border: none !important;
-                        color: white !important;
-                        border-radius: 5px;
-                    }
-
-                    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-                        background: var(--brand-dark) !important;
-                        color: white !important;
-                        border: none !important;
-                    }
-                </style>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
             </head>
 
             <body>
-
                 <jsp:include page="includes/navbar.jsp" />
 
-                <div class="profile-hdr">
-                    <div class="container">
-                        <div class="d-flex align-items-center">
-                            <div class="avatar-circle me-4">
+                <!-- Profile Header -->
+                <div
+                    style="background:linear-gradient(160deg,#0f0c29,#302b63);padding:44px 0 72px;position:relative;overflow:hidden;">
+                    <div
+                        style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(124,58,237,0.25),transparent 60%);">
+                    </div>
+                    <div class="container" style="position:relative;">
+                        <div class="d-flex align-items-center gap-4">
+                            <div
+                                style="width:72px;height:72px;background:linear-gradient(135deg,#7c3aed,#06b6d4);border-radius:18px;display:flex;align-items:center;justify-content:center;color:white;font-size:28px;font-weight:800;box-shadow:0 8px 24px rgba(124,58,237,0.4);flex-shrink:0;">
                                 ${sessionScope.utilisateur.nom.substring(0,1).toUpperCase()}
                             </div>
                             <div>
-                                <h2 class="fw-bold mb-1">${sessionScope.utilisateur.nom}</h2>
-                                <p class="mb-0 text-white-50"><i class="fas fa-history me-2"></i>Historique des
-                                    commandes</p>
+                                <div style="font-size:1.6rem;font-weight:800;color:white;">
+                                    ${sessionScope.utilisateur.nom}</div>
+                                <div style="color:rgba(255,255,255,0.45);font-size:0.875rem;margin-top:4px;"><i
+                                        class="fas fa-box me-1"></i>Historique des commandes</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="container mb-5">
-                    <div class="row">
-                        <!-- Navigation Latérale -->
+                <div class="container pb-5" style="margin-top:-44px;position:relative;z-index:1;">
+                    <div class="row g-4">
+
+                        <!-- Account Nav -->
                         <div class="col-lg-3">
-                            <div class="content-card p-3 mb-4">
-                                <nav class="nav flex-column acc-nav">
-                                    <a class="nav-link" href="profil"><i class="fas fa-user-circle"></i> Mes
-                                        Informations</a>
-                                    <a class="nav-link active" href="historique"><i class="fas fa-shopping-bag"></i> Mes
-                                        Commandes</a>
-                                    <a class="nav-link" href="#"><i class="fas fa-heart"></i> Ma Liste de Souhaits</a>
-                                    <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> Mes Adresses</a>
-                                    <hr class="my-2">
-                                    <a class="nav-link text-danger" href="logout"><i class="fas fa-sign-out-alt"></i>
-                                        Déconnexion</a>
-                                </nav>
+                            <div
+                                style="background:white;border-radius:18px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+                                <div style="padding:20px 20px 12px;">
+                                    <div
+                                        style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#94a3b8;margin-bottom:8px;">
+                                        Mon Compte</div>
+                                </div>
+                                <div style="padding:0 12px 16px;display:flex;flex-direction:column;gap:4px;">
+                                    <a href="profil"
+                                        style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#334155;font-size:0.875rem;font-weight:500;transition:all 0.15s;"
+                                        onmouseover="this.style.background='#f8fafc'"
+                                        onmouseout="this.style.background='transparent'">
+                                        <i class="fas fa-user-circle" style="width:16px;color:#94a3b8;"></i> Mes
+                                        Informations
+                                    </a>
+                                    <a href="historique"
+                                        style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#7c3aed;font-size:0.875rem;font-weight:700;background:#ede9fe;">
+                                        <i class="fas fa-shopping-bag" style="width:16px;color:#7c3aed;"></i> Mes
+                                        Commandes
+                                    </a>
+                                    <div style="height:1px;background:#f1f5f9;margin:6px 0;"></div>
+                                    <a href="logout"
+                                        style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#ef4444;font-size:0.875rem;font-weight:600;transition:all 0.15s;"
+                                        onmouseover="this.style.background='#fff1f2'"
+                                        onmouseout="this.style.background='transparent'">
+                                        <i class="fas fa-sign-out-alt" style="width:16px;"></i> Déconnexion
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Contenu Principal -->
+                        <!-- Orders Content -->
                         <div class="col-lg-9">
-                            <div class="content-card p-4">
-                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <h5 class="fw-bold mb-0">Mes Commandes</h5>
+                            <div
+                                style="background:white;border-radius:18px;border:1px solid #e2e8f0;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+                                <div
+                                    style="padding:20px 24px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;">
+                                    <span style="font-size:1rem;font-weight:800;color:#0f172a;">Mes Commandes</span>
                                     <c:if test="${not empty commandes}">
                                         <span
-                                            class="badge bg-light text-brand rounded-pill px-3 py-2 border">${commandes.size()}
+                                            style="background:#ede9fe;color:#7c3aed;padding:5px 14px;border-radius:20px;font-size:0.78rem;font-weight:700;">${commandes.size()}
                                             commande(s)</span>
                                     </c:if>
                                 </div>
 
-                                <c:if test="${empty commandes}">
-                                    <div class="text-center py-5">
-                                        <i class="fas fa-box-open fa-4x mb-4 text-muted opacity-25"></i>
-                                        <h4 class="text-muted">Aucune commande pour le moment.</h4>
-                                        <a href="catalogue" class="btn btn-brand mt-3 px-4 py-2">Découvrir nos
-                                            produits</a>
-                                    </div>
-                                </c:if>
-
-                                <c:if test="${not empty commandes}">
-                                    <div class="table-responsive">
-                                        <table id="orderHistoryTable" class="table table-hover align-middle w-100">
-                                            <thead>
-                                                <tr>
-                                                    <th>N° Commande</th>
-                                                    <th>Date</th>
-                                                    <th>Statut</th>
-                                                    <th class="text-end">Total</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="commande" items="${commandes}">
-                                                    <tr>
-                                                        <td><span class="fw-bold text-dark">#${commande.id}</span></td>
-                                                        <td class="text-muted">
-                                                            <small>
-                                                                <fmt:parseDate value="${commande.dateCommande}"
-                                                                    pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate"
-                                                                    type="both" />
-                                                                <fmt:formatDate value="${parsedDate}"
-                                                                    pattern="dd MMM yyyy HH:mm" />
-                                                            </small>
-                                                        </td>
-                                                        <td>
-                                                            <span class="badge-status badge-${commande.statut}">
-                                                                <i class="fas fa-circle-info me-1 small"></i>
-                                                                ${commande.statut}
-                                                            </span>
-                                                        </td>
-                                                        <td class="text-end">
-                                                            <c:set var="total" value="0" />
-                                                            <c:forEach var="item" items="${commande.items}">
-                                                                <c:set var="total"
-                                                                    value="${total + (item.prixUnitaire * item.quantite)}" />
-                                                            </c:forEach>
-                                                            <span class="order-total fw-bold">${total} MAD</span>
-                                                        </td>
-                                                        <td class="text-center">
+                                <c:choose>
+                                    <c:when test="${empty commandes}">
+                                        <div style="text-align:center;padding:72px 32px;">
+                                            <div style="font-size:56px;color:#e2e8f0;margin-bottom:16px;"><i
+                                                    class="fas fa-box-open"></i></div>
+                                            <h4 style="font-weight:700;color:#334155;margin-bottom:8px;">Aucune commande
+                                            </h4>
+                                            <p style="color:#94a3b8;margin-bottom:24px;">Vous n'avez pas encore passé de
+                                                commande.</p>
+                                            <a href="catalogue" class="btn-accent">Découvrir nos produits</a>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div style="padding:8px;">
+                                            <c:forEach var="commande" items="${commandes}" varStatus="s">
+                                                <div style="border:1px solid #f1f5f9;border-radius:14px;margin:10px;overflow:hidden;transition:all 0.2s;cursor:default;"
+                                                    class="fade-in" style="animation-delay:${s.index * 0.06}s;">
+                                                    <div
+                                                        style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:#fafbff;border-bottom:1px solid #f1f5f9;flex-wrap:wrap;gap:12px;">
+                                                        <div
+                                                            style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;gap:12px;">
+                                                            <span
+                                                                style="font-size:1rem;font-weight:800;color:#7c3aed;">#${commande.id}</span>
+                                                            <div style="font-size:0.78rem;color:#94a3b8;"><i
+                                                                    class="fas fa-calendar-alt me-1"></i>${commande.dateCommande}
+                                                            </div>
+                                                        </div>
+                                                        <div style="display:flex;align-items:center;gap:12px;">
+                                                            <c:choose>
+                                                                <c:when test="${commande.statut == 'EN_ATTENTE'}"><span
+                                                                        class="badge-client badge-attente">EN
+                                                                        ATTENTE</span></c:when>
+                                                                <c:when test="${commande.statut == 'EN_PREPARATION'}">
+                                                                    <span class="badge-client badge-preparation">EN
+                                                                        PRÉPARATION</span></c:when>
+                                                                <c:when test="${commande.statut == 'EXPEDIEE'}"><span
+                                                                        class="badge-client badge-expediee">EXPÉDIÉE</span>
+                                                                </c:when>
+                                                                <c:when test="${commande.statut == 'LIVREE'}"><span
+                                                                        class="badge-client badge-livree">LIVRÉE
+                                                                        ✓</span></c:when>
+                                                                <c:otherwise><span
+                                                                        class="badge-client badge-annulee">ANNULÉE</span>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                             <a href="commande-detail?id=${commande.id}"
-                                                                class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                                                                class="btn-outline-accent"
+                                                                style="padding:7px 16px;font-size:0.8rem;border-radius:8px;">
                                                                 <i class="fas fa-eye me-1"></i> Détails
                                                             </a>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </c:if>
+                                                        </div>
+                                                    </div>
+                                                    <div style="padding:16px 20px;">
+                                                        <div
+                                                            style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                                                            <c:forEach var="item" items="${commande.items}" end="2">
+                                                                <div
+                                                                    style="display:flex;align-items:center;gap:8px;background:#f8fafc;border-radius:10px;padding:8px 12px;">
+                                                                    <img src="${not empty item.produit.imageUrl ? item.produit.imageUrl : 'https://placehold.co/36x36/f3f4f6/94a3b8?text=IMG'}"
+                                                                        style="width:36px;height:36px;object-fit:contain;border-radius:6px;"
+                                                                        onerror="this.src='https://placehold.co/36x36/f3f4f6/94a3b8?text=IMG'">
+                                                                    <div>
+                                                                        <div
+                                                                            style="font-size:0.78rem;font-weight:600;color:#0f172a;">
+                                                                            ${item.produit.nom}</div>
+                                                                        <div style="font-size:0.72rem;color:#94a3b8;">
+                                                                            ×${item.quantite}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </c:forEach>
+                                                            <c:if test="${commande.items.size() > 3}">
+                                                                <div
+                                                                    style="font-size:0.78rem;color:#94a3b8;font-weight:600;">
+                                                                    +${commande.items.size() - 3} autre(s)</div>
+                                                            </c:if>
+                                                            <div style="margin-left:auto;">
+                                                                <c:set var="total" value="0" />
+                                                                <c:forEach var="item" items="${commande.items}">
+                                                                    <c:set var="total"
+                                                                        value="${total + (item.prixUnitaire * item.quantite)}" />
+                                                                </c:forEach>
+                                                                <span
+                                                                    style="font-size:1.1rem;font-weight:800;color:#7c3aed;">${total}
+                                                                    <small
+                                                                        style="font-size:0.7rem;font-weight:500;">MAD</small></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <jsp:include page="includes/footer.jsp" />
-
-                <!-- Scripts -->
-                <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-                <script type="text/javascript"
-                    src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-                <script type="text/javascript"
-                    src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-                <script type="text/javascript"
-                    src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-                <script type="text/javascript"
-                    src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
-
-                <script>
-                    $(document).ready(function () {
-                        $('#orderHistoryTable').DataTable({
-                            responsive: true,
-                            language: {
-                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
-                            },
-                            order: [[1, 'desc']],
-                            pageLength: 5,
-                            lengthMenu: [5, 10, 25],
-                            columnDefs: [
-                                { orderable: false, targets: [4] }
-                            ],
-                            dom: '<"d-flex justify-content-between align-items-center mb-3"lf>rt<"d-flex justify-content-between align-items-center mt-3"ip>'
-                        });
-                    });
-                </script>
             </body>
 
             </html>
