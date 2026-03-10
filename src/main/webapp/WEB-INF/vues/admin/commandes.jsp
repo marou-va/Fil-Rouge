@@ -6,126 +6,119 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Commandes - MaBoutique Admin</title>
+            <title>Suivi des Commandes — Admin MaBoutique</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/theme.css">
             <style>
-                .status-select {
-                    border: 1.5px solid #e2e8f0;
-                    border-radius: 8px;
-                    padding: 6px 10px;
-                    font-size: 0.78rem;
-                    font-weight: 600;
-                    background: #f8fafc;
-                    color: #334155;
-                    cursor: pointer;
-                    transition: border-color 0.2s;
+                body {
+                    background: var(--bg);
                 }
 
-                .status-select:focus {
-                    border-color: #7c3aed;
-                    outline: none;
+                .admin-layout {
+                    min-height: 100vh;
+                    display: flex;
+                }
+
+                .admin-main {
+                    flex: 1;
+                    padding: 2rem;
+                    overflow-x: hidden;
+                }
+
+                .page-header {
+                    border-bottom: 1px solid var(--border-color);
+                    padding-bottom: 1rem;
+                    margin-bottom: 2rem;
+                }
+
+                .statut-select {
+                    max-width: 180px;
                 }
             </style>
         </head>
 
         <body>
-            <div class="container-fluid p-0">
-                <div class="d-flex">
-                    <c:set var="page" value="commandes" scope="request" />
-                    <jsp:include page="sidebar.jsp" />
+            <div class="admin-layout">
+                <c:set var="page" value="commandes" scope="request" />
+                <jsp:include page="sidebar.jsp" />
 
-                    <div class="admin-main flex-grow-1">
-                        <div class="admin-topbar">
-                            <div>
-                                <div class="topbar-title">Suivi des Commandes</div>
-                                <div class="topbar-subtitle">Gérer le cycle de vie des commandes clients</div>
-                            </div>
-                            <div class="d-flex gap-3">
-                                <div
-                                    style="background:#ede9fe;color:#7c3aed;padding:8px 18px;border-radius:10px;font-size:0.85rem;font-weight:700;">
-                                    ${commandes.size()} commande(s) au total
-                                </div>
-                            </div>
+                <main class="admin-main">
+                    <div class="page-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 fw-bold mb-0">Suivi des Commandes</h1>
+                            <small class="text-muted">Gérez les expéditions et les statuts</small>
                         </div>
-
-                        <div class="admin-content">
-                            <div class="content-card animate-in">
-                                <div class="content-card-body">
-                                    <table class="table admin-table mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th># ID</th>
-                                                <th>Client</th>
-                                                <th>Date</th>
-                                                <th>Total</th>
-                                                <th>Statut</th>
-                                                <th class="text-end">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="c" items="${commandes}">
-                                                <tr>
-                                                    <td><span class="fw-bold" style="color:#7c3aed;">#${c.id}</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <div
-                                                                style="width:34px;height:34px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#0284c7;font-size:13px;flex-shrink:0;">
-                                                                <i class="fas fa-user"></i>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bold" style="font-size:0.875rem;">
-                                                                    ${c.utilisateur.nom}</div>
-                                                                <div class="text-muted" style="font-size:0.73rem;">
-                                                                    ${c.utilisateur.email}</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-muted" style="font-size:0.83rem;">${c.dateCommande}
-                                                    </td>
-                                                    <td>
-                                                        <c:set var="totalC" value="0.0" />
-                                                        <c:forEach var="item" items="${c.items}">
-                                                            <c:set var="totalC"
-                                                                value="${totalC + (item.prixUnitaire * item.quantite)}" />
-                                                        </c:forEach>
-                                                        <span class="fw-bold" style="color:#0891b2;">${totalC} DH</span>
-                                                    </td>
-                                                    <td>
-                                                        <form action="commandes" method="POST"
-                                                            style="display:inline-block;">
-                                                            <input type="hidden" name="id" value="${c.id}">
-                                                            <select name="statut" class="status-select"
-                                                                onchange="this.form.submit()">
-                                                                <c:forEach var="s" items="${statuts}">
-                                                                    <option value="${s}" ${c.statut==s ? 'selected' : ''
-                                                                        }>${s}</option>
-                                                                </c:forEach>
-                                                            </select>
-                                                        </form>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <a href="commandes?action=view&id=${c.id}"
-                                                            class="btn-action btn-action-view" title="Voir les détails">
-                                                            <i class="fas fa-eye"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                            <c:if test="${empty commandes}">
-                                                <tr>
-                                                    <td colspan="6" class="text-center py-5 text-muted">Aucune commande
-                                                        enregistrée.</td>
-                                                </tr>
-                                            </c:if>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        <div class="badge badge-accent px-3 py-2">
+                            <i class="fas fa-shipping-fast me-2"></i>${commandes.size()} commande(s) au total
                         </div>
                     </div>
-                </div>
+
+                    <div class="card-theme overflow-hidden">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead style="background:var(--primary-dark);color:#fff;">
+                                    <tr>
+                                        <th class="ps-3"># ID</th>
+                                        <th>Client / Email</th>
+                                        <th>Date</th>
+                                        <th>Montant Total</th>
+                                        <th>Modifier le Statut</th>
+                                        <th class="text-end pe-3">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="c" items="${commandes}">
+                                        <tr>
+                                            <td class="ps-3 fw-bold">#${c.id}</td>
+                                            <td>
+                                                <div class="fw-bold text-brand">${c.utilisateur.nom}</div>
+                                                <div class="small text-muted">${c.utilisateur.email}</div>
+                                            </td>
+                                            <td class="text-muted small">${c.dateCommande}</td>
+                                            <td class="fw-bold" style="color:var(--primary-dark);">
+                                                <c:set var="totalC" value="0.0" />
+                                                <c:forEach var="item" items="${c.items}">
+                                                    <c:set var="totalC"
+                                                        value="${totalC + (item.prixUnitaire * item.quantite)}" />
+                                                </c:forEach>
+                                                ${totalC} DH
+                                            </td>
+                                            <td>
+                                                <form action="commandes" method="POST" class="m-0 statut-select">
+                                                    <input type="hidden" name="id" value="${c.id}">
+                                                    <select name="statut" class="form-select form-select-sm shadow-none"
+                                                        onchange="this.form.submit()"
+                                                        style="border-radius:20px; font-weight:600; font-size:.78rem; 
+                                                       ${c.statut == 'LIVREE' ? 'background-color:rgba(142,153,121,0.15); border-color:var(--primary);' : ''}
+                                                       ${c.statut == 'EXPEDIEE' || c.statut == 'EN_ATTENTE' ? 'background-color:rgba(163,124,122,0.15); border-color:var(--accent);' : ''}">
+                                                        <c:forEach var="s" items="${statuts}">
+                                                            <option value="${s}" ${c.statut==s ? 'selected' : '' }>${s}
+                                                            </option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </form>
+                                            </td>
+                                            <td class="text-end pe-3">
+                                                <a href="commandes?action=view&id=${c.id}"
+                                                    class="btn btn-sm btn-outline-brand rounded-circle p-2"
+                                                    title="Détails">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    <c:if test="${empty commandes}">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-5 text-muted">Aucune commande
+                                                enregistrée.</td>
+                                        </tr>
+                                    </c:if>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </body>

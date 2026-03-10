@@ -6,224 +6,199 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Dashboard Admin - MaBoutique</title>
+            <title>Dashboard — Admin MaBoutique</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/theme.css">
+            <style>
+                body {
+                    background: var(--bg);
+                }
+
+                .admin-layout {
+                    min-height: 100vh;
+                    display: flex;
+                }
+
+                .admin-main {
+                    flex: 1;
+                    padding: 2rem;
+                    overflow-x: hidden;
+                }
+
+                .page-header {
+                    border-bottom: 1px solid var(--border-color);
+                    padding-bottom: 1rem;
+                    margin-bottom: 2rem;
+                }
+
+                .stat-badge {
+                    font-size: 0.68rem;
+                    font-weight: 700;
+                    padding: 3px 8px;
+                    border-radius: 20px;
+                }
+            </style>
         </head>
 
         <body>
-            <div class="container-fluid p-0">
-                <div class="d-flex">
+            <div class="admin-layout">
+                <c:set var="page" value="dashboard" scope="request" />
+                <jsp:include page="sidebar.jsp" />
 
-                    <c:set var="page" value="dashboard" scope="request" />
-                    <jsp:include page="sidebar.jsp" />
+                <main class="admin-main">
+                    <div class="page-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 fw-bold mb-0">Tableau de Bord</h1>
+                            <small class="text-muted">Vue d'ensemble en temps réel</small>
+                        </div>
+                        <div class="text-muted small">
+                            <i class="fas fa-user-shield me-1" style="color:var(--primary);"></i>
+                            ${sessionScope.utilisateur.nom}
+                        </div>
+                    </div>
 
-                    <div class="admin-main flex-grow-1">
-                        <!-- Topbar -->
-                        <div class="admin-topbar">
-                            <div>
-                                <div class="topbar-title">Dashboard</div>
-                                <div class="topbar-subtitle">Vue d'ensemble de votre boutique</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="topbar-date text-muted small">
-                                    <i class="fas fa-calendar-alt me-1"></i> Mis à jour maintenant
+                    <!-- Stat Cards -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="stat-card stat-green">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="stat-label">Commandes</div>
+                                        <div class="stat-value">${totalCommandes}</div>
+                                    </div>
+                                    <i class="fas fa-receipt stat-icon"></i>
                                 </div>
-                                <a href="produits?action=add" class="btn-primary-admin d-flex align-items-center gap-2">
-                                    <i class="fas fa-plus"></i> Nouveau produit
-                                </a>
                             </div>
                         </div>
-
-                        <div class="admin-content">
-
-                            <!-- Stats Cards -->
-                            <div class="row g-4 mb-4">
-                                <div class="col-xl-3 col-md-6 animate-in delay-1">
-                                    <div class="stat-card card-violet h-100">
-                                        <div class="card-body">
-                                            <div class="stat-card-icon" style="background:rgba(255,255,255,0.2);">
-                                                <i class="fas fa-shopping-bag"></i>
-                                            </div>
-                                            <div class="stat-card-value">${totalCommandes}</div>
-                                            <div class="stat-card-label">Total Commandes</div>
-                                            <div class="stat-card-bg"><i class="fas fa-shopping-bag"></i></div>
-                                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="stat-card stat-rose">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="stat-label">Ventes réussies</div>
+                                        <div class="stat-value">${totalVentes}</div>
                                     </div>
-                                </div>
-                                <div class="col-xl-3 col-md-6 animate-in delay-2">
-                                    <div class="stat-card card-teal h-100">
-                                        <div class="card-body">
-                                            <div class="stat-card-icon" style="background:rgba(255,255,255,0.2);">
-                                                <i class="fas fa-check-double"></i>
-                                            </div>
-                                            <div class="stat-card-value">${totalVentes}</div>
-                                            <div class="stat-card-label">Ventes Réussies</div>
-                                            <div class="stat-card-bg"><i class="fas fa-check-double"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-md-6 animate-in delay-3">
-                                    <div class="stat-card card-amber h-100">
-                                        <div class="card-body">
-                                            <div class="stat-card-icon" style="background:rgba(255,255,255,0.2);">
-                                                <i class="fas fa-box-open"></i>
-                                            </div>
-                                            <div class="stat-card-value">${totalProduits}</div>
-                                            <div class="stat-card-label">Produits Actifs</div>
-                                            <div class="stat-card-bg"><i class="fas fa-box-open"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-md-6 animate-in delay-4">
-                                    <div class="stat-card card-rose h-100">
-                                        <div class="card-body">
-                                            <div class="stat-card-icon" style="background:rgba(255,255,255,0.2);">
-                                                <i class="fas fa-users"></i>
-                                            </div>
-                                            <div class="stat-card-value">${totalUsers}</div>
-                                            <div class="stat-card-label">Utilisateurs</div>
-                                            <div class="stat-card-bg"><i class="fas fa-users"></i></div>
-                                        </div>
-                                    </div>
+                                    <i class="fas fa-check-circle stat-icon"></i>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="stat-card stat-beige">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="stat-label">Produits actifs</div>
+                                        <div class="stat-value">${totalProduits}</div>
+                                    </div>
+                                    <i class="fas fa-box-open stat-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="stat-card stat-teal">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="stat-label">Utilisateurs</div>
+                                        <div class="stat-value">${totalUsers}</div>
+                                    </div>
+                                    <i class="fas fa-users stat-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                            <!-- Low Stock Alert -->
-                            <c:if test="${not empty lowStockProducts}">
-                                <div class="animate-in mb-4">
-                                    <div class="content-card">
-                                        <div class="content-card-header"
-                                            style="background:linear-gradient(90deg,#fffbeb,#fef3c7); border-left: 4px solid #f59e0b;">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <div
-                                                    style="width:32px;height:32px;background:#f59e0b;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:14px;">
-                                                    <i class="fas fa-exclamation-triangle"></i>
-                                                </div>
-                                                <span class="content-card-title" style="color:#92400e;">Stocks faibles —
-                                                    Action requise</span>
-                                            </div>
+                    <!-- Alertes stock faible -->
+                    <c:if test="${not empty lowStockProducts}">
+                        <div class="card-theme mb-4" style="border-left:4px solid var(--accent);">
+                            <div class="p-3 border-bottom d-flex align-items-center gap-2"
+                                style="border-color:var(--border-color)!important;">
+                                <i class="fas fa-exclamation-triangle" style="color:var(--accent);"></i>
+                                <span class="fw-bold">Stock faible — action requise</span>
+                                <span class="badge"
+                                    style="background:var(--accent);color:#fff;">${lowStockProducts.size()}</span>
+                            </div>
+                            <div class="p-3">
+                                <c:forEach var="p" items="${lowStockProducts}">
+                                    <div class="d-flex justify-content-between align-items-center py-1 border-bottom"
+                                        style="border-color:var(--border-color)!important;">
+                                        <span class="small fw-bold">${p.nom}</span>
+                                        <div class="d-flex align-items-center gap-2">
                                             <span class="badge"
-                                                style="background:#f59e0b;color:white;border-radius:20px;font-size:0.72rem;padding:5px 12px;">${lowStockProducts.size()}
-                                                produit(s)</span>
-                                        </div>
-                                        <div class="content-card-body">
-                                            <table class="table admin-table mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Produit</th>
-                                                        <th>Stock actuel</th>
-                                                        <th class="text-end">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:forEach var="p" items="${lowStockProducts}">
-                                                        <tr>
-                                                            <td class="fw-600">${p.nom}</td>
-                                                            <td><span class="badge-status badge-annulee">${p.stock}
-                                                                    restant(s)</span></td>
-                                                            <td class="text-end">
-                                                                <a href="produits?action=edit&id=${p.id}"
-                                                                    class="btn-action btn-action-edit">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                </tbody>
-                                            </table>
+                                                style="background:rgba(163,124,122,0.18);color:var(--accent);">${p.stock}
+                                                restant(s)</span>
+                                            <a href="produits?action=edit&id=${p.id}"
+                                                class="btn btn-sm btn-brand py-0 px-2"
+                                                style="font-size:.75rem;">Gérer</a>
                                         </div>
                                     </div>
-                                </div>
-                            </c:if>
-
-                            <!-- Recent Orders -->
-                            <div class="animate-in">
-                                <div class="content-card">
-                                    <div class="content-card-header">
-                                        <span class="content-card-title">Dernières Commandes</span>
-                                        <a href="commandes" class="btn-secondary-admin py-2 px-3"
-                                            style="font-size:0.8rem;">Voir tout <i
-                                                class="fas fa-arrow-right ms-1"></i></a>
-                                    </div>
-                                    <div class="content-card-body">
-                                        <table class="table admin-table mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th># ID</th>
-                                                    <th>Client</th>
-                                                    <th>Date</th>
-                                                    <th>Statut</th>
-                                                    <th>Total</th>
-                                                    <th class="text-end">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="c" items="${recentCommandes}">
-                                                    <tr>
-                                                        <td><span class="fw-bold" style="color:#7c3aed;">#${c.id}</span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex align-items-center gap-2">
-                                                                <div
-                                                                    style="width:32px;height:32px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:12px;">
-                                                                    <i class="fas fa-user"></i>
-                                                                </div>
-                                                                <span class="fw-500">${c.utilisateur.nom}</span>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-muted">${c.dateCommande}</td>
-                                                        <td>
-                                                            <c:choose>
-                                                                <c:when test="${c.statut == 'EN_ATTENTE'}"><span
-                                                                        class="badge-status badge-attente">EN
-                                                                        ATTENTE</span></c:when>
-                                                                <c:when test="${c.statut == 'EN_PREPARATION'}"><span
-                                                                        class="badge-status badge-preparation">EN
-                                                                        PRÉPARATION</span></c:when>
-                                                                <c:when test="${c.statut == 'EXPEDIEE'}"><span
-                                                                        class="badge-status badge-expediee">EXPÉDIÉE</span>
-                                                                </c:when>
-                                                                <c:when test="${c.statut == 'LIVREE'}"><span
-                                                                        class="badge-status badge-livree">LIVRÉE</span>
-                                                                </c:when>
-                                                                <c:otherwise><span
-                                                                        class="badge-status badge-annulee">ANNULÉE</span>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </td>
-                                                        <td>
-                                                            <c:set var="total" value="0.0" />
-                                                            <c:forEach var="item" items="${c.items}">
-                                                                <c:set var="total"
-                                                                    value="${total + (item.prixUnitaire * item.quantite)}" />
-                                                            </c:forEach>
-                                                            <span class="fw-bold" style="color:#0891b2;">${total}
-                                                                DH</span>
-                                                        </td>
-                                                        <td class="text-end">
-                                                            <a href="commandes?action=view&id=${c.id}"
-                                                                class="btn-action btn-action-view">
-                                                                <i class="fas fa-eye"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                                <c:if test="${empty recentCommandes}">
-                                                    <tr>
-                                                        <td colspan="6" class="text-center py-5 text-muted">Aucune
-                                                            commande pour le moment.</td>
-                                                    </tr>
-                                                </c:if>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                </c:forEach>
                             </div>
+                        </div>
+                    </c:if>
 
-                        </div><!-- /admin-content -->
-                    </div><!-- /admin-main -->
-                </div>
+                    <!-- Commandes récentes -->
+                    <div class="card-theme">
+                        <div class="p-3 d-flex justify-content-between align-items-center border-bottom"
+                            style="border-color:var(--border-color)!important;">
+                            <h5 class="fw-bold mb-0">Commandes Récentes</h5>
+                            <a href="commandes" class="btn btn-brand btn-sm">Tout voir</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead style="background:var(--primary-dark);color:#fff;">
+                                    <tr>
+                                        <th class="ps-3">#ID</th>
+                                        <th>Client</th>
+                                        <th>Date</th>
+                                        <th>Statut</th>
+                                        <th>Total</th>
+                                        <th class="text-end pe-3">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="c" items="${recentCommandes}">
+                                        <tr>
+                                            <td class="ps-3 fw-bold">#${c.id}</td>
+                                            <td>${c.utilisateur.nom}</td>
+                                            <td class="text-muted small">${c.dateCommande}</td>
+                                            <td>
+                                                <span
+                                                    class="badge rounded-pill stat-badge
+                                        ${c.statut == 'LIVREE'         ? 'bg-success'                                             : ''}
+                                        ${c.statut == 'EN_PREPARATION' ? 'bg-primary'                                             : ''}
+                                        ${c.statut == 'EXPEDIEE'       ? ''                                                       : ''}
+                                        ${c.statut == 'ANNULEE'        ? 'bg-danger'                                              : ''}
+                                        ${c.statut == 'EN_ATTENTE'     ? ''                                                       : ''}"
+                                                    style="${c.statut == 'EXPEDIEE' || c.statut == 'EN_ATTENTE' ? 'background:var(--accent-light);color:var(--text-dark);' : ''}">
+                                                    ${c.statut}
+                                                </span>
+                                            </td>
+                                            <td class="fw-bold">
+                                                <c:set var="total" value="0.0" />
+                                                <c:forEach var="item" items="${c.items}">
+                                                    <c:set var="total"
+                                                        value="${total + item.prixUnitaire * item.quantite}" />
+                                                </c:forEach>
+                                                ${total} DH
+                                            </td>
+                                            <td class="text-end pe-3">
+                                                <a href="commandes?action=view&id=${c.id}"
+                                                    class="btn btn-sm btn-outline-brand">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    <c:if test="${empty recentCommandes}">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4 text-muted">Aucune commande pour
+                                                l'instant.</td>
+                                        </tr>
+                                    </c:if>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </body>

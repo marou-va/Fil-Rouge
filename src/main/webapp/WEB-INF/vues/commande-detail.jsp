@@ -7,275 +7,202 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Détails de la Commande - MaBoutique</title>
-
-                <!-- Google Fonts -->
-                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
-                    rel="stylesheet">
-
-                <!-- Font Awesome -->
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-                <!-- Bootstrap 5 -->
+                <title>Détails Commande #${commande.id} — MaBoutique</title>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/theme.css">
                 <style>
-                    :root {
-                        --brand-color: #f68b1e;
-                        --brand-dark: #e57a10;
-                        --bg-light: #f8f9fa;
+                    .profile-hero {
+                        background: linear-gradient(rgba(142, 153, 121, 0.9), rgba(122, 132, 106, 0.9)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80');
+                        background-size: cover;
+                        background-position: center;
+                        color: #fff;
+                        padding: 3rem 0;
+                        margin-bottom: -3rem;
                     }
 
-                    body {
-                        font-family: 'Outfit', sans-serif;
-                        background-color: var(--bg-light);
-                        color: #34495e;
-                        display: flex;
-                        flex-direction: column;
-                        min-height: 100vh;
-                    }
-
-                    .text-brand {
-                        color: var(--brand-color) !important;
-                    }
-
-                    .bg-brand {
-                        background-color: var(--brand-color) !important;
-                    }
-
-                    .btn-brand {
-                        background-color: var(--brand-color);
-                        color: white;
-                        border: none;
-                        font-weight: 600;
-                        transition: all 0.3s;
-                    }
-
-                    .btn-brand:hover {
-                        background-color: var(--brand-dark);
-                        color: white;
-                        box-shadow: 0 4px 12px rgba(246, 139, 30, 0.3);
-                    }
-
-                    /* Profile Header */
-                    .profile-hdr {
-                        background: linear-gradient(135deg, #232526 0%, #414345 100%);
-                        color: white;
-                        padding: 60px 0;
-                        margin-bottom: -50px;
-                    }
-
-                    .avatar-circle {
-                        width: 100px;
-                        height: 100px;
-                        background-color: var(--brand-color);
-                        color: white;
-                        font-size: 2.5rem;
+                    .u-avatar-lg {
+                        width: 80px;
+                        height: 80px;
+                        background: #fff;
+                        color: var(--primary);
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         border-radius: 50%;
-                        border: 4px solid rgba(255, 255, 255, 0.2);
+                        font-size: 2rem;
                         font-weight: 700;
                     }
 
-                    /* Sidebar Nav */
-                    .acc-nav .nav-link {
-                        color: #444;
+                    .acc-sidebar-link {
                         padding: 12px 20px;
-                        border-radius: 10px;
+                        border-radius: 12px;
+                        color: var(--text);
+                        text-decoration: none;
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        transition: var(--transition);
                         margin-bottom: 5px;
-                        font-weight: 500;
-                        transition: all 0.2s;
-                    }
-
-                    .acc-nav .nav-link:hover {
-                        background-color: rgba(246, 139, 30, 0.1);
-                        color: var(--brand-color);
-                    }
-
-                    .acc-nav .nav-link.active {
-                        background-color: var(--brand-color);
-                        color: white;
-                        box-shadow: 0 4px 10px rgba(246, 139, 30, 0.2);
-                    }
-
-                    .acc-nav .nav-link i {
-                        width: 25px;
-                    }
-
-                    /* Content Card */
-                    .content-card {
-                        border: none;
-                        border-radius: 15px;
-                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-                        background: rgba(255, 255, 255, 0.9);
-                        backdrop-filter: blur(10px);
-                    }
-
-                    .badge-status {
-                        padding: 6px 12px;
-                        border-radius: 8px;
-                        font-weight: 500;
-                        font-size: 0.8rem;
-                    }
-
-                    .badge-EN_COURS {
-                        background-color: #fff3cd;
-                        color: #856404;
-                    }
-
-                    .badge-VALIDEE {
-                        background-color: #d4edda;
-                        color: #155724;
-                    }
-
-                    .badge-ANNULEE {
-                        background-color: #f8d7da;
-                        color: #721c24;
-                    }
-
-                    .detail-img {
-                        width: 60px;
-                        height: 60px;
-                        object-fit: contain;
-                        background-color: #fff;
-                        border: 1px solid #eee;
-                        border-radius: 8px;
-                    }
-
-                    .order-info-label {
-                        font-size: 0.75rem;
-                        color: #999;
-                        text-transform: uppercase;
-                        letter-spacing: 1px;
-                        margin-bottom: 2px;
-                    }
-
-                    .order-info-value {
                         font-weight: 600;
-                        color: #333;
+                    }
+
+                    .acc-sidebar-link:hover {
+                        background: var(--bg);
+                        color: var(--primary-dark);
+                    }
+
+                    .acc-sidebar-link.active {
+                        background: var(--primary);
+                        color: #fff;
+                    }
+
+                    .box-info {
+                        background: var(--bg);
+                        border: 1px solid var(--border-color);
+                        border-radius: var(--radius);
+                        padding: 1rem;
+                    }
+
+                    .box-info-label {
+                        font-size: .65rem;
+                        color: var(--text-muted);
+                        font-weight: 700;
+                        text-uppercase: small;
+                        letter-spacing: 1px;
+                        margin-bottom: 4px;
+                    }
+
+                    .box-info-val {
+                        font-weight: 700;
+                        color: var(--text);
+                    }
+
+                    .detail-item-img {
+                        width: 50px;
+                        height: 50px;
+                        object-fit: contain;
+                        background: #fff;
+                        border-radius: 6px;
+                        border: 1px solid var(--border-color);
                     }
                 </style>
             </head>
 
             <body>
-
                 <jsp:include page="includes/navbar.jsp" />
 
-                <div class="profile-hdr">
+                <header class="profile-hero">
                     <div class="container">
-                        <div class="d-flex align-items-center">
-                            <div class="avatar-circle me-4">
+                        <div class="d-flex align-items-center gap-4">
+                            <div class="u-avatar-lg">
                                 ${sessionScope.utilisateur.nom.substring(0,1).toUpperCase()}
                             </div>
                             <div>
-                                <h2 class="fw-bold mb-1">${sessionScope.utilisateur.nom}</h2>
-                                <p class="mb-0 text-white-50"><i class="fas fa-file-invoice me-2"></i>Détails de la
-                                    commande #${commande.id}</p>
+                                <h1 class="h2 fw-bold mb-1">Détails de commande</h1>
+                                <p class="mb-0 opacity-75">Commande #${commande.id}</p>
+                            </div>
+                            <div class="ms-auto">
+                                <span class="badge badge-accent py-2 px-3 fs-6">${commande.statut}</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </header>
 
                 <div class="container mb-5">
-                    <div class="row">
-                        <!-- Navigation Latérale -->
+                    <div class="row g-4">
+                        <!-- Sidebar -->
                         <div class="col-lg-3">
-                            <div class="content-card p-3 mb-4">
-                                <nav class="nav flex-column acc-nav">
-                                    <a class="nav-link" href="profil"><i class="fas fa-user-circle"></i> Mes
-                                        Informations</a>
-                                    <a class="nav-link active" href="historique"><i class="fas fa-shopping-bag"></i> Mes
-                                        Commandes</a>
-                                    <a class="nav-link" href="#"><i class="fas fa-heart"></i> Ma Liste de Souhaits</a>
-                                    <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> Mes Adresses</a>
-                                    <hr class="my-2">
-                                    <a class="nav-link text-danger" href="logout"><i class="fas fa-sign-out-alt"></i>
-                                        Déconnexion</a>
-                                </nav>
+                            <div class="card-theme p-3" style="margin-top:0;">
+                                <a href="profil" class="acc-sidebar-link">
+                                    <i class="fas fa-user-circle"></i>Mon Profil
+                                </a>
+                                <a href="historique" class="acc-sidebar-link active">
+                                    <i class="fas fa-history"></i>Mes Commandes
+                                </a>
+                                <a href="#" class="acc-sidebar-link">
+                                    <i class="fas fa-heart"></i>Favoris
+                                </a>
+                                <hr class="my-3">
+                                <a href="logout" class="acc-sidebar-link text-accent">
+                                    <i class="fas fa-sign-out-alt"></i>Déconnexion
+                                </a>
                             </div>
                         </div>
 
-                        <!-- Contenu Principal -->
+                        <!-- Content -->
                         <div class="col-lg-9">
-                            <div class="content-card p-4">
-                                <div class="d-flex justify-content-between align-items-start mb-4">
-                                    <div>
-                                        <a href="historique"
-                                            class="text-decoration-none text-muted small mb-2 d-inline-block">
-                                            <i class="fas fa-arrow-left me-1"></i> Retour à l'historique
-                                        </a>
-                                        <h4 class="fw-bold mb-0">Commande #${commande.id}</h4>
-                                    </div>
-                                    <span class="badge-status badge-${commande.statut} fs-6">
-                                        <i class="fas fa-circle-check me-2"></i>${commande.statut}
-                                    </span>
+                            <div class="card-theme p-4 shadow-theme">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <a href="historique" class="text-brand text-decoration-none small fw-bold">
+                                        <i class="fas fa-arrow-left me-2"></i>Retour à l'historique
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-brand rounded-pill px-3">
+                                        <i class="fas fa-file-pdf me-2"></i>Facture
+                                    </button>
                                 </div>
 
-                                <div class="row g-4 mb-4">
+                                <div class="row g-3 mb-5">
                                     <div class="col-md-4">
-                                        <div class="p-3 bg-light rounded-3">
-                                            <div class="order-info-label">Date de commande</div>
-                                            <div class="order-info-value">
+                                        <div class="box-info h-100">
+                                            <div class="box-info-label">Date d'achat</div>
+                                            <div class="box-info-val">
                                                 <fmt:parseDate value="${commande.dateCommande}"
-                                                    pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both" />
-                                                <fmt:formatDate value="${parsedDate}"
-                                                    pattern="dd MMMM yyyy 'à' HH:mm" />
+                                                    pattern="yyyy-MM-dd'T'HH:mm" var="pDate" type="both" />
+                                                <fmt:formatDate value="${pDate}" pattern="dd MMMM yyyy" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="p-3 bg-light rounded-3">
-                                            <div class="order-info-label">Mode de paiement</div>
-                                            <div class="order-info-value"><i
-                                                    class="fas fa-credit-card me-2 text-muted"></i>Carte Bancaire</div>
+                                        <div class="box-info h-100">
+                                            <div class="box-info-label">Mode de paiement</div>
+                                            <div class="box-info-val"><i
+                                                    class="fas fa-credit-card me-2 text-muted"></i>Carte de débit</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="p-3 bg-light rounded-3">
-                                            <div class="order-info-label">Service client</div>
-                                            <div class="order-info-value"><i
-                                                    class="fas fa-headset me-2 text-muted"></i>Assistance 24/7</div>
+                                        <div class="box-info h-100">
+                                            <div class="box-info-label">Aide & Support</div>
+                                            <div class="box-info-val"><i
+                                                    class="fas fa-headset me-2 text-muted"></i>Besoin d'aide ?</div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <h6 class="fw-bold mb-3">Récapitulatif des articles</h6>
-                                <div class="table-responsive border rounded-3 mb-4">
-                                    <table class="table table-hover align-middle mb-0">
-                                        <thead class="bg-light">
+                                <h6 class="fw-bold mb-3 brand-heading">Articles commandés</h6>
+                                <div class="card-theme overflow-hidden mb-5" style="border-radius:var(--radius);">
+                                    <table class="table align-middle mb-0">
+                                        <thead style="background:var(--bg);">
                                             <tr>
-                                                <th class="ps-4 border-0">Produit</th>
-                                                <th class="border-0 text-center">Prix</th>
-                                                <th class="border-0 text-center">Qté</th>
-                                                <th class="border-0 text-end pe-4">Total</th>
+                                                <th class="ps-3 py-2 small text-muted text-uppercase">Produit</th>
+                                                <th class="py-2 small text-muted text-uppercase text-center">Qté</th>
+                                                <th class="py-2 small text-muted text-uppercase text-end pe-3">Prix
+                                                    Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:set var="totalGeneral" value="0" />
+                                            <c:set var="totalPrice" value="0" />
                                             <c:forEach var="item" items="${commande.items}">
-                                                <tr>
-                                                    <td class="ps-4">
-                                                        <div class="d-flex align-items-center">
-                                                            <c:set var="imgSrc"
-                                                                value="${not empty item.produit.imageUrl ? item.produit.imageUrl : 'https://placehold.co/60x60/eeeeee/999999?text=IMG'}" />
-                                                            <img src="${imgSrc}" class="detail-img me-3"
-                                                                alt="${item.produit.nom}">
+                                                <tr class="border-bottom"
+                                                    style="border-color:var(--border-color)!important;">
+                                                    <td class="ps-3 py-3">
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <img src="${not empty item.produit.imageUrl ? item.produit.imageUrl : 'https://placehold.co/50x50/E9E7E8/A6A58C?text=?'}"
+                                                                class="detail-item-img">
                                                             <div>
-                                                                <div class="fw-bold text-dark">${item.produit.nom}</div>
-                                                                <small
-                                                                    class="text-muted">${item.produit.categorie.nom}</small>
+                                                                <div class="fw-bold small">${item.produit.nom}</div>
+                                                                <div class="text-muted" style="font-size:.7rem;">
+                                                                    ${item.prixUnitaire} MAD / unité</div>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="text-center">${item.prixUnitaire} MAD</td>
-                                                    <td class="text-center">x${item.quantite}</td>
-                                                    <td class="text-end pe-4 fw-bold">
-                                                        <c:set var="sousTotal"
+                                                    <td class="text-center fw-bold">x${item.quantite}</td>
+                                                    <td class="text-end pe-3 fw-bold"
+                                                        style="color:var(--primary-dark);">
+                                                        <c:set var="sTotal"
                                                             value="${item.prixUnitaire * item.quantite}" />
-                                                        <c:set var="totalGeneral" value="${totalGeneral + sousTotal}" />
-                                                        ${sousTotal} MAD
+                                                        <c:set var="totalPrice" value="${totalPrice + sTotal}" />
+                                                        ${sTotal} MAD
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -283,36 +210,32 @@
                                     </table>
                                 </div>
 
-                                <div class="row justify-content-end">
+                                <div class="row flex-column align-items-end">
                                     <div class="col-md-5">
-                                        <div class="card bg-light border-0">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span class="text-muted">Sous-total</span>
-                                                    <span class="fw-bold">${totalGeneral} MAD</span>
-                                                </div>
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span class="text-muted">Frais de livraison</span>
-                                                    <span class="text-success fw-bold">Gratuit</span>
-                                                </div>
-                                                <hr>
-                                                <div class="d-flex justify-content-between">
-                                                    <span class="fw-bold h5 mb-0">Total</span>
-                                                    <span class="fw-bold h5 mb-0 text-brand">${totalGeneral} MAD</span>
-                                                </div>
+                                        <div class="p-4 rounded"
+                                            style="background:var(--bg); border: 2px solid var(--border-color);">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span class="text-muted small">Sous-total</span>
+                                                <span class="fw-bold fs-6">${totalPrice} MAD</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <span class="text-muted small">Livraison</span>
+                                                <span class="text-success fw-bold small">OFFERTE</span>
+                                            </div>
+                                            <hr class="my-3">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="h5 fw-bold mb-0">Total payé</span>
+                                                <span class="h4 fw-bold mb-0 text-brand">${totalPrice} MAD</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="mt-4 pt-4 border-top">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-muted small mb-0"><i class="fas fa-shield-halved me-2"></i>Votre
-                                            achat est protégé par BioShop Protection.</p>
-                                        <button class="btn btn-outline-dark fw-bold rounded-pill px-4">
-                                            <i class="fas fa-download me-2"></i>Facture PDF
-                                        </button>
-                                    </div>
+                                <div class="mt-5 p-3 text-center border-top"
+                                    style="border-color:var(--border-color)!important;">
+                                    <p class="text-muted small mb-0"><i
+                                            class="fas fa-check-shield me-2 text-brand"></i>Transaction protégée par
+                                        MaBoutique Secure™</p>
                                 </div>
                             </div>
                         </div>
