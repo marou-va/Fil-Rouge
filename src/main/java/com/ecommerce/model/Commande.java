@@ -42,6 +42,9 @@ public class Commande {
     @Column(name = "date_commande", updatable = false)
     private LocalDateTime dateCommande;
 
+    @Column(name = "date_livraison")
+    private LocalDateTime dateLivraison;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Statut statut;
@@ -98,5 +101,13 @@ public class Commande {
 
     public void setStatut(Statut statut) {
         this.statut = statut;
+    }
+
+    public LocalDateTime getDateLivraison() {
+        return dateLivraison;
+    }
+
+    public void setDateLivraison(LocalDateTime dateLivraison) {
+        this.dateLivraison = dateLivraison;
     }
 }

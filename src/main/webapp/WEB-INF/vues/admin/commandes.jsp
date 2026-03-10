@@ -90,8 +90,9 @@
                                                     <select name="statut" class="form-select form-select-sm shadow-none"
                                                         onchange="this.form.submit()"
                                                         style="border-radius:20px; font-weight:600; font-size:.78rem; 
-                                                       ${c.statut == 'VALIDEE' ? 'background-color:rgba(142,153,121,0.15); border-color:var(--primary);' : ''}
-                                                       ${c.statut == 'EN_COURS' ? 'background-color:rgba(180,194,190,0.25); border-color:var(--info);' : ''}
+                                                       ${c.statut == 'VALIDEE' ? 'background-color:rgba(180,194,190,0.25); border-color:var(--info);' : ''}
+                                                       ${c.statut == 'EN_COURS' ? 'background-color:rgba(142,153,121,0.15); border-color:var(--primary);' : ''}
+                                                       ${c.statut == 'LIVREE' ? 'background-color:rgba(105,110,91,0.2); border-color:var(--primary-dark);' : ''}
                                                        ${c.statut == 'ANNULEE' ? 'background-color:rgba(163,124,122,0.15); border-color:var(--accent);' : ''}">
                                                         <c:forEach var="s" items="${statuts}">
                                                             <option value="${s}" ${c.statut==s ? 'selected' : '' }>${s}

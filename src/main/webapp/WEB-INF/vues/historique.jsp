@@ -166,6 +166,12 @@
                                                                             EN COURS
                                                                         </span>
                                                                     </c:when>
+                                                                    <c:when test="${commande.statut == 'LIVREE'}">
+                                                                        <span class="badge rounded-pill"
+                                                                            style="background:rgba(105,110,91,0.2); color:var(--primary-dark);">
+                                                                            LIVRÉE
+                                                                        </span>
+                                                                    </c:when>
                                                                     <c:when test="${commande.statut == 'ANNULEE'}">
                                                                         <span class="badge rounded-pill"
                                                                             style="background:rgba(163,124,122,0.2); color:var(--accent);">
@@ -189,10 +195,24 @@
                                                                 ${totalRow} MAD
                                                             </td>
                                                             <td class="pe-3 text-end">
-                                                                <a href="commande-detail?id=${commande.id}"
-                                                                    class="btn btn-sm btn-outline-brand rounded-pill px-3">
-                                                                    <i class="fas fa-eye me-1"></i>Détails
-                                                                </a>
+                                                                <div class="d-flex justify-content-end gap-2">
+                                                                    <c:if test="${commande.statut == 'VALIDEE'}">
+                                                                        <form action="historique" method="POST"
+                                                                            class="m-0"
+                                                                            onsubmit="return confirm('Annuler cette commande ?')">
+                                                                            <input type="hidden" name="commandeId"
+                                                                                value="${commande.id}">
+                                                                            <button type="submit"
+                                                                                class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                                                                <i class="fas fa-times me-1"></i>Annuler
+                                                                            </button>
+                                                                        </form>
+                                                                    </c:if>
+                                                                    <a href="commande-detail?id=${commande.id}"
+                                                                        class="btn btn-sm btn-outline-brand rounded-pill px-3">
+                                                                        <i class="fas fa-eye me-1"></i>Détails
+                                                                    </a>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

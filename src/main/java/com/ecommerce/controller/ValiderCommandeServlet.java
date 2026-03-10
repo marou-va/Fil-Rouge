@@ -163,7 +163,7 @@ public class ValiderCommandeServlet extends HttpServlet {
 		Commande commande = new Commande();
 		commande.setUtilisateur(user);
 		commande.setDateCommande(LocalDateTime.now());
-		commande.setStatut(Statut.EN_COURS);
+		commande.setStatut(Statut.VALIDEE);
 
 		// ── Créer les lignes de commande depuis le panier ──
 		List<LigneCommande> lignes = new ArrayList<>();

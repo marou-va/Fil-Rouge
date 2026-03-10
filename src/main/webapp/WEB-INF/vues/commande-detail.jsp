@@ -106,12 +106,16 @@
                                 <c:choose>
                                     <c:when test="${commande.statut == 'VALIDEE'}">
                                         <span class="badge rounded-pill py-2 px-3 fs-6"
-                                            style="background:rgba(142,153,121,0.2); color:var(--primary-dark);">VALIDÉE</span>
+                                            style="background:rgba(180,194,190,0.3); color:var(--text-dark);">VALIDÉE</span>
                                     </c:when>
                                     <c:when test="${commande.statut == 'EN_COURS'}">
                                         <span class="badge rounded-pill py-2 px-3 fs-6"
-                                            style="background:rgba(180,194,190,0.3); color:var(--text-dark);">EN
+                                            style="background:rgba(142,153,121,0.2); color:var(--primary-dark);">EN
                                             COURS</span>
+                                    </c:when>
+                                    <c:when test="${commande.statut == 'LIVREE'}">
+                                        <span class="badge rounded-pill py-2 px-3 fs-6"
+                                            style="background:rgba(105,110,91,0.2); color:var(--primary-dark);">LIVRÉE</span>
                                     </c:when>
                                     <c:when test="${commande.statut == 'ANNULEE'}">
                                         <span class="badge rounded-pill py-2 px-3 fs-6"
