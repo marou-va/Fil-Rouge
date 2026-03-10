@@ -16,7 +16,8 @@ public class CommandeDAO {
             session.persist(commande); // CASCADE ALL persist aussi les LigneCommande
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            if (tx != null)
+                tx.rollback();
             e.printStackTrace();
         }
     }
@@ -25,12 +26,13 @@ public class CommandeDAO {
     public Commande findById(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery(
-                "SELECT DISTINCT c FROM Commande c " +
-                "LEFT JOIN FETCH c.items i " +
-                "LEFT JOIN FETCH i.produit " +
-                "WHERE c.id = :id", Commande.class)
-                .setParameter("id", id)
-                .uniqueResult();
+                    "SELECT DISTINCT c FROM Commande c " +
+                            "LEFT JOIN FETCH c.items i " +
+                            "LEFT JOIN FETCH i.produit " +
+                            "WHERE c.id = :id",
+                    Commande.class)
+                    .setParameter("id", id)
+                    .uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -41,13 +43,14 @@ public class CommandeDAO {
     public List<Commande> findByUserId(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery(
-                "SELECT DISTINCT c FROM Commande c " +
-                "LEFT JOIN FETCH c.items i " +
-                "LEFT JOIN FETCH i.produit " +
-                "WHERE c.utilisateur.id = :userId " +
-                "ORDER BY c.dateCommande DESC", Commande.class)
-                .setParameter("userId", userId)
-                .getResultList();
+                    "SELECT DISTINCT c FROM Commande c " +
+                            "LEFT JOIN FETCH c.items i " +
+                            "LEFT JOIN FETCH i.produit " +
+                            "WHERE c.utilisateur.id = :userId " +
+                            "ORDER BY c.dateCommande DESC",
+                    Commande.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -58,11 +61,12 @@ public class CommandeDAO {
     public List<Commande> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery(
-                "SELECT DISTINCT c FROM Commande c " +
-                "LEFT JOIN FETCH c.items i " +
-                "LEFT JOIN FETCH i.produit " +
-                "ORDER BY c.dateCommande DESC", Commande.class)
-                .getResultList();
+                    "SELECT DISTINCT c FROM Commande c " +
+                            "LEFT JOIN FETCH c.items i " +
+                            "LEFT JOIN FETCH i.produit " +
+                            "ORDER BY c.dateCommande DESC",
+                    Commande.class)
+                    .getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -81,7 +85,8 @@ public class CommandeDAO {
             }
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            if (tx != null)
+                tx.rollback();
             e.printStackTrace();
         }
     }

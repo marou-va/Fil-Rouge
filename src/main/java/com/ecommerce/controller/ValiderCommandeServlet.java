@@ -163,7 +163,7 @@ public class ValiderCommandeServlet extends HttpServlet {
 		Commande commande = new Commande();
 		commande.setUtilisateur(user);
 		commande.setDateCommande(LocalDateTime.now());
-		commande.setStatut(Statut.EN_ATTENTE);
+		commande.setStatut(Statut.EN_COURS);
 
 		// ── Créer les lignes de commande depuis le panier ──
 		List<LigneCommande> lignes = new ArrayList<>();
@@ -179,7 +179,7 @@ public class ValiderCommandeServlet extends HttpServlet {
 
 		// ── Vider le panier ──
 		panierDAO.viderPanier(panier);
-
+		session.removeAttribute("cartSize");
 		// ── Rediriger vers confirmation ──
 		response.sendRedirect("panier");
 	}

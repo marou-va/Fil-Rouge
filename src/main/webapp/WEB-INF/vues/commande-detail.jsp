@@ -103,7 +103,24 @@
                                 <p class="mb-0 opacity-75">Commande #${commande.id}</p>
                             </div>
                             <div class="ms-auto">
-                                <span class="badge badge-accent py-2 px-3 fs-6">${commande.statut}</span>
+                                <c:choose>
+                                    <c:when test="${commande.statut == 'VALIDEE'}">
+                                        <span class="badge rounded-pill py-2 px-3 fs-6"
+                                            style="background:rgba(142,153,121,0.2); color:var(--primary-dark);">VALIDÉE</span>
+                                    </c:when>
+                                    <c:when test="${commande.statut == 'EN_COURS'}">
+                                        <span class="badge rounded-pill py-2 px-3 fs-6"
+                                            style="background:rgba(180,194,190,0.3); color:var(--text-dark);">EN
+                                            COURS</span>
+                                    </c:when>
+                                    <c:when test="${commande.statut == 'ANNULEE'}">
+                                        <span class="badge rounded-pill py-2 px-3 fs-6"
+                                            style="background:rgba(163,124,122,0.2); color:var(--accent);">ANNULÉE</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="badge bg-secondary py-2 px-3 fs-6">${commande.statut}</span>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>

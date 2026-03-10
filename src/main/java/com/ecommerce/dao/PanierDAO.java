@@ -4,22 +4,23 @@ import com.ecommerce.model.Panier;
 import com.ecommerce.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
 public class PanierDAO {
 
-	public Panier getPanierByUserId(Long userId) {
-	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-	        String hql = "SELECT DISTINCT p FROM Panier p " +
-	                     "LEFT JOIN FETCH p.items i " +
-	                     "LEFT JOIN FETCH i.produit " +
-	                     "WHERE p.utilisateur.id = :userId";
-	        return session.createQuery(hql, Panier.class)
-	                      .setParameter("userId", userId)
-	                      .uniqueResult();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return null;
-	    }
-	}
+    public Panier getPanierByUserId(Long userId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT DISTINCT p FROM Panier p " +
+                    "LEFT JOIN FETCH p.items i " +
+                    "LEFT JOIN FETCH i.produit " +
+                    "WHERE p.utilisateur.id = :userId";
+            return session.createQuery(hql, Panier.class)
+                    .setParameter("userId", userId)
+                    .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public void saveOrUpdate(Panier panier) {
         Transaction tx = null;
@@ -28,7 +29,8 @@ public class PanierDAO {
             session.merge(panier);
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            if (tx != null)
+                tx.rollback();
             e.printStackTrace();
         }
     }
@@ -36,33 +38,34 @@ public class PanierDAO {
     public Panier getPanierById(Long panierId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             String hql = "SELECT DISTINCT p FROM Panier p " +
-                         "LEFT JOIN FETCH p.items i " +
-                         "LEFT JOIN FETCH i.produit prod " +
-                         "LEFT JOIN FETCH prod.categorie " +
-                         "WHERE p.id = :panierId";
+                    "LEFT JOIN FETCH p.items i " +
+                    "LEFT JOIN FETCH i.produit prod " +
+                    "LEFT JOIN FETCH prod.categorie " +
+                    "WHERE p.id = :panierId";
             return session.createQuery(hql, Panier.class)
-                          .setParameter("panierId", panierId)
-                          .uniqueResult();
+                    .setParameter("panierId", panierId)
+                    .uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-   //compter les articles sans charger d'objets complexes
+
+    // compter les articles sans charger d'objets complexes
     public int getCartSize(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // Compte directement le nombre de lignes dans la base de données
             String hql = "SELECT COUNT(l) FROM LignePanier l WHERE l.panier.utilisateur.id = :userId";
             Long count = session.createQuery(hql, Long.class)
-                                .setParameter("userId", userId)
-                                .uniqueResult();
+                    .setParameter("userId", userId)
+                    .uniqueResult();
             return count != null ? count.intValue() : 0;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
     }
-    
+
     public void viderPanier(Panier panier) {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -77,7 +80,8 @@ public class PanierDAO {
 
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            if (tx != null)
+                tx.rollback();
             e.printStackTrace();
         }
     }

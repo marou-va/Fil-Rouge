@@ -153,10 +153,31 @@
                                                                     pattern="dd MMM yyyy, HH:mm" />
                                                             </td>
                                                             <td>
-                                                                <span class="badge rounded-pill"
-                                                                    style="${commande.statut == 'LIVREE' ? 'background:rgba(142,153,121,0.15); color:var(--primary-dark);' : 'background:rgba(163,124,122,0.15); color:var(--accent);'}">
-                                                                    ${commande.statut}
-                                                                </span>
+                                                                <c:choose>
+                                                                    <c:when test="${commande.statut == 'VALIDEE'}">
+                                                                        <span class="badge rounded-pill"
+                                                                            style="background:rgba(142,153,121,0.2); color:var(--primary-dark);">
+                                                                            VALIDÉE
+                                                                        </span>
+                                                                    </c:when>
+                                                                    <c:when test="${commande.statut == 'EN_COURS'}">
+                                                                        <span class="badge rounded-pill"
+                                                                            style="background:rgba(180,194,190,0.3); color:var(--text-dark);">
+                                                                            EN COURS
+                                                                        </span>
+                                                                    </c:when>
+                                                                    <c:when test="${commande.statut == 'ANNULEE'}">
+                                                                        <span class="badge rounded-pill"
+                                                                            style="background:rgba(163,124,122,0.2); color:var(--accent);">
+                                                                            ANNULÉE
+                                                                        </span>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <span class="badge rounded-pill bg-secondary">
+                                                                            ${commande.statut}
+                                                                        </span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                             </td>
                                                             <td class="text-end fw-bold"
                                                                 style="color:var(--primary-dark);">
