@@ -41,6 +41,13 @@
                                         <i class="fas fa-user-circle me-1"></i> ${sessionScope.utilisateur.nom}
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
+                                        <c:if test="${sessionScope.utilisateur.role == 'ADMIN'}">
+                                            <li><a class="dropdown-item text-primary fw-bold" href="admin-choice"><i
+                                                        class="fas fa-user-shield me-2"></i>Administration</a></li>
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                        </c:if>
                                         <li><a class="dropdown-item" href="profil"><i class="fas fa-cog me-2"></i>Mon
                                                 Profil</a></li>
                                         <li><a class="dropdown-item" href="historique"><i
