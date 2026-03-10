@@ -21,6 +21,7 @@ public class AdminProduitServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        String search = request.getParameter("search");
 
         if ("edit".equals(action)) {
             Long id = Long.parseLong(request.getParameter("id"));
@@ -33,10 +34,17 @@ public class AdminProduitServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/vues/admin/produit-form.jsp").forward(request, response);
         } else if ("delete".equals(action)) {
             Long id = Long.parseLong(request.getParameter("id"));
-            produitDAO.delete(id);
+            try {
+                produitDAO.delete(id);
+                request.getSession().setAttribute("msg", "Produit supprimé !");
+            } catch (Exception e) {
+                request.getSession().setAttribute("err", "Erreur lors de la suppression.");
+            }
             response.sendRedirect("produits");
         } else {
-            List<Produit> produits = produitDAO.getProduits(null, null, null);
+            List<Produit> produits = (search != null && !search.isEmpty())
+                    ? produitDAO.getProduits(search, null, null)
+                    : produitDAO.getProduits(null, null, null);
             request.setAttribute("produits", produits);
             request.getRequestDispatcher("/WEB-INF/vues/admin/produits.jsp").forward(request, response);
         }

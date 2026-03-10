@@ -25,163 +25,162 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/validercommande")
-public class ValiderCommandeServlet extends HttpServlet{
-    private static final long serialVersionUID = 1L;
-	  private UtilisateurDAO utilisateurDAO;
-	  private PanierDAO panierDAO;
-	  private ProduitDAO produitDAO;
-	  private CommandeDAO commandeDAO;
-	  
+public class ValiderCommandeServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private UtilisateurDAO utilisateurDAO;
+	private PanierDAO panierDAO;
+	private ProduitDAO produitDAO;
+	private CommandeDAO commandeDAO;
 
-	    public void init() {
-	        utilisateurDAO = new UtilisateurDAO();
-	         panierDAO=new PanierDAO();
-	  	  produitDAO=new ProduitDAO();
-	  	commandeDAO = new CommandeDAO();
-	        
-	    }
+	public void init() {
+		utilisateurDAO = new UtilisateurDAO();
+		panierDAO = new PanierDAO();
+		produitDAO = new ProduitDAO();
+		commandeDAO = new CommandeDAO();
 
-	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	            throws ServletException, IOException {
+	}
 
-	        HttpSession session = request.getSession(false); // false = ne pas créer une nouvelle session
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-	        // Vérifier que la session existe ET que l'utilisateur est connecté
-	        if (session == null || session.getAttribute("utilisateur") == null) {
-	            response.sendRedirect("login");
-	            return;
-	        }
+		HttpSession session = request.getSession(false); // false = ne pas créer une nouvelle session
 
-	        Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
+		// Vérifier que la session existe ET que l'utilisateur est connecté
+		if (session == null || session.getAttribute("utilisateur") == null) {
+			response.sendRedirect("login");
+			return;
+		}
 
-	        // Récupérer le panier depuis la BDD
-	        Panier panier = panierDAO.getPanierByUserId(user.getId());
-	        if (panier == null || panier.getItems().isEmpty()) {
-	            response.sendRedirect("panier");
-	            return;
-	        }
+		Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
 
-	        // Vérification du stock
-	        StringBuilder erreurStock = new StringBuilder();
-	        boolean stockInsuffisant = false;
+		// Récupérer le panier depuis la BDD
+		Panier panier = panierDAO.getPanierByUserId(user.getId());
+		if (panier == null || panier.getItems().isEmpty()) {
+			response.sendRedirect("panier");
+			return;
+		}
 
-	        for (LignePanier item : panier.getItems()) {
-	            Produit produitActuel = produitDAO.getProduitById(item.getProduit().getId());
+		// Vérification du stock
+		StringBuilder erreurStock = new StringBuilder();
+		boolean stockInsuffisant = false;
 
-	            if (produitActuel == null) {
-	                erreurStock.append("Le produit « ")
-	                           .append(item.getProduit().getNom())
-	                           .append(" » n'est plus disponible. ");
-	                stockInsuffisant = true;
+		for (LignePanier item : panier.getItems()) {
+			Produit produitActuel = produitDAO.getProduitById(item.getProduit().getId());
 
-	            } else if (produitActuel.getStock() == 0) {
-	                erreurStock.append("« ").append(produitActuel.getNom())
-	                           .append(" » est épuisé. ");
-	                stockInsuffisant = true;
+			if (produitActuel == null) {
+				erreurStock.append("Le produit « ")
+						.append(item.getProduit().getNom())
+						.append(" » n'est plus disponible. ");
+				stockInsuffisant = true;
 
-	            } else if (item.getQuantite() > produitActuel.getStock()) {
-	                erreurStock.append("« ").append(produitActuel.getNom())
-	                           .append(" » : vous en demandez ").append(item.getQuantite())
-	                           .append(" mais seulement ").append(produitActuel.getStock())
-	                           .append(" sont disponibles. ");
-	                stockInsuffisant = true;
+			} else if (produitActuel.getStock() == 0) {
+				erreurStock.append("« ").append(produitActuel.getNom())
+						.append(" » est épuisé. ");
+				stockInsuffisant = true;
 
-	            } else {
-	                item.getProduit().setStock(produitActuel.getStock());
-	            }
-	        } 
-	       
+			} else if (item.getQuantite() > produitActuel.getStock()) {
+				erreurStock.append("« ").append(produitActuel.getNom())
+						.append(" » : vous en demandez ").append(item.getQuantite())
+						.append(" mais seulement ").append(produitActuel.getStock())
+						.append(" sont disponibles. ");
+				stockInsuffisant = true;
 
-	        // return après sendRedirect
-	        if (stockInsuffisant) {
-	            session.setAttribute("panierErreur", erreurStock.toString().trim());
-	            response.sendRedirect("panier");
-	            return; // ← OBLIGATOIRE
-	        }
+			} else {
+				item.getProduit().setStock(produitActuel.getStock());
+			}
+		}
 
-	        // transmettre le panier à la JSP
-	        request.setAttribute("panier", panier);
+		// return après sendRedirect
+		if (stockInsuffisant) {
+			session.setAttribute("panierErreur", erreurStock.toString().trim());
+			response.sendRedirect("panier");
+			return; // ← OBLIGATOIRE
+		}
 
-	        request.getRequestDispatcher("/WEB-INF/vues/validercommande.jsp")
-	               .forward(request, response);
-	    }
-	    
-	    @Override
-	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	            throws ServletException, IOException {
+		// transmettre le panier à la JSP
+		request.setAttribute("panier", panier);
 
-	        HttpSession session = request.getSession(false);
+		request.getRequestDispatcher("/WEB-INF/vues/validercommande.jsp")
+				.forward(request, response);
+	}
 
-	        // Vérifier session
-	        if (session == null || session.getAttribute("utilisateur") == null) {
-	            response.sendRedirect("login");
-	            return;
-	        }
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-	        Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
+		HttpSession session = request.getSession(false);
 
-	        // Récupérer le panier depuis la BDD
-	        Panier panier = panierDAO.getPanierByUserId(user.getId());
-	        if (panier == null || panier.getItems().isEmpty()) {
-	            response.sendRedirect("panier");
-	            return;
-	        }
+		// Vérifier session
+		if (session == null || session.getAttribute("utilisateur") == null) {
+			response.sendRedirect("login");
+			return;
+		}
 
-	        // ── Vérification du stock (identique au doGet) ──
-	        StringBuilder erreurStock = new StringBuilder();
-	        boolean stockInsuffisant = false;
+		Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
 
-	        for (LignePanier item : panier.getItems()) {
-	            Produit produitActuel = produitDAO.getProduitById(item.getProduit().getId());
+		// Récupérer le panier depuis la BDD
+		Panier panier = panierDAO.getPanierByUserId(user.getId());
+		if (panier == null || panier.getItems().isEmpty()) {
+			response.sendRedirect("panier");
+			return;
+		}
 
-	            if (produitActuel == null) {
-	                erreurStock.append("Le produit « ")
-	                           .append(item.getProduit().getNom())
-	                           .append(" » n'est plus disponible. ");
-	                stockInsuffisant = true;
+		// ── Vérification du stock (identique au doGet) ──
+		StringBuilder erreurStock = new StringBuilder();
+		boolean stockInsuffisant = false;
 
-	            } else if (produitActuel.getStock() == 0) {
-	                erreurStock.append("« ").append(produitActuel.getNom())
-	                           .append(" » est épuisé. ");
-	                stockInsuffisant = true;
+		for (LignePanier item : panier.getItems()) {
+			Produit produitActuel = produitDAO.getProduitById(item.getProduit().getId());
 
-	            } else if (item.getQuantite() > produitActuel.getStock()) {
-	                erreurStock.append("« ").append(produitActuel.getNom())
-	                           .append(" » : vous en demandez ").append(item.getQuantite())
-	                           .append(" mais seulement ").append(produitActuel.getStock())
-	                           .append(" sont disponibles. ");
-	                stockInsuffisant = true;
-	            }
-	        }
+			if (produitActuel == null) {
+				erreurStock.append("Le produit « ")
+						.append(item.getProduit().getNom())
+						.append(" » n'est plus disponible. ");
+				stockInsuffisant = true;
 
-	        // Si stock insuffisant entre le doGet et le doPost → retour panier
-	        if (stockInsuffisant) {
-	            session.setAttribute("panierErreur", erreurStock.toString().trim());
-	            response.sendRedirect("panier");
-	            return;
-	        }
+			} else if (produitActuel.getStock() == 0) {
+				erreurStock.append("« ").append(produitActuel.getNom())
+						.append(" » est épuisé. ");
+				stockInsuffisant = true;
 
-	        // ── Créer la commande ──
-	        Commande commande = new Commande();
-	        commande.setUtilisateur(user);
-	        commande.setDateCommande(LocalDateTime.now());
-	        commande.setStatut(Statut.VALIDEE);
+			} else if (item.getQuantite() > produitActuel.getStock()) {
+				erreurStock.append("« ").append(produitActuel.getNom())
+						.append(" » : vous en demandez ").append(item.getQuantite())
+						.append(" mais seulement ").append(produitActuel.getStock())
+						.append(" sont disponibles. ");
+				stockInsuffisant = true;
+			}
+		}
 
-	        // ── Créer les lignes de commande depuis le panier ──
-	        List<LigneCommande> lignes = new ArrayList<>();
-	        for (LignePanier item : panier.getItems()) {
-	            LigneCommande ligne = new LigneCommande( commande,item.getProduit(),item.getQuantite(),item.getProduit().getPrix());
-	            lignes.add(ligne);
-	        }
-	        commande.setItems(lignes);
+		// Si stock insuffisant entre le doGet et le doPost → retour panier
+		if (stockInsuffisant) {
+			session.setAttribute("panierErreur", erreurStock.toString().trim());
+			response.sendRedirect("panier");
+			return;
+		}
 
-	        //
-	        commandeDAO.save(commande);
+		// ── Créer la commande ──
+		Commande commande = new Commande();
+		commande.setUtilisateur(user);
+		commande.setDateCommande(LocalDateTime.now());
+		commande.setStatut(Statut.EN_ATTENTE);
 
-	        // ── Vider le panier ──
-	        panierDAO.viderPanier(panier);
+		// ── Créer les lignes de commande depuis le panier ──
+		List<LigneCommande> lignes = new ArrayList<>();
+		for (LignePanier item : panier.getItems()) {
+			LigneCommande ligne = new LigneCommande(commande, item.getProduit(), item.getQuantite(),
+					item.getProduit().getPrix());
+			lignes.add(ligne);
+		}
+		commande.setItems(lignes);
 
-	        // ── Rediriger vers confirmation ──
-	        response.sendRedirect("panier");
-	    }
+		//
+		commandeDAO.save(commande);
+
+		// ── Vider le panier ──
+		panierDAO.viderPanier(panier);
+
+		// ── Rediriger vers confirmation ──
+		response.sendRedirect("panier");
+	}
 }

@@ -138,6 +138,46 @@
                             </div>
                         </div>
 
+                        <!-- Low Stock Alerts -->
+                        <c:if test="${not empty lowStockProducts}">
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <div class="card border-warning shadow-sm">
+                                        <div class="card-header bg-warning text-dark fw-bold">
+                                            <i class="fas fa-exclamation-triangle me-2"></i> Alertes Stock Faible
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive border-0 shadow-none">
+                                                <table class="table table-sm table-hover mb-0 align-middle">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="ps-3">Produit</th>
+                                                            <th>Stock Actuel</th>
+                                                            <th class="text-end pe-3">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <c:forEach var="p" items="${lowStockProducts}">
+                                                            <tr>
+                                                                <td class="ps-3">${p.nom}</td>
+                                                                <td><span
+                                                                        class="badge bg-danger text-white">${p.stock}</span>
+                                                                </td>
+                                                                <td class="text-end pe-3">
+                                                                    <a href="produits?action=edit&id=${p.id}"
+                                                                        class="btn btn-sm btn-link text-brand">Gérer</a>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
+
                         <!-- Recent Orders -->
                         <div class="row">
                             <div class="col-12">

@@ -28,6 +28,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-white py-3 px-4 ${page == 'utilisateurs' ? 'active bg-brand text-dark' : 'text-white-50 transition-all text-decoration-none'}"
+                            href="${pageContext.request.contextPath}/admin/utilisateurs">
+                            <i class="fas fa-users me-2"></i> Utilisateurs
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-white py-3 px-4 ${page == 'commandes' ? 'active bg-brand text-dark' : 'text-white-50 transition-all text-decoration-none'}"
                             href="${pageContext.request.contextPath}/admin/commandes">
                             <i class="fas fa-shopping-cart me-2"></i> Commandes

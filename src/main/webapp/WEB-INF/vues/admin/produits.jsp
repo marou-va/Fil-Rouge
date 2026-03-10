@@ -57,10 +57,34 @@
                         <div
                             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 class="h2">Gestion des Produits</h1>
-                            <a href="produits?action=add" class="btn btn-brand">
-                                <i class="fas fa-plus me-2"></i> Nouveau Produit
-                            </a>
+                            <div class="d-flex gap-2">
+                                <form action="produits" method="GET" class="d-flex">
+                                    <input type="text" name="search" class="form-control form-control-sm me-2"
+                                        placeholder="Chercher..." value="${param.search}">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Ok</button>
+                                </form>
+                                <a href="produits?action=add" class="btn btn-brand btn-sm">
+                                    <i class="fas fa-plus me-1"></i> Nouveau
+                                </a>
+                            </div>
                         </div>
+
+                        <c:if test="${not empty sessionScope.msg}">
+                            <div class="alert alert-success alert-dismissible fade show small py-2" role="alert">
+                                ${sessionScope.msg}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    style="padding: 0.5rem;"></button>
+                            </div>
+                            <c:remove var="msg" scope="session" />
+                        </c:if>
+                        <c:if test="${not empty sessionScope.err}">
+                            <div class="alert alert-danger alert-dismissible fade show small py-2" role="alert">
+                                ${sessionScope.err}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    style="padding: 0.5rem;"></button>
+                            </div>
+                            <c:remove var="err" scope="session" />
+                        </c:if>
 
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
