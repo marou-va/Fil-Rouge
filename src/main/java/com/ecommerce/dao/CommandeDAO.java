@@ -55,20 +55,31 @@ public class CommandeDAO {
         }
     }
 
-    // ── Lister toutes les commandes d'un utilisateur ──
-    public List<Commande> findByUserId(Long userId) {
+    // ── Lister toutes les commandes d'un utilisateur avec filtres ──
+    public List<Commande> findByUserId(Long userId, Statut status, LocalDateTime dateDebut, LocalDateTime dateFin) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction tx = session.beginTransaction();
-            checkAutoUpdate(session); // Mise à jour auto avant de lister
-            List<Commande> result = session.createQuery(
-                    "SELECT DISTINCT c FROM Commande c " +
-                            "LEFT JOIN FETCH c.items i " +
-                            "LEFT JOIN FETCH i.produit " +
-                            "WHERE c.utilisateur.id = :userId " +
-                            "ORDER BY c.dateCommande DESC",
-                    Commande.class)
-                    .setParameter("userId", userId)
-                    .getResultList();
+            checkAutoUpdate(session);
+
+            StringBuilder hql = new StringBuilder(
+                    "SELECT DISTINCT c FROM Commande c LEFT JOIN FETCH c.items i LEFT JOIN FETCH i.produit WHERE c.utilisateur.id = :userId");
+            if (status != null)
+                hql.append(" AND c.statut = :status");
+            if (dateDebut != null)
+                hql.append(" AND c.dateCommande >= :dateDebut");
+            if (dateFin != null)
+                hql.append(" AND c.dateCommande <= :dateFin");
+            hql.append(" ORDER BY c.dateCommande DESC");
+
+            var query = session.createQuery(hql.toString(), Commande.class).setParameter("userId", userId);
+            if (status != null)
+                query.setParameter("status", status);
+            if (dateDebut != null)
+                query.setParameter("dateDebut", dateDebut);
+            if (dateFin != null)
+                query.setParameter("dateFin", dateFin);
+
+            List<Commande> result = query.getResultList();
             tx.commit();
             return result;
         } catch (Exception e) {
@@ -77,24 +88,45 @@ public class CommandeDAO {
         }
     }
 
-    // ── Lister toutes les commandes (admin) ──
-    public List<Commande> findAll() {
+    public List<Commande> findByUserId(Long userId) {
+        return findByUserId(userId, null, null, null);
+    }
+
+    // ── Lister toutes les commandes (admin) avec filtres ──
+    public List<Commande> findAll(Statut status, LocalDateTime dateDebut, LocalDateTime dateFin) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction tx = session.beginTransaction();
-            checkAutoUpdate(session); // Mise à jour auto avant de lister
-            List<Commande> result = session.createQuery(
-                    "SELECT DISTINCT c FROM Commande c " +
-                            "LEFT JOIN FETCH c.items i " +
-                            "LEFT JOIN FETCH i.produit " +
-                            "ORDER BY c.dateCommande DESC",
-                    Commande.class)
-                    .getResultList();
+            checkAutoUpdate(session);
+
+            StringBuilder hql = new StringBuilder(
+                    "SELECT DISTINCT c FROM Commande c LEFT JOIN FETCH c.items i LEFT JOIN FETCH i.produit WHERE 1=1");
+            if (status != null)
+                hql.append(" AND c.statut = :status");
+            if (dateDebut != null)
+                hql.append(" AND c.dateCommande >= :dateDebut");
+            if (dateFin != null)
+                hql.append(" AND c.dateCommande <= :dateFin");
+            hql.append(" ORDER BY c.dateCommande DESC");
+
+            var query = session.createQuery(hql.toString(), Commande.class);
+            if (status != null)
+                query.setParameter("status", status);
+            if (dateDebut != null)
+                query.setParameter("dateDebut", dateDebut);
+            if (dateFin != null)
+                query.setParameter("dateFin", dateFin);
+
+            List<Commande> result = query.getResultList();
             tx.commit();
             return result;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<Commande> findAll() {
+        return findAll(null, null, null);
     }
 
     // ── Mettre à jour le statut d'une commande ──

@@ -114,8 +114,30 @@
                         <div class="col-lg-9">
                             <div class="card-theme p-4">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <h4 class="fw-bold mb-0 brand-heading">Mes Commandes</h4>
-                                    <span class="badge badge-brand py-2 px-3">${commandes.size()} commande(s)</span>
+                                    <h1 class="h4 fw-bold mb-0 brand-heading">Mes Commandes</h1>
+                                    <div class="d-flex gap-2">
+                                        <!-- Filtres -->
+                                        <form action="historique" method="GET"
+                                            class="d-flex gap-2 align-items-center bg-light p-1 rounded-pill px-3 border">
+                                            <select name="status"
+                                                class="form-select form-select-sm border-0 bg-transparent shadow-none"
+                                                style="width: 140px; font-size: 0.8rem;">
+                                                <option value="">Tout</option>
+                                                <c:forEach var="s" items="${statuts}">
+                                                    <option value="${s}" ${param.status==s ? 'selected' : '' }>${s}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                            <input type="date" name="date"
+                                                class="form-control form-control-sm border-0 bg-transparent shadow-none"
+                                                value="${param.date}" style="width: 120px; font-size: 0.8rem;">
+                                            <button type="submit" class="btn btn-sm btn-brand rounded-circle p-1"
+                                                style="width:28px; height:28px;">
+                                                <i class="fas fa-search" style="font-size: 0.7rem;"></i>
+                                            </button>
+                                        </form>
+                                        <span class="badge badge-brand py-2 px-3">${commandes.size()} commande(s)</span>
+                                    </div>
                                 </div>
 
                                 <c:choose>

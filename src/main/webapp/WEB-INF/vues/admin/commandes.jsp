@@ -49,8 +49,30 @@
                             <h1 class="h3 fw-bold mb-0">Suivi des Commandes</h1>
                             <small class="text-muted">Gérez les expéditions et les statuts</small>
                         </div>
-                        <div class="badge badge-accent px-3 py-2">
-                            <i class="fas fa-shipping-fast me-2"></i>${commandes.size()} commande(s) au total
+                        <div class="d-flex gap-3 align-items-center">
+                            <!-- Filtres -->
+                            <form action="commandes" method="GET"
+                                class="d-flex gap-2 align-items-center bg-white p-2 rounded shadow-sm border">
+                                <select name="status" class="form-select form-select-sm border-0 shadow-none"
+                                    style="width: 140px;">
+                                    <option value="">Tous les statuts</option>
+                                    <c:forEach var="s" items="${statuts}">
+                                        <option value="${s}" ${param.status==s ? 'selected' : '' }>${s}</option>
+                                    </c:forEach>
+                                </select>
+                                <input type="date" name="date" class="form-control form-control-sm border-0 shadow-none"
+                                    value="${param.date}" style="width: 130px;">
+                                <button type="submit" class="btn btn-sm btn-brand rounded-pill">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                                <c:if test="${not empty param.status || not empty param.date}">
+                                    <a href="commandes" class="btn btn-sm btn-link text-muted p-0"><i
+                                            class="fas fa-times"></i></a>
+                                </c:if>
+                            </form>
+                            <div class="badge badge-accent px-3 py-2">
+                                <i class="fas fa-shipping-fast me-2"></i>${commandes.size()} commande(s)
+                            </div>
                         </div>
                     </div>
 
@@ -63,8 +85,9 @@
                                         <th>Client / Email</th>
                                         <th>Date</th>
                                         <th>Montant Total</th>
-                                        <th>Modifier le Statut</th>
-                                        <th class="text-end pe-3">Action</th>
+                                        <th>Statut Actuel</th>
+                                        <th>Actions</th>
+                                        <th class="text-end pe-3">Détails</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,21 +108,40 @@
                                                 ${totalC} DH
                                             </td>
                                             <td>
-                                                <form action="commandes" method="POST" class="m-0 statut-select">
-                                                    <input type="hidden" name="id" value="${c.id}">
-                                                    <select name="statut" class="form-select form-select-sm shadow-none"
-                                                        onchange="this.form.submit()"
-                                                        style="border-radius:20px; font-weight:600; font-size:.78rem; 
-                                                       ${c.statut == 'VALIDEE' ? 'background-color:rgba(180,194,190,0.25); border-color:var(--info);' : ''}
-                                                       ${c.statut == 'EN_COURS' ? 'background-color:rgba(142,153,121,0.15); border-color:var(--primary);' : ''}
-                                                       ${c.statut == 'LIVREE' ? 'background-color:rgba(105,110,91,0.2); border-color:var(--primary-dark);' : ''}
-                                                       ${c.statut == 'ANNULEE' ? 'background-color:rgba(163,124,122,0.15); border-color:var(--accent);' : ''}">
-                                                        <c:forEach var="s" items="${statuts}">
-                                                            <option value="${s}" ${c.statut==s ? 'selected' : '' }>${s}
-                                                            </option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </form>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <c:choose>
+                                                        <c:when test="${c.statut == 'VALIDEE'}">
+                                                            <span class="badge rounded-pill"
+                                                                style="background:rgba(180,194,190,0.25); color:var(--info);">VALIDÉE</span>
+                                                            <form action="commandes" method="POST" class="m-0">
+                                                                <input type="hidden" name="id" value="${c.id}">
+                                                                <input type="hidden" name="action" value="ship">
+                                                                <button type="submit"
+                                                                    class="btn btn-xs btn-brand rounded-pill px-2 py-1"
+                                                                    style="font-size: 0.7rem;">
+                                                                    <i class="fas fa-paper-plane me-1"></i>Expédier
+                                                                </button>
+                                                            </form>
+                                                        </c:when>
+                                                        <c:when test="${c.statut == 'EN_COURS'}">
+                                                            <span class="badge rounded-pill"
+                                                                style="background:rgba(142,153,121,0.15); color:var(--primary);">EN
+                                                                LIVRAISON</span>
+                                                        </c:when>
+                                                        <c:when test="${c.statut == 'LIVREE'}">
+                                                            <span class="badge rounded-pill"
+                                                                style="background:rgba(105,110,91,0.2); color:var(--primary-dark);">LIVRÉE
+                                                                ✅</span>
+                                                        </c:when>
+                                                        <c:when test="${c.statut == 'ANNULEE'}">
+                                                            <span class="badge rounded-pill"
+                                                                style="background:rgba(163,124,122,0.15); color:var(--accent);">ANNULÉE</span>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <!-- Actions rapides si besoin -->
                                             </td>
                                             <td class="text-end pe-3">
                                                 <a href="commandes?action=view&id=${c.id}"
