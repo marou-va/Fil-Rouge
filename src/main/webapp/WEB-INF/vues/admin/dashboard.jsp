@@ -38,6 +38,26 @@
                     padding: 3px 8px;
                     border-radius: 20px;
                 }
+
+                .statut-validee {
+                    background: rgba(180, 194, 190, 0.3);
+                    color: var(--text-dark);
+                }
+
+                .statut-en-cours {
+                    background: rgba(142, 153, 121, 0.2);
+                    color: var(--primary-dark);
+                }
+
+                .statut-livree {
+                    background: rgba(105, 110, 91, 0.2);
+                    color: var(--primary-dark);
+                }
+
+                .statut-annulee {
+                    background: rgba(163, 124, 122, 0.2);
+                    color: var(--accent);
+                }
             </style>
         </head>
 
@@ -162,14 +182,10 @@
                                             <td class="text-muted small">${c.dateCommande}</td>
                                             <td>
                                                 <span class="badge rounded-pill stat-badge
-                                        ${c.statut == 'VALIDEE' ? 'bg-info text-dark' : ''}
-                                        ${c.statut == 'EN_COURS' ? 'bg-primary' : ''}
-                                        ${c.statut == 'LIVREE' ? 'bg-success' : ''}
-                                        ${c.statut == 'ANNULEE' ? 'bg-danger' : ''}"
-                                                    style="${c.statut == 'VALIDEE' ? 'background:rgba(180,194,190,0.3); color:var(--text-dark);' : ''}
-                                                           ${c.statut == 'EN_COURS' ? 'background:rgba(142,153,121,0.2); color:var(--primary-dark);' : ''}
-                                                           ${c.statut == 'LIVREE' ? 'background:rgba(105,110,91,0.2); color:var(--primary-dark);' : ''}
-                                                           ${c.statut == 'ANNULEE' ? 'background:rgba(163,124,122,0.2); color:var(--accent);' : ''}">
+                                        ${c.statut == 'VALIDEE' ? 'statut-validee' : ''}
+                                        ${c.statut == 'EN_COURS' ? 'statut-en-cours' : ''}
+                                        ${c.statut == 'LIVREE' ? 'statut-livree' : ''}
+                                        ${c.statut == 'ANNULEE' ? 'statut-annulee' : ''}">
                                                     ${c.statut}
                                                 </span>
                                             </td>

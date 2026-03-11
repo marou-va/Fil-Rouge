@@ -8,7 +8,7 @@ import java.util.List;
 import com.ecommerce.dao.CommandeDAO;
 import com.ecommerce.dao.PanierDAO;
 import com.ecommerce.dao.ProduitDAO;
-import com.ecommerce.dao.UtilisateurDAO;
+
 import com.ecommerce.model.Commande;
 import com.ecommerce.model.LigneCommande;
 import com.ecommerce.model.LignePanier;
@@ -27,13 +27,13 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/validercommande")
 public class ValiderCommandeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UtilisateurDAO utilisateurDAO;
+
 	private PanierDAO panierDAO;
 	private ProduitDAO produitDAO;
 	private CommandeDAO commandeDAO;
 
 	public void init() {
-		utilisateurDAO = new UtilisateurDAO();
+
 		panierDAO = new PanierDAO();
 		produitDAO = new ProduitDAO();
 		commandeDAO = new CommandeDAO();

@@ -22,10 +22,6 @@
                     href="${pageContext.request.contextPath}/admin/categories">
                     <i class="fas fa-tags"></i> Catégories
                 </a>
-                <a class="nav-link ${page == 'utilisateurs' ? 'active' : ''}"
-                    href="${pageContext.request.contextPath}/admin/utilisateurs">
-                    <i class="fas fa-users"></i> Utilisateurs
-                </a>
                 <a class="nav-link ${page == 'commandes'    ? 'active' : ''}"
                     href="${pageContext.request.contextPath}/admin/commandes">
                     <i class="fas fa-receipt"></i> Commandes
