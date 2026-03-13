@@ -1,5 +1,7 @@
 package com.ecommerce.filter;
 
+import com.ecommerce.model.Role;
+import com.ecommerce.model.Utilisateur;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,8 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = { "/profil", "/historique", "/panier", "/valider-commande", "/commande-detail" })
-public class AuthFilter implements Filter {
+@WebFilter(urlPatterns = { "/admin/*", "/admin-choice" })
+public class AdminFilter implements Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -20,12 +22,17 @@ public class AuthFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(false);
 
-        boolean loggedIn = (session != null && session.getAttribute("utilisateur") != null);
+        Utilisateur user = (session != null) ? (Utilisateur) session.getAttribute("utilisateur") : null;
 
-        if (loggedIn) {
+        if (user != null && user.getRole() == Role.ADMIN) {
             chain.doFilter(request, response);
         } else {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+            // Si pas admin, on redirige vers le catalogue ou login
+            if (user == null) {
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+            } else {
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/catalogue");
+            }
         }
     }
 

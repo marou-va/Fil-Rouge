@@ -16,11 +16,11 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private UtilisateurDAO utilisateurDAO;
-	PanierDAO panierDAO = new PanierDAO();
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private UtilisateurDAO utilisateurDAO;
+    PanierDAO panierDAO = new PanierDAO();
 
     public void init() {
         utilisateurDAO = new UtilisateurDAO();
@@ -36,22 +36,24 @@ public class LoginServlet extends HttpServlet {
 
         HttpSession session = request.getSession(true);
 
-       
-        Integer tentatives = (Integer) session.getAttribute("loginTentatives");//compteur de tentatif avec mot de passe incorrecte
-        Long blocageDepuis = (Long) session.getAttribute("loginBlocageDepuis");//l instant ou on a lancer le blocage de 30 sec
+        Integer tentatives = (Integer) session.getAttribute("loginTentatives");// compteur de tentatif avec mot de passe
+                                                                               // incorrecte
+        Long blocageDepuis = (Long) session.getAttribute("loginBlocageDepuis");// l instant ou on a lancer le blocage de
+                                                                               // 30 sec
 
-        if (tentatives == null) tentatives = 0;
+        if (tentatives == null)
+            tentatives = 0;
 
-        //si on a un blockage 
+        // si on a un blockage
         if (blocageDepuis != null) {
-            long secondesEcoulees = (System.currentTimeMillis() - blocageDepuis) / 1000;//calculer les secondes passer
+            long secondesEcoulees = (System.currentTimeMillis() - blocageDepuis) / 1000;// calculer les secondes passer
             if (secondesEcoulees < 30) {
                 long resteSecondes = 30 - secondesEcoulees;
                 request.setAttribute("error", "Trop de tentatives. Réessayez dans " + resteSecondes + " seconde(s).");
                 request.setAttribute("bloque", true);
                 request.getRequestDispatcher("/WEB-INF/vues/login.jsp").forward(request, response);
                 return;
-            } else {//si le temps est terminer
+            } else {// si le temps est terminer
                 // Blocage terminé → réinitialiser
                 session.removeAttribute("loginTentatives");
                 session.removeAttribute("loginBlocageDepuis");
@@ -71,10 +73,15 @@ public class LoginServlet extends HttpServlet {
             Panier panier = panierDAO.getPanierByUserId(user.getId());
             int size = (panier != null && panier.getItems() != null) ? panier.getItems().size() : 0;
             session.setAttribute("cartSize", size);
-            response.sendRedirect("catalogue");
+
+            if (user.getRole() == com.ecommerce.model.Role.ADMIN) {
+                response.sendRedirect("admin-choice");
+            } else {
+                response.sendRedirect("catalogue");
+            }
 
         } else {
-            //on incremente  nombre de tentatif
+            // on incremente nombre de tentatif
             tentatives++;
             session.setAttribute("loginTentatives", tentatives);
 
@@ -84,7 +91,8 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("bloque", true);
             } else {
                 int restantes = 3 - tentatives;
-                request.setAttribute("error", "Email ou mot de passe incorrect. " + restantes + " tentative(s) restante(s).");
+                request.setAttribute("error",
+                        "Email ou mot de passe incorrect. " + restantes + " tentative(s) restante(s).");
             }
 
             request.getRequestDispatcher("/WEB-INF/vues/login.jsp").forward(request, response);

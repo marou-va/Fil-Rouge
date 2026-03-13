@@ -7,315 +7,249 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Mon Historique - MaBoutique</title>
-
-                <!-- Google Fonts -->
-                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
-                    rel="stylesheet">
-
-                <!-- Font Awesome -->
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-                <!-- DataTables CSS -->
-                <link rel="stylesheet" type="text/css"
-                    href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-                <link rel="stylesheet" type="text/css"
-                    href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
-
-                <!-- Bootstrap 5 -->
+                <title>Mes Commandes — MaBoutique</title>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/theme.css">
                 <style>
-                    :root {
-                        --brand-color: #f68b1e;
-                        --brand-dark: #e57a10;
-                        --bg-light: #f8f9fa;
+                    .profile-hero {
+                        background: linear-gradient(rgba(142, 153, 121, 0.9), rgba(122, 132, 106, 0.9)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80');
+                        background-size: cover;
+                        background-position: center;
+                        color: #fff;
+                        padding: 4rem 0;
+                        margin-bottom: -3rem;
                     }
 
-                    body {
-                        font-family: 'Outfit', sans-serif;
-                        background-color: var(--bg-light);
-                        color: #34495e;
-                        display: flex;
-                        flex-direction: column;
-                        min-height: 100vh;
-                    }
-
-                    .text-brand {
-                        color: var(--brand-color) !important;
-                    }
-
-                    .bg-brand {
-                        background-color: var(--brand-color) !important;
-                    }
-
-                    .btn-brand {
-                        background-color: var(--brand-color);
-                        color: white;
-                        border: none;
-                        font-weight: 600;
-                        transition: all 0.3s;
-                    }
-
-                    .btn-brand:hover {
-                        background-color: var(--brand-dark);
-                        color: white;
-                        box-shadow: 0 4px 12px rgba(246, 139, 30, 0.3);
-                    }
-
-                    /* Profile Header */
-                    .profile-hdr {
-                        background: linear-gradient(135deg, #232526 0%, #414345 100%);
-                        color: white;
-                        padding: 60px 0;
-                        margin-bottom: -50px;
-                    }
-
-                    .avatar-circle {
+                    .u-avatar-lg {
                         width: 100px;
                         height: 100px;
-                        background-color: var(--brand-color);
-                        color: white;
-                        font-size: 2.5rem;
+                        background: #fff;
+                        color: var(--primary);
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         border-radius: 50%;
-                        border: 4px solid rgba(255, 255, 255, 0.2);
+                        font-size: 2.5rem;
                         font-weight: 700;
+                        box-shadow: var(--shadow-md);
+                        border: 4px solid var(--primary-light);
                     }
 
-                    /* Sidebar Nav */
-                    .acc-nav .nav-link {
-                        color: #444;
+                    .acc-sidebar-link {
                         padding: 12px 20px;
-                        border-radius: 10px;
+                        border-radius: 12px;
+                        color: var(--text);
+                        text-decoration: none;
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        transition: var(--transition);
                         margin-bottom: 5px;
-                        font-weight: 500;
-                        transition: all 0.2s;
-                    }
-
-                    .acc-nav .nav-link:hover {
-                        background-color: rgba(246, 139, 30, 0.1);
-                        color: var(--brand-color);
-                    }
-
-                    .acc-nav .nav-link.active {
-                        background-color: var(--brand-color);
-                        color: white;
-                        box-shadow: 0 4px 10px rgba(246, 139, 30, 0.2);
-                    }
-
-                    .acc-nav .nav-link i {
-                        width: 25px;
-                    }
-
-                    /* Content Card */
-                    .content-card {
-                        border: none;
-                        border-radius: 15px;
-                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-                        background: rgba(255, 255, 255, 0.9);
-                        backdrop-filter: blur(10px);
-                    }
-
-                    .table thead th {
-                        background-color: #f8f9fa;
-                        color: #333;
-                        border-bottom: 2px solid #eee;
-                        padding: 15px;
                         font-weight: 600;
                     }
 
-                    .badge-status {
-                        padding: 6px 12px;
-                        border-radius: 8px;
-                        font-weight: 500;
-                        font-size: 0.8rem;
+                    .acc-sidebar-link:hover {
+                        background: var(--bg);
+                        color: var(--primary-dark);
                     }
 
-                    .badge-EN_COURS {
-                        background-color: #fff3cd;
-                        color: #856404;
+                    .acc-sidebar-link.active {
+                        background: var(--primary);
+                        color: #fff;
                     }
 
-                    .badge-VALIDEE {
-                        background-color: #d4edda;
-                        color: #155724;
+                    /* Table Styles */
+                    .order-row {
+                        transition: var(--transition);
+                        border-bottom: 1px solid var(--border-color);
                     }
 
-                    .badge-ANNULEE {
-                        background-color: #f8d7da;
-                        color: #721c24;
-                    }
-
-                    .order-total {
-                        font-weight: 700;
-                        color: var(--brand-color);
-                    }
-
-                    /* DataTables Custom Styling */
-                    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-                        background: var(--brand-color) !important;
-                        border: none !important;
-                        color: white !important;
-                        border-radius: 5px;
-                    }
-
-                    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-                        background: var(--brand-dark) !important;
-                        color: white !important;
-                        border: none !important;
+                    .order-row:hover {
+                        background: var(--bg);
                     }
                 </style>
             </head>
 
             <body>
-
                 <jsp:include page="includes/navbar.jsp" />
 
-                <div class="profile-hdr">
+                <header class="profile-hero">
                     <div class="container">
-                        <div class="d-flex align-items-center">
-                            <div class="avatar-circle me-4">
+                        <div class="d-flex align-items-center gap-4">
+                            <div class="u-avatar-lg">
                                 ${sessionScope.utilisateur.nom.substring(0,1).toUpperCase()}
                             </div>
                             <div>
-                                <h2 class="fw-bold mb-1">${sessionScope.utilisateur.nom}</h2>
-                                <p class="mb-0 text-white-50"><i class="fas fa-history me-2"></i>Historique des
-                                    commandes</p>
+                                <h1 class="display-6 fw-bold mb-1">${sessionScope.utilisateur.nom}</h1>
+                                <p class="mb-0 opacity-75"><i class="fas fa-shopping-bag me-2"></i>Mon historique
+                                    d'achats</p>
                             </div>
                         </div>
                     </div>
-                </div>
+                </header>
 
                 <div class="container mb-5">
-                    <div class="row">
-                        <!-- Navigation Latérale -->
+                    <div class="row g-4">
+                        <!-- Sidebar -->
                         <div class="col-lg-3">
-                            <div class="content-card p-3 mb-4">
-                                <nav class="nav flex-column acc-nav">
-                                    <a class="nav-link" href="profil"><i class="fas fa-user-circle"></i> Mes
-                                        Informations</a>
-                                    <a class="nav-link active" href="historique"><i class="fas fa-shopping-bag"></i> Mes
-                                        Commandes</a>
-                                    <a class="nav-link" href="#"><i class="fas fa-heart"></i> Ma Liste de Souhaits</a>
-                                    <a class="nav-link" href="#"><i class="fas fa-map-marker-alt"></i> Mes Adresses</a>
-                                    <hr class="my-2">
-                                    <a class="nav-link text-danger" href="logout"><i class="fas fa-sign-out-alt"></i>
-                                        Déconnexion</a>
-                                </nav>
+                            <div class="card-theme p-3" style="margin-top:0;">
+                                <a href="profil" class="acc-sidebar-link">
+                                    <i class="fas fa-user-circle"></i>Mon Profil
+                                </a>
+                                <a href="historique" class="acc-sidebar-link active">
+                                    <i class="fas fa-history"></i>Mes Commandes
+                                </a>
+                                <a href="#" class="acc-sidebar-link">
+                                    <i class="fas fa-heart"></i>Favoris
+                                </a>
+                                <hr class="my-3">
+                                <a href="logout" class="acc-sidebar-link text-accent">
+                                    <i class="fas fa-sign-out-alt"></i>Déconnexion
+                                </a>
                             </div>
                         </div>
 
-                        <!-- Contenu Principal -->
+                        <!-- Content -->
                         <div class="col-lg-9">
-                            <div class="content-card p-4">
+                            <div class="card-theme p-4">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <h5 class="fw-bold mb-0">Mes Commandes</h5>
-                                    <c:if test="${not empty commandes}">
-                                        <span
-                                            class="badge bg-light text-brand rounded-pill px-3 py-2 border">${commandes.size()}
-                                            commande(s)</span>
-                                    </c:if>
+                                    <h1 class="h4 fw-bold mb-0 brand-heading">Mes Commandes</h1>
+                                    <div class="d-flex gap-2">
+                                        <!-- Filtres -->
+                                        <form action="historique" method="GET"
+                                            class="d-flex gap-2 align-items-center bg-light p-1 rounded-pill px-3 border">
+                                            <select name="status"
+                                                class="form-select form-select-sm border-0 bg-transparent shadow-none"
+                                                style="width: 140px; font-size: 0.8rem;">
+                                                <option value="">Tout</option>
+                                                <c:forEach var="s" items="${statuts}">
+                                                    <option value="${s}" ${param.status==s ? 'selected' : '' }>${s}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                            <input type="date" name="date"
+                                                class="form-control form-control-sm border-0 bg-transparent shadow-none"
+                                                value="${param.date}" style="width: 120px; font-size: 0.8rem;">
+                                            <button type="submit" class="btn btn-sm btn-brand rounded-circle p-1"
+                                                style="width:28px; height:28px;">
+                                                <i class="fas fa-search" style="font-size: 0.7rem;"></i>
+                                            </button>
+                                        </form>
+                                        <span class="badge badge-brand py-2 px-3">${commandes.size()} commande(s)</span>
+                                    </div>
                                 </div>
 
-                                <c:if test="${empty commandes}">
-                                    <div class="text-center py-5">
-                                        <i class="fas fa-box-open fa-4x mb-4 text-muted opacity-25"></i>
-                                        <h4 class="text-muted">Aucune commande pour le moment.</h4>
-                                        <a href="catalogue" class="btn btn-brand mt-3 px-4 py-2">Découvrir nos
-                                            produits</a>
-                                    </div>
-                                </c:if>
-
-                                <c:if test="${not empty commandes}">
-                                    <div class="table-responsive">
-                                        <table id="orderHistoryTable" class="table table-hover align-middle w-100">
-                                            <thead>
-                                                <tr>
-                                                    <th>N° Commande</th>
-                                                    <th>Date</th>
-                                                    <th>Statut</th>
-                                                    <th class="text-end">Total</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="commande" items="${commandes}">
+                                <c:choose>
+                                    <c:when test="${empty commandes}">
+                                        <div class="text-center py-5">
+                                            <i class="fas fa-box-open fa-4x text-muted mb-4 opacity-25"></i>
+                                            <h5 class="text-muted mb-4">Vous n'avez pas encore passé de commande.</h5>
+                                            <a href="catalogue" class="btn btn-brand px-5 py-2">Faire mon premier
+                                                achat</a>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="table-responsive">
+                                            <table class="table align-middle mb-0">
+                                                <thead style="background:var(--bg);">
                                                     <tr>
-                                                        <td><span class="fw-bold text-dark">#${commande.id}</span></td>
-                                                        <td class="text-muted">
-                                                            <small>
+                                                        <th class="ps-3 py-3 small text-muted text-uppercase">N°
+                                                            Commande</th>
+                                                        <th class="py-3 small text-muted text-uppercase">Date</th>
+                                                        <th class="py-3 small text-muted text-uppercase">Statut</th>
+                                                        <th class="py-3 small text-muted text-uppercase text-end">Total
+                                                        </th>
+                                                        <th class="pe-3 text-end"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="commande" items="${commandes}">
+                                                        <tr class="order-row">
+                                                            <td class="ps-3 py-3 fw-bold">#${commande.id}</td>
+                                                            <td class="text-muted small">
                                                                 <fmt:parseDate value="${commande.dateCommande}"
                                                                     pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate"
                                                                     type="both" />
                                                                 <fmt:formatDate value="${parsedDate}"
-                                                                    pattern="dd MMM yyyy HH:mm" />
-                                                            </small>
-                                                        </td>
-                                                        <td>
-                                                            <span class="badge-status badge-${commande.statut}">
-                                                                <i class="fas fa-circle-info me-1 small"></i>
-                                                                ${commande.statut}
-                                                            </span>
-                                                        </td>
-                                                        <td class="text-end">
-                                                            <c:set var="total" value="0" />
-                                                            <c:forEach var="item" items="${commande.items}">
-                                                                <c:set var="total"
-                                                                    value="${total + (item.prixUnitaire * item.quantite)}" />
-                                                            </c:forEach>
-                                                            <span class="order-total fw-bold">${total} MAD</span>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="commande-detail?id=${commande.id}"
-                                                                class="btn btn-outline-dark btn-sm rounded-pill px-3">
-                                                                <i class="fas fa-eye me-1"></i> Détails
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </c:if>
+                                                                    pattern="dd MMM yyyy, HH:mm" />
+                                                            </td>
+                                                            <td>
+                                                                <c:choose>
+                                                                    <c:when test="${commande.statut == 'VALIDEE'}">
+                                                                        <span class="badge rounded-pill"
+                                                                            style="background:rgba(142,153,121,0.2); color:var(--primary-dark);">
+                                                                            VALIDÉE
+                                                                        </span>
+                                                                    </c:when>
+                                                                    <c:when test="${commande.statut == 'EN_COURS'}">
+                                                                        <span class="badge rounded-pill"
+                                                                            style="background:rgba(180,194,190,0.3); color:var(--text-dark);">
+                                                                            EN COURS
+                                                                        </span>
+                                                                    </c:when>
+                                                                    <c:when test="${commande.statut == 'LIVREE'}">
+                                                                        <span class="badge rounded-pill"
+                                                                            style="background:rgba(105,110,91,0.2); color:var(--primary-dark);">
+                                                                            LIVRÉE
+                                                                        </span>
+                                                                    </c:when>
+                                                                    <c:when test="${commande.statut == 'ANNULEE'}">
+                                                                        <span class="badge rounded-pill"
+                                                                            style="background:rgba(163,124,122,0.2); color:var(--accent);">
+                                                                            ANNULÉE
+                                                                        </span>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <span class="badge rounded-pill bg-secondary">
+                                                                            ${commande.statut}
+                                                                        </span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td class="text-end fw-bold"
+                                                                style="color:var(--primary-dark);">
+                                                                <c:set var="totalRow" value="0.0" />
+                                                                <c:forEach var="it" items="${commande.items}">
+                                                                    <c:set var="totalRow"
+                                                                        value="${totalRow + (it.prixUnitaire * it.quantite)}" />
+                                                                </c:forEach>
+                                                                ${totalRow} MAD
+                                                            </td>
+                                                            <td class="pe-3 text-end">
+                                                                <div class="d-flex justify-content-end gap-2">
+                                                                    <c:if test="${commande.statut == 'VALIDEE'}">
+                                                                        <form action="historique" method="POST"
+                                                                            class="m-0"
+                                                                            onsubmit="return confirm('Annuler cette commande ?')">
+                                                                            <input type="hidden" name="commandeId"
+                                                                                value="${commande.id}">
+                                                                            <button type="submit"
+                                                                                class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                                                                <i class="fas fa-times me-1"></i>Annuler
+                                                                            </button>
+                                                                        </form>
+                                                                    </c:if>
+                                                                    <a href="commande-detail?id=${commande.id}"
+                                                                        class="btn btn-sm btn-outline-brand rounded-pill px-3">
+                                                                        <i class="fas fa-eye me-1"></i>Détails
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <jsp:include page="includes/footer.jsp" />
-
-                <!-- Scripts -->
-                <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-                <script type="text/javascript"
-                    src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-                <script type="text/javascript"
-                    src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-                <script type="text/javascript"
-                    src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-                <script type="text/javascript"
-                    src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
-
-                <script>
-                    $(document).ready(function () {
-                        $('#orderHistoryTable').DataTable({
-                            responsive: true,
-                            language: {
-                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
-                            },
-                            order: [[1, 'desc']],
-                            pageLength: 5,
-                            lengthMenu: [5, 10, 25],
-                            columnDefs: [
-                                { orderable: false, targets: [4] }
-                            ],
-                            dom: '<"d-flex justify-content-between align-items-center mb-3"lf>rt<"d-flex justify-content-between align-items-center mt-3"ip>'
-                        });
-                    });
-                </script>
             </body>
 
             </html>
