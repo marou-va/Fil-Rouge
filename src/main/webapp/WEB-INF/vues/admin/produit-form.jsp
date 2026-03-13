@@ -111,7 +111,7 @@
                                             style="color:var(--text-muted);">URL de l'image</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-image"></i></span>
-                                            <input type="url" name="imageUrl" id="imageUrl" class="form-control"
+                                            <input type="text" name="imageUrl" id="imageUrl" class="form-control"
                                                 value="${produit.imageUrl}" placeholder="https://…"
                                                 oninput="updatePreview(this.value)">
                                         </div>
