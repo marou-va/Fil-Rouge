@@ -171,6 +171,11 @@ public class ValiderCommandeServlet extends HttpServlet {
 			LigneCommande ligne = new LigneCommande(commande, item.getProduit(), item.getQuantite(),
 					item.getProduit().getPrix());
 			lignes.add(ligne);
+
+		    // ── Décrémenter le stock du produit ──
+		    Produit produit = produitDAO.getProduitById(item.getProduit().getId());
+		    produit.setStock(produit.getStock() - item.getQuantite());
+		    produitDAO.update(produit);
 		}
 		commande.setItems(lignes);
 
