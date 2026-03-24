@@ -1,5 +1,8 @@
 package com.ecommerce.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ecommerce.dao.PanierDAO;
 import com.ecommerce.dao.ProduitDAO;
 import com.ecommerce.model.LignePanier;
@@ -93,4 +96,42 @@ public class PanierService {
         }
         return null;
     }
+    
+
+    public Panier getPanierByUserId(Long userId) {
+        return panierDAO.getPanierByUserId(userId);
+    }
+ 
+  //verifier la diponibiliter de stock 
+    public List<String> verifierStock(Panier panier) {
+        List<String> erreurs = new ArrayList<>();
+ 
+        for (LignePanier item : panier.getItems()) {
+            Produit produitActuel = produitDAO.getProduitById(item.getProduit().getId());
+ 
+            if (produitActuel == null) {
+                erreurs.add("Le produit « " + item.getProduit().getNom()
+                        + " » n'est plus disponible.");
+ 
+            } else if (produitActuel.getStock() == 0) {
+                erreurs.add("« " + produitActuel.getNom() + " » est épuisé.");
+ 
+            } else if (item.getQuantite() > produitActuel.getStock()) {
+                erreurs.add("« " + produitActuel.getNom()
+                        + " » : vous en demandez " + item.getQuantite()
+                        + " mais seulement " + produitActuel.getStock()
+                        + " sont disponibles.");
+            } else {
+                // Stock OK : on synchronise la valeur en mémoire
+                item.getProduit().setStock(produitActuel.getStock());
+            }
+        }
+        return erreurs;
+    }
+    
+    //vider le painier
+    public void viderPanier(Panier panier) {
+        panierDAO.viderPanier(panier);
+    }
+ 
 }
