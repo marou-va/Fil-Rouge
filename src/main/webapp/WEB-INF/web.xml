@@ -32,6 +32,15 @@
         <servlet-name>PanierServlet</servlet-name>
         <url-pattern>/panier</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>PanierActionServlet</servlet-name>
+        <servlet-class>com.ecommerce.controller.PanierActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PanierActionServlet</servlet-name>
+        <url-pattern>/panier-action</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>AjoutPanierServlet</servlet-name>

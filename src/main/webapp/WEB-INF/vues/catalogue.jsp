@@ -121,15 +121,14 @@
                                                         class="mt-auto d-flex justify-content-between align-items-center">
                                                         <span class="product-price">${produit.prix} MAD</span>
                                                         <c:if test="${produit.stock > 0}">
-                                                            <form action="ajouter-panier" method="POST" class="m-0">
-                                                                <input type="hidden" name="idProduit"
-                                                                    value="${produit.id}">
-                                                                <button type="submit"
-                                                                    class="btn btn-brand btn-sm rounded-circle p-2"
-                                                                    title="Ajouter au panier">
-                                                                    <i class="fas fa-cart-plus"></i>
-                                                                </button>
-                                                            </form>
+                                                            <form action="panier-action" method="POST" class="m-0">
+															    <input type="hidden" name="action" value="ajouter">
+															    
+															    <input type="hidden" name="idProduit" value="${produit.id}">
+															    <button type="submit" class="btn btn-brand btn-sm rounded-circle p-2" title="Ajouter au panier">
+															        <i class="fas fa-cart-plus"></i>
+															    </button>
+															</form>
                                                         </c:if>
                                                         <c:if test="${produit.stock == 0}">
                                                             <span class="badge"

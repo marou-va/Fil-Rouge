@@ -124,23 +124,23 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <div class="d-inline-flex qty-ctrl">
-                                                            <a href="update-panier?id=${item.produit.id}&action=minus"
-                                                                class="btn btn-sm"><i class="fas fa-minus"></i></a>
+                                                            <a href="panier-action?action=minus&idProduit=${item.produit.id}" class="btn btn-outline-secondary">
+															    <i class="fas fa-minus"></i>
+															</a>
                                                             <input type="text" value="${item.quantite}" readonly>
-                                                            <a href="update-panier?id=${item.produit.id}&action=plus"
-                                                                class="btn btn-sm ${item.quantite >= item.produit.stock ? 'disabled opacity-25' : ''}"><i
-                                                                    class="fas fa-plus"></i></a>
+                                                            <a href="panier-action?action=plus&idProduit=${item.produit.id}" class="btn btn-sm ${item.quantite >= item.produit.stock ? 'disabled opacity-25' : ''}">
+															    <i class="fas fa-plus"></i>
+															</a>
                                                         </div>
                                                     </td>
                                                     <td class="text-end fw-bold" style="color:var(--primary-dark);">
                                                         ${item.sousTotal} MAD</td>
                                                     <td class="pe-3 text-end">
-                                                        <a href="supprimer-article?id=${item.produit.id}"
-                                                            class="btn btn-sm border-0 text-muted hover-accent"
-                                                            onclick="return confirm('Retirer ce produit ?')"
-                                                            title="Supprimer">
-                                                            <i class="fas fa-times"></i>
-                                                        </a>
+                                                        <a href="panier-action?action=supprimer&idProduit=${item.produit.id}" 
+														   class="btn btn-sm border-0 text-muted hover-accent"
+														   onclick="return confirm('Voulez-vous retirer ce produit de votre panier ?');" title="Supprimer">
+														    <i class="fas fa-times"></i>
+														</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
