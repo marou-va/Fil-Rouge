@@ -2,7 +2,6 @@ package com.ecommerce.controller;
 
 import com.ecommerce.dao.CommandeDAO;
 import com.ecommerce.dao.ProduitDAO;
-import com.ecommerce.dao.UtilisateurDAO;
 import com.ecommerce.model.Commande;
 import com.ecommerce.model.Produit;
 import jakarta.servlet.ServletException;
@@ -17,7 +16,6 @@ import java.util.List;
 public class AdminDashboardServlet extends HttpServlet {
         private CommandeDAO commandeDAO = new CommandeDAO();
         private ProduitDAO produitDAO = new ProduitDAO();
-        private UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
 
         protected void doGet(HttpServletRequest request, HttpServletResponse response)
                         throws ServletException, IOException {
@@ -25,7 +23,6 @@ public class AdminDashboardServlet extends HttpServlet {
                 // Statistiques rapides
                 List<Commande> allCommandes = commandeDAO.findAll();
                 List<Produit> allProduits = produitDAO.getProduits(null, null, null);
-                long totalUsers = utilisateurDAO.findAll().size();
 
                 long totalVentes = 0;
                 if (allCommandes != null) {
@@ -36,7 +33,6 @@ public class AdminDashboardServlet extends HttpServlet {
 
                 request.setAttribute("totalCommandes", allCommandes != null ? allCommandes.size() : 0);
                 request.setAttribute("totalProduits", allProduits != null ? allProduits.size() : 0);
-                request.setAttribute("totalUsers", totalUsers);
                 request.setAttribute("totalVentes", totalVentes);
                 request.setAttribute("recentCommandes",
                                 allCommandes != null && allCommandes.size() > 5 ? allCommandes.subList(0, 5)
