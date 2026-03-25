@@ -17,6 +17,11 @@ public class ProduitService {
         this.categorieDAO = new CategorieDAO();
     }
 
+    public ProduitService(ProduitDAO produitDAO, CategorieDAO categorieDAO) {
+        this.produitDAO = produitDAO;
+        this.categorieDAO = categorieDAO;
+    }
+
     public List<Produit> getProduits(String search, Long categoryId, String sort) {
         return produitDAO.getProduits(search, categoryId, sort);
     }

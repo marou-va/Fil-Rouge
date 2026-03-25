@@ -16,6 +16,10 @@ public class UtilisateurService {
         this.utilisateurDAO = new UtilisateurDAO();
     }
 
+    public UtilisateurService(UtilisateurDAO utilisateurDAO) {
+        this.utilisateurDAO = utilisateurDAO;
+    }
+
     public void inscrire(String nom, String email, String motDePasse,
                          String confirmer, String telephone, String adresse) {
 
