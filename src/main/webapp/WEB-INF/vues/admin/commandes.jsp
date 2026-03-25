@@ -76,9 +76,9 @@
                         </div>
                     </div>
 
-                    <div class="card-theme overflow-hidden">
-                        <div class="table-responsive">
+                        <div class="card-theme overflow-hidden">
                             <table class="table table-hover align-middle mb-0">
+                                <caption>Liste des commandes pour le suivi administratif</caption>
                                 <thead style="background:var(--primary-dark);color:#fff;">
                                     <tr>
                                         <th class="ps-3"># ID</th>

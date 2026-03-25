@@ -91,6 +91,7 @@
                             <div class="col-lg-8">
                                 <div class="card-theme overflow-hidden">
                                     <table class="table align-middle mb-0">
+                                        <caption>Résumé des articles dans votre panier</caption>
                                         <thead style="background:var(--primary-dark); color:#fff;">
                                             <tr>
                                                 <th class="ps-3 py-3 text-uppercase small">Produit</th>

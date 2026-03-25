@@ -152,6 +152,7 @@
                                     <c:otherwise>
                                         <div class="table-responsive">
                                             <table class="table align-middle mb-0">
+                                                <caption>Liste de mon historique de commandes</caption>
                                                 <thead style="background:var(--bg);">
                                                     <tr>
                                                         <th class="ps-3 py-3 small text-muted text-uppercase">N°

@@ -165,6 +165,7 @@
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table align-middle mb-0">
+                                            <caption>Détails des articles de la commande</caption>
                                             <thead style="background:var(--bg);">
                                                 <tr>
                                                     <th class="ps-3 py-2 small text-muted text-uppercase">Produit</th>
@@ -180,7 +181,7 @@
                                                         <td class="ps-3 py-3">
                                                             <div class="d-flex align-items-center gap-3">
                                                                 <img src="${not empty item.produit.imageUrl ? item.produit.imageUrl : 'https://placehold.co/50x50/E9E7E8/A6A58C?text=?'}"
-                                                                    class="val-item-img">
+                                                                    class="val-item-img" alt="${item.produit.nom}">
                                                                 <span class="fw-bold small">${item.produit.nom}</span>
                                                             </div>
                                                         </td>

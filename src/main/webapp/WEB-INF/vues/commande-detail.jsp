@@ -68,7 +68,7 @@
                         font-size: .65rem;
                         color: var(--text-muted);
                         font-weight: 700;
-                        text-uppercase: small;
+                        text-transform: uppercase;
                         letter-spacing: 1px;
                         margin-bottom: 4px;
                     }
@@ -193,6 +193,7 @@
                                 <h6 class="fw-bold mb-3 brand-heading">Articles commandés</h6>
                                 <div class="card-theme overflow-hidden mb-5" style="border-radius:var(--radius);">
                                     <table class="table align-middle mb-0">
+                                        <caption>Détails des articles de la commande</caption>
                                         <thead style="background:var(--bg);">
                                             <tr>
                                                 <th class="ps-3 py-2 small text-muted text-uppercase">Produit</th>
@@ -209,7 +210,7 @@
                                                     <td class="ps-3 py-3">
                                                         <div class="d-flex align-items-center gap-3">
                                                             <img src="${not empty item.produit.imageUrl ? item.produit.imageUrl : 'https://placehold.co/50x50/E9E7E8/A6A58C?text=?'}"
-                                                                class="detail-item-img">
+                                                                class="detail-item-img" alt="${item.produit.nom}">
                                                             <div>
                                                                 <div class="fw-bold small">${item.produit.nom}</div>
                                                                 <div class="text-muted" style="font-size:.7rem;">

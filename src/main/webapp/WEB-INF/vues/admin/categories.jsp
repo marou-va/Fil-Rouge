@@ -79,6 +79,7 @@
                         <div class="col-lg-8">
                             <div class="card-theme overflow-hidden">
                                 <table class="table table-hover align-middle mb-0">
+                                    <caption>Liste des catégories de produits</caption>
                                     <thead style="background:var(--primary-dark);color:#fff;">
                                         <tr>
                                             <th class="ps-3">ID</th>

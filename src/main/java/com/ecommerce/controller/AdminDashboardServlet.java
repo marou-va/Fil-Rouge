@@ -38,9 +38,12 @@ public class AdminDashboardServlet extends HttpServlet {
                                 allCommandes != null && allCommandes.size() > 5 ? allCommandes.subList(0, 5)
                                                 : allCommandes);
 
-                List<Produit> lowStock = allProduits.stream()
-                                .filter(p -> p.getStock() < 10)
-                                .toList();
+                List<Produit> lowStock = List.of();
+                if (allProduits != null) {
+                        lowStock = allProduits.stream()
+                                        .filter(p -> p.getStock() < 10)
+                                        .toList();
+                }
                 request.setAttribute("lowStockProducts", lowStock);
 
                 request.getRequestDispatcher("/WEB-INF/vues/admin/dashboard.jsp").forward(request, response);

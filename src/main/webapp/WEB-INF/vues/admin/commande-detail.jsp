@@ -65,6 +65,7 @@
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table align-middle mb-0">
+                                        <caption>Détails des articles de la commande</caption>
                                         <thead style="background:var(--primary-dark);color:#fff;">
                                             <tr>
                                                 <th class="ps-3 text-uppercase small fw-bold">Produit</th>

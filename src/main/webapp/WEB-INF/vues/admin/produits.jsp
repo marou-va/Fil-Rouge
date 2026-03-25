@@ -79,6 +79,7 @@
 
                     <div class="card-theme overflow-hidden">
                         <table class="table table-hover align-middle mb-0">
+                            <caption>Gestion de l'inventaire des produits</caption>
                             <thead style="background:var(--primary-dark);color:#fff;">
                                 <tr>
                                     <th class="ps-3">Image</th>
