@@ -1,5 +1,6 @@
 package com.ecommerce.dao;
 
+import com.ecommerce.model.Categorie;
 import com.ecommerce.model.Produit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,8 +14,28 @@ public class ProduitDAOTest {
 
     @BeforeAll
     public static void setUp() {
-        // Initialisation du DAO avant de lancer les tests
         produitDAO = new ProduitDAO();
+        
+        // Initialiser quelques données pour les tests
+        Categorie cat = new Categorie();
+        cat.setNom("Test Category");
+        new CategorieDAO().save(cat);
+        
+        Produit p1 = new Produit();
+        p1.setNom("Produit Actif");
+        p1.setPrix(new java.math.BigDecimal("10.00"));
+        p1.setStock(10);
+        p1.setActif(true);
+        p1.setCategorie(cat);
+        produitDAO.save(p1);
+        
+        Produit p2 = new Produit();
+        p2.setNom("Produit Inactif");
+        p2.setPrix(new java.math.BigDecimal("20.00"));
+        p2.setStock(5);
+        p2.setActif(false);
+        p2.setCategorie(cat);
+        produitDAO.save(p2);
     }
 
     @Test
@@ -28,14 +49,14 @@ public class ProduitDAOTest {
 
     @Test
     public void testGetProduits_OnlyActif() {
-        // Exécution
         List<Produit> resultats = produitDAO.getProduits(null, null, null);
-
-        // Vérification : Aucun produit de la liste ne doit avoir l'attribut actif à
-        // false
+        
         for (Produit p : resultats) {
             Assertions.assertTrue(p.isActif(),
                     "Le produit " + p.getNom() + " est inactif mais a été retourné par le DAO !");
+            if (p.getNom().equals("Produit Inactif")) {
+                Assertions.fail("Le produit inactif ne devrait pas être retourné");
+            }
         }
     }
 }

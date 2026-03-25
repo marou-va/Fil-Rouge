@@ -28,4 +28,26 @@ public class LignePanierTest {
         LignePanier ligne = new LignePanier(produit, 0);
         assertEquals(new BigDecimal("0.00"), ligne.getSousTotal());
     }
+
+    @Test
+    public void testSetAndGetPanier() {
+        LignePanier ligne = new LignePanier();
+        Panier panier = new Panier();
+        ligne.setPanier(panier);
+        assertEquals(panier, ligne.getPanier());
+    }
+
+    @Test
+    public void testSetAndGetProduit() {
+        LignePanier ligne = new LignePanier();
+        ligne.setProduit(produit);
+        assertEquals(produit, ligne.getProduit());
+    }
+
+    @Test
+    public void testSetAndGetQuantite() {
+        LignePanier ligne = new LignePanier();
+        ligne.setQuantite(5);
+        assertEquals(5, ligne.getQuantite());
+    }
 }

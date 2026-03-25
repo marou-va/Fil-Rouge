@@ -28,6 +28,11 @@ public class CommandeService {
         this.produitDAO  = new ProduitDAO();
     }
 
+    public CommandeService(CommandeDAO commandeDAO, ProduitDAO produitDAO) {
+        this.commandeDAO = commandeDAO;
+        this.produitDAO  = produitDAO;
+    }
+
     //creer une commande 
 
     public Commande creerCommande(Utilisateur user, Panier panier) {

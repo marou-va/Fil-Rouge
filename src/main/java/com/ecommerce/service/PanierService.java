@@ -12,8 +12,18 @@ import com.ecommerce.model.Utilisateur;
 
 public class PanierService {
     
-    private PanierDAO panierDAO = new PanierDAO();
-    private ProduitDAO produitDAO = new ProduitDAO();
+    private PanierDAO panierDAO;
+    private ProduitDAO produitDAO;
+
+    public PanierService() {
+        this.panierDAO = new PanierDAO();
+        this.produitDAO = new ProduitDAO();
+    }
+
+    public PanierService(PanierDAO panierDAO, ProduitDAO produitDAO) {
+        this.panierDAO = panierDAO;
+        this.produitDAO = produitDAO;
+    }
 
     /**
      * 1. Ajouter un produit
