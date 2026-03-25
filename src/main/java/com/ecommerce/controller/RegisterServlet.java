@@ -1,52 +1,56 @@
 package com.ecommerce.controller;
-import java.io.IOException;
 
-import com.ecommerce.service.UtilisateurService;
-
+import com.ecommerce.dao.UtilisateurDAO;
+import com.ecommerce.model.Utilisateur;
+import com.ecommerce.util.PasswordUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-  
-    private UtilisateurService utilisateurService;
+    private UtilisateurDAO utilisateurDAO;
+
     public void init() {
-    	  utilisateurService = new UtilisateurService();
+        utilisateurDAO = new UtilisateurDAO();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/vues/inscription.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/vues/register.jsp").forward(request, response);
     }
 
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- 
-        if (!"inscrire".equals(request.getParameter("action"))) {
+        String nom = request.getParameter("nom");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
+
+        if (password == null || !password.equals(confirmPassword)) {
+            request.setAttribute("error", "Les mots de passe ne correspondent pas");
+            request.getRequestDispatcher("/WEB-INF/vues/register.jsp").forward(request, response);
             return;
         }
- 
-        String nom        = request.getParameter("nom");
-        String email      = request.getParameter("email");
-        String motDePasse = request.getParameter("motDePasse");
-        String confirmer  = request.getParameter("confirmerMDP");
-        String telephone  = request.getParameter("telephone");
-        String adresse    = request.getParameter("adresse");
- 
-        try {
-            utilisateurService.inscrire(nom, email, motDePasse, confirmer, telephone, adresse);
-            response.sendRedirect("login");
- 
-        } catch (IllegalArgumentException e) {
-            request.setAttribute("erreur", e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/vues/inscription.jsp").forward(request, response);
+
+        if (utilisateurDAO.findByEmail(email) != null) {
+            request.setAttribute("error", "Cet email est déjà utilisé");
+            request.getRequestDispatcher("/WEB-INF/vues/register.jsp").forward(request, response);
+            return;
         }
+
+        Utilisateur user = new Utilisateur();
+        user.setNom(nom);
+        user.setEmail(email);
+        user.setMotDePasse(PasswordUtil.hashPassword(password));
+        user.setRole(Role.CLIENT);
+
+        utilisateurDAO.save(user);
+
+        response.sendRedirect("login");
     }
 }
 

@@ -1,53 +1,47 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.service.ProduitService;
+import com.ecommerce.dao.ProduitDAO;
 import com.ecommerce.model.Produit;
-
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ProduitDetailServlet extends HttpServlet {
-
-    private ProduitService produitService;
+    private static final long serialVersionUID = 1L;
+    private ProduitDAO produitDAO;
 
     public void init() {
-        produitService = new ProduitService();
+        produitDAO = new ProduitDAO();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String idStr = request.getParameter("id");
-
         if (idStr != null && !idStr.isEmpty()) {
             try {
                 Long id = Long.parseLong(idStr);
-
-                Produit produit = produitService.getProduitById(id);
-
+                Produit produit = produitDAO.getProduitById(id);
                 if (produit != null) {
                     request.setAttribute("produit", produit);
 
+                    // Récupérer les suggestions de la même catégorie
                     if (produit.getCategorie() != null) {
                         request.setAttribute("suggestions",
-                                produitService.getProduitsSimilaires(
-                                        produit.getCategorie().getId(), id));
+                                produitDAO.getProduitsSimilaires(produit.getCategorie().getId(), id));
                     }
 
-                    request.getRequestDispatcher("/WEB-INF/vues/product-detail.jsp")
-                           .forward(request, response);
-
+                    request.getRequestDispatcher("/WEB-INF/vues/product-detail.jsp").forward(request, response);
                 } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Produit introuvable");
                 }
-
             } catch (NumberFormatException e) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Format d'ID invalide");
             }
         } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID manquant");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de produit manquant");
         }
     }
 }

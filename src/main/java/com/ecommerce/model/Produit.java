@@ -28,7 +28,7 @@ public class Produit {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.EAGER) 
+    @ManyToOne
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 

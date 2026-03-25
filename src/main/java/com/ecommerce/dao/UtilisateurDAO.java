@@ -22,10 +22,10 @@ public class UtilisateurDAO {
     public boolean emailExiste(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Long count = session.createQuery(
-                    "SELECT COUNT(u) FROM Utilisateur u WHERE u.email = :email",
-                    Long.class)
-                    .setParameter("email", email)
-                    .uniqueResult();
+                "SELECT COUNT(u) FROM Utilisateur u WHERE u.email = :email",
+                Long.class)
+                .setParameter("email", email)
+                .uniqueResult();
             return count > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,8 +40,7 @@ public class UtilisateurDAO {
             session.persist(utilisateur);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null)
-                transaction.rollback();
+            if (transaction != null) transaction.rollback();
             e.printStackTrace();
         }
     }
@@ -53,18 +52,9 @@ public class UtilisateurDAO {
             session.merge(utilisateur);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null)
-                transaction.rollback();
+            if (transaction != null) transaction.rollback();
             e.printStackTrace();
-        }
-    }
-
-    public java.util.List<Utilisateur> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Utilisateur", Utilisateur.class).list();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new java.util.ArrayList<>();
         }
     }
 }
+

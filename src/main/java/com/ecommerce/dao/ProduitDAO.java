@@ -63,6 +63,7 @@ public class ProduitDAO {
         }
     }
 
+
     public Produit getProduitById(Long id) {
         Produit produit = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -86,47 +87,5 @@ public class ProduitDAO {
             e.printStackTrace();
         }
         return produits;
-    }
-
-    public void save(Produit produit) {
-        org.hibernate.Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            session.persist(produit);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null)
-                tx.rollback();
-            e.printStackTrace();
-        }
-    }
-
-    public void update(Produit produit) {
-        org.hibernate.Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            session.merge(produit);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null)
-                tx.rollback();
-            e.printStackTrace();
-        }
-    }
-
-    public void delete(Long id) {
-        org.hibernate.Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            Produit produit = session.get(Produit.class, id);
-            if (produit != null) {
-                session.remove(produit);
-            }
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null)
-                tx.rollback();
-            e.printStackTrace();
-        }
     }
 }
