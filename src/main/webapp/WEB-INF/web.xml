@@ -21,9 +21,54 @@
 
     <servlet-mapping>
         <servlet-name>ProduitDetailServlet</servlet-name>
-        <url-pattern>/product-detail</url-pattern>
+        <url-pattern>/produit-detail</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>PanierServlet</servlet-name>
+        <servlet-class>com.ecommerce.controller.PanierServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PanierServlet</servlet-name>
+        <url-pattern>/panier</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>PanierActionServlet</servlet-name>
+        <servlet-class>com.ecommerce.controller.PanierActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PanierActionServlet</servlet-name>
+        <url-pattern>/panier-action</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AjoutPanierServlet</servlet-name>
+        <servlet-class>com.ecommerce.controller.AjoutPanierServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjoutPanierServlet</servlet-name>
+        <url-pattern>/ajouter-panier</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdatePanierServlet</servlet-name>
+        <servlet-class>com.ecommerce.controller.UpdatePanierServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdatePanierServlet</servlet-name>
+        <url-pattern>/update-panier</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SupprimerArticlePanierServlet</servlet-name>
+        <servlet-class>com.ecommerce.controller.SupprimerArticlePanierServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SupprimerArticlePanierServlet</servlet-name>
+        <url-pattern>/supprimer-article</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>30</session-timeout> <!-- 30 minutes -->
         <cookie-config>
